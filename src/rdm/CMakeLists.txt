@@ -1,6 +1,9 @@
 # rdm lib
 add_library(
         rdm
+        Version.h
+        log/Logger.h
+        log/Logger.cpp
         chrono/Hardware.h
         container/Merge.h
         container/SparseByteSet.h
