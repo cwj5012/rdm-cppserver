@@ -5,8 +5,7 @@
 namespace rdm {
 
 /**
- * 功能类似 std::merge 函数
- * 不同的地方，
+ * 实现 std::merge 函数
  */
 template<typename InputIt1, typename InputIt2, typename OutputIt, typename Compare>
 OutputIt merge(

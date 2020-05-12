@@ -26,7 +26,7 @@ static void BM_Merge(benchmark::State &state) {
     rdm::merge(a.begin(), a.end(), b.begin(), b.end(), std::back_inserter(dst));
 
     for (auto _ : state) {
-        std::merge(a.begin(), a.end(), b.begin(), b.end(), std::back_inserter(dst));
+        rdm::merge(a.begin(), a.end(), b.begin(), b.end(), std::back_inserter(dst));
     }
 }
 BENCHMARK(BM_Merge);
