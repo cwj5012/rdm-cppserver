@@ -2,7 +2,7 @@
 #include <vector>
 #include <utility>
 
-#include <catch2/catch.hpp>
+#include <benchmark/benchmark.h>
 
 #include "../Merge.h"
 
