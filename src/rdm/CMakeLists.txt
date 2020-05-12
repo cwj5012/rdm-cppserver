@@ -1,6 +1,7 @@
 # rdm lib
 add_library(
         rdm
+        chrono/Hardware.h
         container/Merge.h
         container/SparseByteSet.h
 )
