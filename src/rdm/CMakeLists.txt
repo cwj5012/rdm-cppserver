@@ -15,6 +15,7 @@ set_target_properties(
 add_executable(
         rdm_test
         Test.cpp
+        chrono/test/HardwareTest.cpp
         container/test/MergeTest.cpp
         container/test/SparseByteSetTest.cpp
 )
