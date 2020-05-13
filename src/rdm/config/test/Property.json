@@ -1,0 +1,11 @@
+{
+  "mysql": {
+    "ip": "127.0.0.1",
+    "port": "3306",
+    "database_name": "mysql",
+    "table_name": "test",
+    "user": "root",
+    "password": "1234",
+    "key":["a","b","c"]
+  }
+}

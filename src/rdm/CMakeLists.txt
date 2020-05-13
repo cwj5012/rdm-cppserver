@@ -45,6 +45,17 @@ add_library(
         ${CPP_FILES}
 )
 
+target_link_libraries(
+        rdm
+        inih
+        jsoncpp
+)
+
+add_dependencies(
+        rdm
+        inih
+)
+
 set_target_properties(
         rdm
         PROPERTIES LINKER_LANGUAGE CXX
@@ -66,8 +77,11 @@ add_dependencies(
 
 target_link_libraries(
         rdm_test
-        rdm
+        pthread
+        dl
         mysqlcppconn
+        boost_filesystem
+        rdm
 )
 
 ##########################################
@@ -85,6 +99,8 @@ add_dependencies(
 )
 
 target_link_libraries(
-        rdm_benchmark
-        PRIVATE benchmark::benchmark
+        rdm_benchmark PRIVATE
+        pthread
+        dl
+        benchmark::benchmark
 )

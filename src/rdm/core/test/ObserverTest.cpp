@@ -5,6 +5,8 @@
 
 using namespace rdm;
 
+namespace {
+
 struct WeatherData {
     int32_t temperature;
     int32_t humidity;
@@ -30,8 +32,9 @@ public:
     int32_t humidity_;
 };
 
+}
 
-TEST_CASE("Observer", "[test]") {
+TEST_CASE("Observer", "[]") {
     WeatherData data1{};
     data1.temperature = 10;
     data1.humidity = 20;

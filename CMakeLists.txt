@@ -33,3 +33,8 @@ add_subdirectory(src/hello_world)
 add_subdirectory(src/leetcode)
 add_subdirectory(src/rdm)
 add_subdirectory(src/test)
+
+add_subdirectory(third_party/inih)
+
+configure_file(${CMAKE_SOURCE_DIR}/src/rdm/config/test/test.ini /home/me/test COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/rdm/config/test/test.json /home/me/test COPYONLY)

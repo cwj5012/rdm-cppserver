@@ -4,6 +4,6 @@
 
 using namespace rdm;
 
-TEST_CASE("DBServiceManager", "[test]") {
+TEST_CASE("DBServiceManager", "[]") {
 
 }

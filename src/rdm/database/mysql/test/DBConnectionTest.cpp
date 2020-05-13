@@ -4,7 +4,7 @@
 
 using namespace rdm;
 
-TEST_CASE("DBService", "[test]") {
+TEST_CASE("DBService", "[]") {
     DatabaseLoginInfo info;
     info.name = "root";
     info.passwd = "1234";

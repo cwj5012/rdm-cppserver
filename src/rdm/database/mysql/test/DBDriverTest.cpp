@@ -4,6 +4,6 @@
 
 using namespace rdm;
 
-TEST_CASE("DBDriver", "[test]") {
+TEST_CASE("DBDriver", "[]") {
 
 }

@@ -4,7 +4,7 @@
 
 using namespace rdm;
 
-TEST_CASE("DBConnectionPool", "[test]") {
+TEST_CASE("DBConnectionPool", "[]") {
 
     DatabaseLoginInfo info;
     info.name = "root";
