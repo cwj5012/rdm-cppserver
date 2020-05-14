@@ -2,23 +2,13 @@
 <project version="4">
   <component name="PublishConfigData">
     <serverData>
-      <paths name="Remote Host (44149b11-41a9-4395-8072-09d64ebe19d7)">
+      <paths name="Remote Host (9bb67da8-9399-44a5-864b-ad5f411aa024)">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="Remote Host Home (693ef948-c603-482b-8c5e-1ff438a5e774)">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/home/me/source/cpp/learn-cpp" local="$PROJECT_DIR$" />
+            <mapping deploy="/tmp/tmp.8kWKQNDvld" local="$PROJECT_DIR$" />
           </mappings>
           <excludedPaths>
-            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-relwithdebinfo-remote-host-home" />
-            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-remote-host-home" />
-            <excludedPath local="true" path="$PROJECT_DIR$/src/boost/cmake-build-debug-remote-host-home" />
-            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-remote-host-home" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-remote-host" />
           </excludedPaths>
         </serverdata>
       </paths>

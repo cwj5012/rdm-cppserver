@@ -15,4 +15,10 @@ $ $ sudo apt install nlohmann-json3-dev
 $ sudo apt install apt-file
 ```
 
+https://github.com/benhoyt/inih
+https://github.com/leethomason/tinyxml2
+https://github.com/nlohmann/json
+https://github.com/gabime/spdlog
+https://github.com/github/gitignore
+
 src/rdm --- remote dream library
