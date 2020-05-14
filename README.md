@@ -22,3 +22,7 @@ https://github.com/gabime/spdlog
 https://github.com/github/gitignore
 
 src/rdm --- remote dream library
+
+catch2 指定测试名
+./test test-name
+参考：https://github.com/catchorg/Catch2/blob/master/docs/command-line.md#specifying-which-tests-to-run
