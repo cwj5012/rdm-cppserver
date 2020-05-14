@@ -13,6 +13,8 @@ public:
 
     int parse();
 
+    Json::Value getRoot() const { return root_; }
+
 private:
     std::string data_;
     std::string path_;

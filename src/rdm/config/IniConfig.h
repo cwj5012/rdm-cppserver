@@ -15,6 +15,8 @@ public:
     int parse();
     int parseStr() = delete;
 
+    std::shared_ptr<INIReader> getReader() const { return reader_; }
+
 private:
     std::string data_;
     std::string path_;
