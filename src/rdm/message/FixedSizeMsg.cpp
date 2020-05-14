@@ -6,11 +6,6 @@
 
 namespace rdm {
 
-FixedSizeMsg::FixedSizeMsg()
-        : body_length_(0) {
-
-}
-
 const char* FixedSizeMsg::data() const {
     return data_;
 }
