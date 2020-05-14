@@ -8,15 +8,6 @@
 
 #include <thread>
 
-#ifdef _WIN32
-
-#include "Windows.h"
-#include "Psapi.h"
-#include "tchar.h"
-#include "Pdh.h"
-
-#pragma comment(lib, "pdh.lib")
-#endif // _WIN32
 
 namespace rdm
 {
