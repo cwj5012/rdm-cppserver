@@ -38,3 +38,4 @@ add_subdirectory(third_party/inih)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/rdm/config/test/test.ini /home/me/test COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/src/rdm/config/test/test.json /home/me/test COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/rdm/config/test/test.xml /home/me/test COPYONLY)

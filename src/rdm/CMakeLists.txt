@@ -49,6 +49,7 @@ target_link_libraries(
         rdm
         inih
         jsoncpp
+        tinyxml2
 )
 
 add_dependencies(
