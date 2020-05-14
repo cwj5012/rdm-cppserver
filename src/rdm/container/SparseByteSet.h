@@ -5,6 +5,9 @@
 
 namespace rdm {
 
+/**
+ * 稀疏数组
+ */
 class SparseByteSet {
 public:
     static constexpr uint16_t kCapacity = 256;
