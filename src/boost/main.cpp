@@ -3,7 +3,7 @@
 #include <boost/version.hpp>
 #include <boost/filesystem.hpp>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     std::cout << BOOST_VERSION << std::endl;
 
     boost::filesystem::path dir_path("/home/me/test");

@@ -1,6 +1,6 @@
 #include <benchmark/benchmark.h>
 
-static void BM_NoneFunction(benchmark::State &state) {
+static void BM_NoneFunction(benchmark::State& state) {
     // Perform setup here
     for (auto _ : state) {
         // This code gets timed
@@ -9,7 +9,7 @@ static void BM_NoneFunction(benchmark::State &state) {
 // Register the function as a benchmark
 BENCHMARK(BM_NoneFunction);
 
-static void BM_StringCreation(benchmark::State &state) {
+static void BM_StringCreation(benchmark::State& state) {
     for (auto _ : state)
         std::string empty_string;
 }
