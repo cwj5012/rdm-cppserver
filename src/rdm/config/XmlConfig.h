@@ -5,7 +5,7 @@
 
 #include <tinyxml2.h>
 
-namespace rdm{
+namespace rdm {
 
 class XmlConfig {
 public:
@@ -14,7 +14,7 @@ public:
 
     int parse();
 
-    std::shared_ptr<tinyxml2::XMLDocument> getDoc() const{ return doc_; }
+    std::shared_ptr<tinyxml2::XMLDocument> getDoc() const { return doc_; }
 
 private:
     std::string data_;

@@ -8,8 +8,7 @@ typedef std::function<void(/* dbtool::PSQL_RESULT result, int32_t nThreadId*/)> 
 typedef std::function<void(/* int32_t nMaxRecord, int32_t nReadRecord */)> DataReady_CallBack;
 
 // 数据库同步操作类型
-enum SynSqlOptType
-{
+enum SynSqlOptType {
     SSOT_SELECT,
     SSOT_INSERT,
     SSOT_UPDATE,
@@ -17,8 +16,7 @@ enum SynSqlOptType
 };
 
 // 数据库登录信息
-struct DatabaseLoginInfo
-{
+struct DatabaseLoginInfo {
     std::string ip;                         // 数据库IP
     std::string name;                       // 数据库登陆账号
     std::string passwd;                     // 数据库登陆密码
@@ -26,13 +24,11 @@ struct DatabaseLoginInfo
     uint32_t port;                       // 数据库端口
 
     DatabaseLoginInfo()
-            : port(0)
-    {}
+            : port(0) {}
 };
 
 // 异步数据加载请求
-struct DataLoadRequest
-{
+struct DataLoadRequest {
 
     DatabaseLoginInfo db_login_info;
 
@@ -45,13 +41,11 @@ struct DataLoadRequest
     DataLoadRequest()
             : thread_num(1),
               f_readdata(NULL),
-              f_dataready(NULL)
-    {}
+              f_dataready(NULL) {}
 };
 
 // 同步数据加载请求
-struct SynDataLoadRequest
-{
+struct SynDataLoadRequest {
     DatabaseLoginInfo db_login_info;
 
     SynSqlOptType optType;                  // 操作类型
@@ -60,12 +54,10 @@ struct SynDataLoadRequest
 
     SynDataLoadRequest()
             : optType(SSOT_SELECT),
-              f_readdata(NULL)
-    {}
+              f_readdata(NULL) {}
 };
 
-struct SynExecuteRequest
-{
+struct SynExecuteRequest {
     DatabaseLoginInfo db_login_info;
 
     std::string szSQL;                      // SQL语句

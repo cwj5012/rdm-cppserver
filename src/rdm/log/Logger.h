@@ -20,14 +20,12 @@
 #define LOG_ERROR(fmt, ...)                                                            \
     Logger::getLogger().error("{}::{} " fmt, __FILE__, __LINE__,  ##__VA_ARGS__)
 
-class Logger : boost::noncopyable
-{
+class Logger : boost::noncopyable {
 public:
     Logger();
     ~Logger();
 
-    static Logger& getLogger()
-    {
+    static Logger& getLogger() {
         static Logger lg;
         return lg;
     }
@@ -62,8 +60,7 @@ private:
 };
 
 template<typename ...Args>
-void Logger::trace(const char* fmt, const Args& ...args)
-{
+void Logger::trace(const char* fmt, const Args& ...args) {
 #ifndef NDEBUG
     console_logger_->trace(fmt, args...);
     daily_file_logger_->trace(fmt, args...);
@@ -71,8 +68,7 @@ void Logger::trace(const char* fmt, const Args& ...args)
 }
 
 template<typename ...Args>
-void Logger::debug(const char* fmt, const Args& ...args)
-{
+void Logger::debug(const char* fmt, const Args& ...args) {
 #ifndef NDEBUG
     console_logger_->debug(fmt, args...);
     daily_file_logger_->debug(fmt, args...);
@@ -80,8 +76,7 @@ void Logger::debug(const char* fmt, const Args& ...args)
 }
 
 template<typename ...Args>
-void Logger::info(const char* fmt, const Args& ...args)
-{
+void Logger::info(const char* fmt, const Args& ...args) {
 #ifndef NDEBUG
     console_logger_->info(fmt, args...);
 #endif
@@ -89,8 +84,7 @@ void Logger::info(const char* fmt, const Args& ...args)
 }
 
 template<typename ... Args>
-void Logger::warn(const char* fmt, const Args& ... args)
-{
+void Logger::warn(const char* fmt, const Args& ... args) {
 #ifndef NDEBUG
     console_logger_->warn(fmt, args...);
 #endif
@@ -98,8 +92,7 @@ void Logger::warn(const char* fmt, const Args& ... args)
 }
 
 template<typename ...Args>
-void Logger::error(const char* fmt, const Args& ...args)
-{
+void Logger::error(const char* fmt, const Args& ...args) {
 #ifndef NDEBUG
     console_logger_->error(fmt, args...);
 #endif

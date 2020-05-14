@@ -8,8 +8,7 @@ XmlConfig::XmlConfig(const std::string& path)
 }
 
 int XmlConfig::parse() {
-    if (tinyxml2::XML_SUCCESS != doc_->LoadFile(path_.c_str()))
-    {
+    if (tinyxml2::XML_SUCCESS != doc_->LoadFile(path_.c_str())) {
         return 1;
     }
     return 0;

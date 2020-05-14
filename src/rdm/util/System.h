@@ -9,83 +9,81 @@
 #include <thread>
 
 
-namespace rdm
-{
+namespace rdm {
+
+/**
+ * 获取 cpu 线程数，占用率，以及内存占用率
+ */
+class System {
+
+public:
+    /**
+     * 获得 cup 逻辑个数
+     */
+    static int getProcessorCount();
 
     /**
-     * 获取 cpu 线程数，占用率，以及内存占用率
+     * 虚拟内存大小，单位字节
      */
-    class System
-    {
+    static uint64_t getTotalVirtualMemory();
 
-    public:
-        /**
-         * 获得 cup 逻辑个数
-         */
-        static int getProcessorCount();
+    /**
+     * 虚拟内存使用大小，单位字节
+     */
+    static uint64_t getVirtualMemoryUsage();
 
-        /**
-         * 虚拟内存大小，单位字节
-         */
-        static uint64_t getTotalVirtualMemory();
+    /**
+     * 当前进程使用的虚拟内存大小，单位字节
+     */
+    static uint64_t getVirtualMemoryUsageCurrentProcess();
 
-        /**
-         * 虚拟内存使用大小，单位字节
-         */
-        static uint64_t getVirtualMemoryUsage();
+    /**
+     * 物理内存大小，单位字节
+     */
+    static uint64_t getTotalPhysicalMemory();
 
-        /**
-         * 当前进程使用的虚拟内存大小，单位字节
-         */
-        static uint64_t getVirtualMemoryUsageCurrentProcess();
+    /**
+     * 物理内存使用大小，单位字节
+     */
+    static uint64_t getPhysicalMemoryUsage();
 
-        /**
-         * 物理内存大小，单位字节
-         */
-        static uint64_t getTotalPhysicalMemory();
+    /**
+     * 当前进程使用的物理内存大小，单位字节
+     */
+    static uint64_t gePhysicalMemoryUsageCurrentProcess();
 
-        /**
-         * 物理内存使用大小，单位字节
-         */
-        static uint64_t getPhysicalMemoryUsage();
+    /**
+     * CPU利用率（初始化）
+     */
+    static void initCpuCurrentUsage();
 
-        /**
-         * 当前进程使用的物理内存大小，单位字节
-         */
-        static uint64_t gePhysicalMemoryUsageCurrentProcess();
+    /**
+     * CPU利用率（需要先调用初始化方法）
+     */
+    static double getCpuCurrentUsage();
 
-        /**
-         * CPU利用率（初始化）
-         */
-        static void initCpuCurrentUsage();
+    /**
+     * CPU利用率，当前进程（初始化）
+     */
+    static void initCpuCurrentProcessUsage();
 
-        /**
-         * CPU利用率（需要先调用初始化方法）
-         */
-        static double getCpuCurrentUsage();
+    /**
+     * CPU利用率，当前进程（需要先调用初始化方法）
+     */
+    static double getCpuCurrentProcessUsage();
 
-        /**
-         * CPU利用率，当前进程（初始化）
-         */
-        static void initCpuCurrentProcessUsage();
-
-        /**
-         * CPU利用率，当前进程（需要先调用初始化方法）
-         */
-        static double getCpuCurrentProcessUsage();
-
-    private:
+private:
 #ifdef _WIN32
-        static PDH_HQUERY cpuQuery_;
-        static PDH_HCOUNTER cpuTotal_;
+    static PDH_HQUERY cpuQuery_;
+    static PDH_HCOUNTER cpuTotal_;
 
-        static ULARGE_INTEGER lastCPU_;
-        static ULARGE_INTEGER lastSysCPU_;
-        static ULARGE_INTEGER lastUserCPU_;
-        static int numProcessors_;
-        static HANDLE self_;
+    static ULARGE_INTEGER lastCPU_;
+    static ULARGE_INTEGER lastSysCPU_;
+    static ULARGE_INTEGER lastUserCPU_;
+    static int numProcessors_;
+    static HANDLE self_;
 #else
 #endif
-    }; // class System
+}; // class System
 
 } // namespace rdm

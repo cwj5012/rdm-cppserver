@@ -12,10 +12,8 @@ const int32_t MAX_ROTATING_FILE_COUNT = 999;
 
 Logger::Logger()
         : console_logger_(nullptr), basic_file_logger_(nullptr), rotating_file_logger_(nullptr),
-          daily_file_logger_(nullptr)
-{
-    try
-    {
+          daily_file_logger_(nullptr) {
+    try {
         spdlog::set_level(spdlog::level::trace);
         spdlog::set_pattern("[%Y-%m-%d] [%T.%f] [%^%l%$] %v");
         console_logger_ = spdlog::stdout_color_mt("console_logger_");
@@ -25,15 +23,13 @@ Logger::Logger()
         // 	, MAX_ROTATING_FILE_COUNT);
         daily_file_logger_ = spdlog::daily_logger_mt("daily_file_logger_", "daily_log.log");
     }
-    catch (const std::exception& e)
-    {
+    catch (const std::exception& e) {
         std::cerr << "[Error] " << e.what() << std::endl;
         exit(EXIT_FAILURE);
     }
 }
 
-Logger::~Logger()
-{
+Logger::~Logger() {
     spdlog::drop("console_logger_");
     spdlog::drop("basic_file_logger_");
     spdlog::drop("rotating_file_logger_");
@@ -42,7 +38,6 @@ Logger::~Logger()
     // spdlog::drop_all();
 }
 
-void Logger::setLevel(spdlog::level::level_enum level)
-{
+void Logger::setLevel(spdlog::level::level_enum level) {
     spdlog::set_level(level);
 }

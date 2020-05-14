@@ -6,7 +6,7 @@
 
 #include "../Merge.h"
 
-static void BM_Merge(benchmark::State &state) {
+static void BM_Merge(benchmark::State& state) {
     std::vector<std::pair<int, int>> a = {{1, 1},
                                           {2, 2},
                                           {3, 3}};
@@ -20,7 +20,6 @@ static void BM_Merge(benchmark::State &state) {
                                           {3, 3}};
 
     std::vector<std::pair<int, int>> dst;
-
 
 
     rdm::merge(a.begin(), a.end(), b.begin(), b.end(), std::back_inserter(dst));

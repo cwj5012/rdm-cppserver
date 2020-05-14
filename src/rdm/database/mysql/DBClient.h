@@ -1,12 +1,10 @@
 ﻿#pragma once
 
-namespace rdm
-{
+namespace rdm {
 
-    class DBClient
-    {
+class DBClient {
 
-    };
+};
 
 }
 
