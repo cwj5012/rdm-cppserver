@@ -7,5 +7,4 @@ static void BM_NoneFunction(benchmark::State &state) {
 }
 BENCHMARK(BM_NoneFunction);
 
-// Run the benchmark
 BENCHMARK_MAIN();
