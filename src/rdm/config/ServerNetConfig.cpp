@@ -5,14 +5,6 @@
 
 namespace rdm {
 
-ServerNetConfig::ServerNetConfig() {
-
-}
-
-ServerNetConfig::~ServerNetConfig() {
-
-}
-
 bool ServerNetConfig::init() {
     return load();
 }
@@ -30,16 +22,16 @@ std::string ServerNetConfig::getConfigName() const {
 }
 
 ServerNetInfo* ServerNetConfig::getServerNetInfo() {
-    return &mInfo;
+    return &info_;
 }
 
 void ServerNetConfig::setPath(const std::string& path) {
-    mConfigPath = path;
+    path_ = path;
 }
 
 bool ServerNetConfig::load() {
     tinyxml2::XMLDocument doc;
-    if (tinyxml2::XML_SUCCESS != doc.LoadFile((mConfigPath).c_str())) {
+    if (tinyxml2::XML_SUCCESS != doc.LoadFile((path_).c_str())) {
         LOG_ERROR("load xml file error");
         return false;
     }
@@ -56,9 +48,9 @@ bool ServerNetConfig::load() {
         return false;
     }
 
-    mInfo.system_id = ele1->UnsignedAttribute("ID");
-    mInfo.system_type = ele1->UnsignedAttribute("Type");
-    mInfo.system_name = ele1->Attribute("Name");
+    info_.system_id = ele1->UnsignedAttribute("ID");
+    info_.system_type = ele1->UnsignedAttribute("Type");
+    info_.system_name = ele1->Attribute("Name");
 
     tinyxml2::XMLElement* ele2 = rootEle->FirstChildElement("Listen");
     if (!ele2) {
@@ -71,7 +63,7 @@ bool ServerNetConfig::load() {
         auto id = e->UnsignedAttribute("ID");
         auto ip = e->Attribute("IP");
         auto port = e->Attribute("PORT");
-        mInfo.listen_list[id] = HostInfo(ip, port);
+        info_.listen_list[id] = HostInfo(ip, port);
     }
 
 
@@ -86,7 +78,7 @@ bool ServerNetConfig::load() {
         auto id = e->UnsignedAttribute("ID");
         auto ip = e->Attribute("IP");
         auto port = e->Attribute("PORT");
-        mInfo.connect_list[id] = HostInfo(ip, port);
+        info_.connect_list[id] = HostInfo(ip, port);
     }
 
     tinyxml2::XMLElement* ele4 = rootEle->FirstChildElement("Mysql");
@@ -99,7 +91,7 @@ bool ServerNetConfig::load() {
     auto user_name = ele4->Attribute("UserName");
     auto password = ele4->Attribute("Password");
     auto db_name = ele4->Attribute("DBName");
-    mInfo.mysql_info = MysqlInfo(host, port, user_name, password, db_name);
+    info_.mysql_info = MysqlInfo(host, port, user_name, password, db_name);
 
     return true;
 }

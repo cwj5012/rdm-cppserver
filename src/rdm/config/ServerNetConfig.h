@@ -63,9 +63,8 @@ struct ServerNetInfo {
  */
 class ServerNetConfig : public BaseConfig {
 public:
-    ServerNetConfig();
-
-    ~ServerNetConfig() override;
+    ServerNetConfig() = default;
+    ~ServerNetConfig() override = default;
 
     static ServerNetConfig* inst() {
         static ServerNetConfig obj;
@@ -73,11 +72,9 @@ public:
     }
 
     bool init() override;
-
     bool reload() override;
 
     uint32_t getConfigType() const override;
-
     std::string getConfigName() const override;
 
     ServerNetInfo* getServerNetInfo();
@@ -87,9 +84,8 @@ public:
 private:
     bool load();
 
-    std::string mConfigPath;
-
-    ServerNetInfo mInfo;
+    std::string path_;
+    ServerNetInfo info_;
 };
 
 }
