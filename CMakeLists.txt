@@ -27,6 +27,9 @@ message(STATUS ${Boost_LIBRARIES})
 message(STATUS ${Boost_INCLUDE_DIRS})
 message(STATUS ${CMAKE_SOURCE_DIR})
 
+add_subdirectory(game/client)
+add_subdirectory(game/login_server)
+
 add_subdirectory(src/benchmark)
 add_subdirectory(src/boost)
 add_subdirectory(src/game_server)
