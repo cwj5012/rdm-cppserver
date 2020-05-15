@@ -105,3 +105,5 @@ target_link_libraries(
         dl
         benchmark::benchmark
 )
+
+add_subdirectory(submodule)
