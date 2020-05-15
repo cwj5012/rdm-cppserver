@@ -23,6 +23,13 @@ https://github.com/github/gitignore
 
 src/rdm --- remote dream library
 
-catch2 指定测试名
-./test test-name
+catch2 指定名字
+./test <test-name>
 参考：https://github.com/catchorg/Catch2/blob/master/docs/command-line.md#specifying-which-tests-to-run
+
+benchmark 指定名字
+./benchmark --benchmark_filter=<regex>
+
+TODO
+google c++ 基础库
+https://abseil.io/docs/cpp/quickstart-cmake.html
