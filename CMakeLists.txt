@@ -32,6 +32,7 @@ add_subdirectory(game/login_server)
 
 add_subdirectory(src/benchmark)
 add_subdirectory(src/boost)
+add_subdirectory(src/coding_interview)
 add_subdirectory(src/game_server)
 add_subdirectory(src/hello_world)
 add_subdirectory(src/leetcode)
