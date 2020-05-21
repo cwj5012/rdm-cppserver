@@ -7,18 +7,17 @@ rdm (remote dream library)
 ## ubuntu 20.04
 
 ```shell
-$ sudo apt update
-$ sudo apt install libbenchmark-dev
-$ sudo apt install libboost-all-dev
-$ sudo apt install libmysqlcppconn-dev
-$ sudo apt install libspdlog-dev
-$ sudo apt install libprotobuf-dev
-$ sudo apt install libjsoncpp-dev
-$ sudo apt install libtinyxml2-dev
-$ sudo apt install libinih-dev
-$ sudo apt install nlohmann-json3-dev
-
-$ sudo apt install apt-file
+sudo apt update
+sudo apt install libbenchmark-dev
+# 手动安装 boost
+# sudo apt install libboost-all-dev
+sudo apt install libmysqlcppconn-dev
+sudo apt install libspdlog-dev
+sudo apt install libprotobuf-dev
+sudo apt install libjsoncpp-dev
+sudo apt install libtinyxml2-dev
+sudo apt install libinih-dev
+sudo apt install nlohmann-json3-dev
 ```
 
 ### Boost 1.73.0 安装

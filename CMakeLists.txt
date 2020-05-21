@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
         ${CMAKE_SOURCE_DIR}/cmake/)
 
+set(Boost_USE_STATIC_LIBS ON)
 find_package(benchmark 1.5.0 REQUIRED)
 find_package(Boost 1.73.0 REQUIRED COMPONENTS system filesystem)
 
