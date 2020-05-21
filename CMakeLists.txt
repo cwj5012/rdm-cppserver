@@ -3,16 +3,11 @@ project(learn_cpp)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(Boost_VERSION 1.71.0)
-set(Boost_DEBUG ON)
-set(BOOST_ROOT /home/me/boost_1_71_0/)
-set(BOOST_INCLUDEDIR /usr/local/include/boost/)
-set(BOOST_LIBRARYDIR /usr/local/lib/)
-set(Boost_NO_BOOST_CMAKE ON)
-# set(Boost_DIR /usr/local/lib/cmake/Boost-1.71.0/)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
+        ${CMAKE_SOURCE_DIR}/cmake/)
 
 find_package(benchmark 1.5.0 REQUIRED)
-find_package(boost 1.71.0 REQUIRED COMPONENTS system filesystem)
+find_package(Boost 1.73.0 REQUIRED COMPONENTS system filesystem)
 
 include_directories(
         ${CMAKE_INCLUDE_PATH}
@@ -20,12 +15,15 @@ include_directories(
 )
 
 if (Boost_FOUND)
-    message(STATUS "Boost_FOUND")
+    message(STATUS "boost found:")
+    foreach (library : ${Boost_LIBRARIES})
+        if (NOT ${library} STREQUAL ":")
+            MESSAGE(STATUS "    " ${library})
+        endif ()
+    endforeach ()
 endif ()
 
-message(STATUS ${Boost_LIBRARIES})
-message(STATUS ${Boost_INCLUDE_DIRS})
-message(STATUS ${CMAKE_SOURCE_DIR})
+message(STATUS "cmake source dir: " ${CMAKE_SOURCE_DIR})
 
 add_subdirectory(game/client)
 add_subdirectory(game/login_server)
