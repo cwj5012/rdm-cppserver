@@ -50,6 +50,7 @@ target_link_libraries(
         inih
         jsoncpp
         tinyxml2
+        ${Boost_LIBRARIES}
 )
 
 add_dependencies(
@@ -81,7 +82,7 @@ target_link_libraries(
         pthread
         dl
         mysqlcppconn
-        boost_filesystem
+        ${Boost_LIBRARIES}
         rdm
 )
 
@@ -104,6 +105,7 @@ target_link_libraries(
         pthread
         dl
         benchmark::benchmark
+        ${Boost_LIBRARIES}
 )
 
 add_subdirectory(submodule)
