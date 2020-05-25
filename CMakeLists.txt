@@ -8,6 +8,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 
 set(Boost_USE_STATIC_LIBS ON)
 find_package(benchmark 1.5.0 REQUIRED)
+find_package(Protobuf 3.6.1 REQUIRED)
 find_package(Boost 1.73.0 REQUIRED COMPONENTS system filesystem)
 
 include_directories(
@@ -24,8 +25,16 @@ if (Boost_FOUND)
     endforeach ()
 endif ()
 
+if (Protobuf_FOUND)
+    message(STATUS "protobuf found:")
+    message(STATUS "    prorobuf version: " ${Protobuf_VERSION})
+    message(STATUS "    protoc version: " ${_PROTOBUF_PROTOC_EXECUTABLE_VERSION})
+    MESSAGE(STATUS "    " ${Protobuf_LIBRARIES})
+endif ()
+
 message(STATUS "cmake source dir: " ${CMAKE_SOURCE_DIR})
 
+add_subdirectory(game/chat_server)
 add_subdirectory(game/client)
 add_subdirectory(game/login_server)
 

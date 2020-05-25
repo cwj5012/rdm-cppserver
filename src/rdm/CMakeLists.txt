@@ -81,8 +81,8 @@ target_link_libraries(
         rdm_test
         pthread
         dl
-        mysqlcppconn
         ${Boost_LIBRARIES}
+        mysqlcppconn
         rdm
 )
 

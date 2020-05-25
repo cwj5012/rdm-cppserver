@@ -15,6 +15,8 @@ DBServiceManager::DBServiceManager()
     info.port = 3306;
 
     mDBConnectionPool = new DBConnectionPool(info);
+
+    LOG_INFO("mysql connection pool create success.");
 }
 
 DBServiceManager::~DBServiceManager() {

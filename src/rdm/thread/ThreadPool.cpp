@@ -13,7 +13,7 @@ ThreadPool::ThreadPool(int32_t num) : num_(num),
         threads_.push_back(std::make_shared<std::thread>(
                 [&]() { ios_->run(); }
         ));
-        LOG_INFO("create thread pool, num: {}", i);
+        LOG_INFO("create thread pool, num: {}", i + 1);
     }
 }
 
@@ -28,7 +28,7 @@ ThreadPool::ThreadPool(boost::asio::io_service* ios, int32_t num)
         threads_.push_back(std::make_shared<std::thread>(
                 [&]() { ios_->run(); }
         ));
-        LOG_INFO("create thread pool, num: {}", i);
+        LOG_INFO("create thread pool, num: {}", i + 1);
     }
 }
 
