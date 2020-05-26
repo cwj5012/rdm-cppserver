@@ -31,7 +31,6 @@ bool NetClientManager::init() {
     }
 
     while (true) {
-        ThreadUtil::sleep(3000);
         bool all_connected = true;
         for (auto& item : info->connect_list) {
             auto id = item.first;
@@ -47,6 +46,7 @@ bool NetClientManager::init() {
             LOG_INFO("all server is connected");
             break;
         }
+        ThreadUtil::sleep(1000);
     }
 
     cce::pb::ServerRegister send_msg;
