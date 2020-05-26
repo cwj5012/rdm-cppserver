@@ -33,13 +33,12 @@ ThreadPool::ThreadPool(boost::asio::io_service* ios, int32_t num)
 }
 
 ThreadPool::~ThreadPool() {
-    LOG_INFO("ThreadPool::~ThreadPool");
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
     stop();
 }
 
 void ThreadPool::stop() {
     if (!isStop_) {
-        LOG_INFO("ThreadPool::stop");
         ios_->stop();
         for (auto th: threads_) {
             th->join();

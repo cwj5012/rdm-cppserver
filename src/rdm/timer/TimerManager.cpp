@@ -1,5 +1,7 @@
 ﻿#include "TimerManager.h"
 
+#include "../log/Logger.h"
+
 namespace rdm {
 
 TimerManager::TimerManager(boost::asio::io_service* ios)
@@ -8,7 +10,7 @@ TimerManager::TimerManager(boost::asio::io_service* ios)
 }
 
 TimerManager::~TimerManager() {
-
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 }
 
 bool TimerManager::add(uint32_t id,

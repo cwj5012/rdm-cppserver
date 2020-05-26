@@ -14,7 +14,6 @@ namespace rdm {
 class NetConnectionManager {
 public:
     NetConnectionManager();
-
     ~NetConnectionManager();
 
     /**

@@ -4,13 +4,15 @@
 #include <rdm/net/NetServer.h>
 #include <rdm/service/Service.h>
 
-ChatRoom::ChatRoom(rdm::Service* service)
-        : service_(service) {
+ChatRoom::ChatRoom(rdm::Service* service, uint64_t id)
+        : service_(service), id_(id) {
 
 }
 
 ChatRoom::~ChatRoom() {
-
+    for (auto& item:users_) {
+        item.second.reset();
+    }
 }
 
 void ChatRoom::doOnMessage(const rdm::NetMsg* net_msg) {

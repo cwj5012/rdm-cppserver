@@ -15,7 +15,7 @@ NetConnection::NetConnection(boost::asio::io_service& io_service)
 }
 
 NetConnection::~NetConnection() {
-
+    socket_.close();
 }
 
 NetConnection::ptrConnection NetConnection::create(boost::asio::io_context& io_service) {

@@ -3,13 +3,14 @@
 
 namespace rdm {
 
-Console::Console()
-        : mExit(false) {
+Console::Console() {
 
 }
 
 Console::~Console() {
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
+    mThread.join();
 }
 
 bool Console::init(Command* cmd) {
@@ -20,7 +21,6 @@ bool Console::init(Command* cmd) {
 
     mCommand = cmd;
     mThread = std::thread(&Console::getInput, this);
-    mThread.detach();
 
     return true;
 }
@@ -39,6 +39,7 @@ void Console::getInput() {
 }
 
 void Console::setExit(bool value) {
+    std::lock_guard<std::mutex> lck(mtx_);
     mExit = value;
 }
 

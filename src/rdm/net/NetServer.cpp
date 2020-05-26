@@ -9,6 +9,7 @@ NetServer::NetServer() {
 }
 
 NetServer::~NetServer() {
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
     release();
 }
 
@@ -36,6 +37,9 @@ void NetServer::run() {
 
 void NetServer::release() {
     mNetAcceptPtr.clear();
+
+    NetManager& nm = NetManager::inst();
+    nm.getService().stop();
 }
 
 void NetServer::registMessage(const uint32_t opcode, IObserver* observer) {

@@ -5,7 +5,7 @@
       <paths name="Remote Host (9bb67da8-9399-44a5-864b-ad5f411aa024)">
         <serverdata>
           <mappings>
-            <mapping deploy="/tmp/tmp.O8BnQnjjWj" local="$PROJECT_DIR$" />
+            <mapping deploy="/home/me/clion-dev/learn-cpp" local="$PROJECT_DIR$" />
           </mappings>
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-remote-host" />

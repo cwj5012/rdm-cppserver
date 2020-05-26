@@ -21,7 +21,7 @@ DBServiceManager::DBServiceManager()
 }
 
 DBServiceManager::~DBServiceManager() {
-
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 }
 
 DBServiceManager& DBServiceManager::inst() {

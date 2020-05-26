@@ -1,5 +1,7 @@
 ﻿#include "NetConnectionManager.h"
 
+#include "../log/Logger.h"
+
 namespace rdm {
 
 NetConnectionManager::NetConnectionManager() {
@@ -7,8 +9,7 @@ NetConnectionManager::NetConnectionManager() {
 }
 
 NetConnectionManager::~NetConnectionManager() {
-    server_connections_.clear();
-    client_connections_.clear();
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 }
 
 NetConnection::ptrConnection NetConnectionManager::getServerConnection(uint32_t type, uint32_t id) const {

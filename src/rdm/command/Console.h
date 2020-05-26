@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <mutex>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -35,11 +36,12 @@ protected:
     ~Console();
 
 private:
-    bool mExit;                     // 禁止命令行输入
+    bool mExit{false};              // 禁止命令行输入
     Command* mCommand;
     std::string mInputStr;          // 输入字符串
     std::thread mThread;            // 命令行线程
     std::vector<int> mCommandList;  // 命令列表
+    std::mutex mtx_;
 };
 
 }

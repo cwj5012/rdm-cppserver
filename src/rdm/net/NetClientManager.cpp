@@ -13,7 +13,7 @@ NetClientManager::NetClientManager() {
 }
 
 NetClientManager::~NetClientManager() {
-
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 }
 
 bool NetClientManager::init() {

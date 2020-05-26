@@ -1,4 +1,5 @@
 ﻿#include "NetManager.h"
+#include "../log/Logger.h"
 
 namespace rdm {
 
@@ -7,7 +8,7 @@ NetManager::NetManager() {
 }
 
 NetManager::~NetManager() {
-
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 }
 
 boost::asio::io_service& NetManager::getService() {

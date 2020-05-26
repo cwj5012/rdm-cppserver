@@ -4,6 +4,7 @@
 
 #include "../database/mysql/DBServiceManager.h"
 #include "../net/NetServer.h"
+#include "../net/NetConnectionManager.h"
 #include "../net/NetClientManager.h"
 #include "../net/NetManager.h"
 #include "../thread/ThreadPool.h"
@@ -32,7 +33,7 @@ Service::Service() {
         LOG_ERROR("thread pool create error.");
     }
 
-    command_ = std::make_shared<Command>();
+    command_ = std::make_shared<Command>(this);
     if (!command_) {
         LOG_ERROR("command create error.");
     }
@@ -53,14 +54,21 @@ Service::Service() {
         LOG_ERROR("client manager create error.");
     }
 
+    connection_manager_ = std::make_shared<NetConnectionManager>();
+    if (!connection_manager_) {
+        LOG_ERROR("net connection manager create error.");
+    }
+
     LOG_INFO("all component create success.");
 }
 
 Service::~Service() {
-
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 }
 
 bool Service::init() {
+    LOG_INFO("service is init...");
+
     net_server_->init();
     client_manager_->init();
     command_->init();
@@ -79,6 +87,16 @@ void Service::run() {
 }
 
 void Service::exit() {
+    LOG_INFO("service is exit...");
+
+    connection_manager_->release();
+
+    net_server_->release();
+//    command_->release();
+//    db_manager_->release();
+//    client_manager_->release();
+//    timer_manager_->release();
+//    thread_pool_->release();
 
 }
 

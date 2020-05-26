@@ -11,7 +11,6 @@ namespace rdm {
 class NetClientManager {
 public:
     NetClientManager();
-
     ~NetClientManager();
 
     bool init();
