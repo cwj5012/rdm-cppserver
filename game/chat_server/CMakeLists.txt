@@ -33,8 +33,8 @@ target_link_libraries(
         dl
         ${Boost_LIBRARIES}
         ${Protobuf_LIBRARIES}
-        mysqlcppconn
         rdm
+        mysqlcppconn # g++ mysqlcppconn 写在 rdm 后面才能编译成功
 )
 
 include_directories(
