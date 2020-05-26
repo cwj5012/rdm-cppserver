@@ -26,6 +26,7 @@ public:
 
     void release();
 
+    void registMessage(const uint32_t opcode, IObserver* observer);
     void registMessage(const std::string& message_name, IObserver* observer);
 
     std::shared_ptr<NetAcceptor> getNetAccept(uint32_t type);

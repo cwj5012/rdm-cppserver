@@ -26,6 +26,7 @@ public:
 
     void run();
 
+    void registMessage(const uint32_t message_type, IObserver* observer);
     void registMessage(const std::string& message_name, IObserver* observer);
 
     std::shared_ptr<MessageSubject> getMessageSubject();

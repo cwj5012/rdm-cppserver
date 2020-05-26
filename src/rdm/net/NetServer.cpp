@@ -38,6 +38,10 @@ void NetServer::release() {
     mNetAcceptPtr.clear();
 }
 
+void NetServer::registMessage(const uint32_t opcode, IObserver* observer) {
+    NetManager::inst().registMessage(opcode, observer);
+}
+
 void NetServer::registMessage(const std::string& message_name, IObserver* observer) {
     NetManager::inst().registMessage(message_name, observer);
 }
@@ -49,5 +53,7 @@ std::shared_ptr<NetAcceptor> NetServer::getNetAccept(uint32_t type) {
     }
     return nullptr;
 }
+
+
 
 }

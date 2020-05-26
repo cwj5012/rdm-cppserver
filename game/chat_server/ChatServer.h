@@ -1,9 +1,16 @@
 #pragma once
 
+#include <memory>
+
 #include <rdm/service/Service.h>
 
 #include "ChatRoom.h"
 
+/**
+ * 聊天室服务器
+ * 支持创建聊天室，进入聊天室
+ * 收发消息
+ */
 class ChatServer : public rdm::Service {
 public:
     ChatServer();
@@ -14,7 +21,7 @@ public:
     bool onExit() override;
 
 private:
-    ChatRoom* chat_room_;
+    std::map<uint32_t, ChatRoom::uptr> chat_rooms_;
 };
 
 

@@ -27,7 +27,7 @@ void MessageSubject::registObserver(const std::string& message_name, IObserver* 
     LOG_INFO("regist message, name: {}", message_name);
 }
 
-void MessageSubject::registObserver(const MessageResolveType resolve_type, IObserver* observer) {
+void MessageSubject::registObserver(const uint32_t resolve_type, IObserver* observer) {
     if (observer == nullptr) {
         LOG_ERROR("regist message failed, name: {}", static_cast<int32_t>(resolve_type));
         return;

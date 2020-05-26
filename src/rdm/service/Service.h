@@ -25,6 +25,14 @@ public:
     void run();
     void exit();
 
+    [[nodiscard]] const std::shared_ptr<NetServer>& getNetServer() const;
+    [[nodiscard]] const std::shared_ptr<Command>& getCommand() const;
+    [[nodiscard]] const std::shared_ptr<DBServiceManager>& getDbManager() const;
+    [[nodiscard]] const std::shared_ptr<NetClientManager>& getClientManager() const;
+    [[nodiscard]] const std::shared_ptr<TimerManager>& getTimerManager() const;
+    [[nodiscard]] const std::shared_ptr<ThreadPool>& getThreadPool() const;
+    [[nodiscard]] const std::shared_ptr<NetConnectionManager>& getConnectionManager() const;
+
 private:
     std::shared_ptr<NetServer> net_server_;
     std::shared_ptr<Command> command_;

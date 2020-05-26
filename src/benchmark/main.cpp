@@ -48,5 +48,40 @@ static void BM_For2(benchmark::State& state) {
 
 BENCHMARK(BM_For2);
 
+static void BM_CreateUint8(benchmark::State& state) {
+    std::vector<int> vec(1000, 0);
+    auto size = vec.size();
+    for (auto _ : state) {
+        uint8_t i = 100;
+    }
+}
+
+BENCHMARK(BM_CreateUint8);
+
+class A {
+
+};
+
+static void BM_CreateClass(benchmark::State& state) {
+    std::vector<int> vec(1000, 0);
+    auto size = vec.size();
+    for (auto _ : state) {
+       auto a = A();
+    }
+}
+
+BENCHMARK(BM_CreateClass);
+
+static void BM_CreateClassHeap(benchmark::State& state) {
+    std::vector<int> vec(1000, 0);
+    auto size = vec.size();
+    for (auto _ : state) {
+       auto a = new A();
+       delete a;
+    }
+}
+
+BENCHMARK(BM_CreateClassHeap);
+
 // Run the benchmark
 BENCHMARK_MAIN();

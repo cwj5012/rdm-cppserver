@@ -17,7 +17,7 @@ public:
 
     void registObserver(const std::string& message_name, IObserver* observer);
 
-    void registObserver(const MessageResolveType resolve_type, IObserver* observer);
+    void registObserver(const uint32_t resolve_type, IObserver* observer);
 
     void onChange();
 
@@ -27,7 +27,7 @@ public:
 
 private:
     std::map<std::string, IObserver*> mMessageObserverMap;
-    std::map<MessageResolveType, IObserver*> mMessageObserverMapByType;
+    std::map<uint32_t, IObserver*> mMessageObserverMapByType;
 };
 
 }

@@ -82,4 +82,32 @@ void Service::exit() {
 
 }
 
+const std::shared_ptr<NetServer>& Service::getNetServer() const {
+    return net_server_;
+}
+
+const std::shared_ptr<Command>& Service::getCommand() const {
+    return command_;
+}
+
+const std::shared_ptr<DBServiceManager>& Service::getDbManager() const {
+    return db_manager_;
+}
+
+const std::shared_ptr<NetClientManager>& Service::getClientManager() const {
+    return client_manager_;
+}
+
+const std::shared_ptr<TimerManager>& Service::getTimerManager() const {
+    return timer_manager_;
+}
+
+const std::shared_ptr<ThreadPool>& Service::getThreadPool() const {
+    return thread_pool_;
+}
+
+const std::shared_ptr<NetConnectionManager>& Service::getConnectionManager() const {
+    return connection_manager_;
+}
+
 }
