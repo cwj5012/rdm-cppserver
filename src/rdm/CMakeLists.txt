@@ -33,6 +33,7 @@ file(
 # 编译文件，排除目录下所有测试文件 *Test.cpp 文件
 # 注意，有的 cmake 版本要这么写
 # list(REMOVE_ITEM CPP_FILES TEST_CPP_FILES)
+# list(REMOVE_ITEM CPP_FILES BM_CPP_FILES)
 list(REMOVE_ITEM CPP_FILES ${TEST_CPP_FILES})
 list(REMOVE_ITEM CPP_FILES ${BM_CPP_FILES})
 
