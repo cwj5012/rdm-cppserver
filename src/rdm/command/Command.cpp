@@ -6,7 +6,7 @@
 
 namespace rdm {
 
-Command::Command(Service* service)
+Command::Command(const std::shared_ptr<Service>& service)
         : service_(service) {
 
 }
@@ -14,11 +14,7 @@ Command::Command(Service* service)
 Command::~Command() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
-    for (auto& item:mCommandFunc) {
-        item.second.reset();
-    }
 
-    Console::inst()->setExit(true);
 }
 
 bool Command::init() {
@@ -31,6 +27,12 @@ bool Command::init() {
 
 void Command::run() {
     Console::inst()->init(this);
+}
+
+void Command::release() {
+    for (auto& item:mCommandFunc) {
+        item.second.reset();
+    }
 }
 
 

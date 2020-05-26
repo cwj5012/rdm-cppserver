@@ -12,7 +12,7 @@ class NetConnectionManager;
 class TimerManager;
 class ThreadPool;
 
-class Service {
+class Service : public std::enable_shared_from_this<Service> {
 public:
     Service();
     virtual ~Service();

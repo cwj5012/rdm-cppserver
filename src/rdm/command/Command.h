@@ -32,12 +32,13 @@ struct CommandInfo {
 
 class Command {
 public:
-    explicit Command(Service* service);
+    explicit Command(const std::shared_ptr<Service>& service);
 
     ~Command();
 
     bool init();
     void run();
+    void release();
 
     void registCommand(std::unique_ptr<CommandInfo>& cmd_info);
     void parseInput(const std::string& str);
@@ -55,7 +56,7 @@ private:
 
     std::map<std::string, CommandInfo::uptr> mCommandFunc;
 
-    std::shared_ptr<Service> service_;
+    std::weak_ptr<Service> service_;
 };
 
 }

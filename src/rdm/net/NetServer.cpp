@@ -10,7 +10,6 @@ NetServer::NetServer() {
 
 NetServer::~NetServer() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
-    release();
 }
 
 

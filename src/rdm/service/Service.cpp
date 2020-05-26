@@ -16,6 +16,16 @@
 namespace rdm {
 
 Service::Service() {
+
+}
+
+Service::~Service() {
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
+}
+
+bool Service::init() {
+    LOG_INFO("service is init...");
+
     LOG_INFO("================================================");
     LOG_INFO("service start...");
     LOG_INFO("{} {}", "version:", kRdmVersion);
@@ -33,7 +43,7 @@ Service::Service() {
         LOG_ERROR("thread pool create error.");
     }
 
-    command_ = std::make_shared<Command>(this);
+    command_ = std::make_shared<Command>(shared_from_this());
     if (!command_) {
         LOG_ERROR("command create error.");
     }
@@ -60,14 +70,6 @@ Service::Service() {
     }
 
     LOG_INFO("all component create success.");
-}
-
-Service::~Service() {
-    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
-}
-
-bool Service::init() {
-    LOG_INFO("service is init...");
 
     net_server_->init();
     client_manager_->init();
@@ -92,7 +94,7 @@ void Service::exit() {
     connection_manager_->release();
 
     net_server_->release();
-//    command_->release();
+    command_->release();
 //    db_manager_->release();
 //    client_manager_->release();
 //    timer_manager_->release();
