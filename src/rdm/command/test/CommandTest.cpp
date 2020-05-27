@@ -16,20 +16,20 @@ void infoFuncA(const std::string& arg) {
 }
 
 TEST_CASE("Command-test", "[]") {
-    auto* cmd = new Command();
-    cmd->init();
-    cmd->run();
-
-    CommandInfo infoA("infoA", "infoA desc", infoFuncA);
-    cmd->registCommand(&infoA);
-
-    int i = 0;
-    while (true) {
-        ThreadUtil::sleep(1000);
-        i++;
-        if (i >= 5)
-            break;
-    }
+//    auto* cmd = new Command();
+//    cmd->init();
+//    cmd->run();
+//
+//    CommandInfo infoA("infoA", "infoA desc", infoFuncA);
+//    cmd->registCommand(&infoA);
+//
+//    int i = 0;
+//    while (true) {
+//        ThreadUtil::sleep(1000);
+//        i++;
+//        if (i >= 5)
+//            break;
+//    }
 }
 
 

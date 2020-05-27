@@ -6,6 +6,6 @@
 using namespace rdm;
 
 TEST_CASE("Console-test", "[]") {
-    Command* cmd = new Command();
-    Console::inst()->init(cmd);
+    // Command* cmd = new Command();
+    // Console::inst()->init(cmd);
 }

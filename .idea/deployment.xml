@@ -2,14 +2,25 @@
 <project version="4">
   <component name="PublishConfigData">
     <serverData>
-      <paths name="Remote Host (9bb67da8-9399-44a5-864b-ad5f411aa024)">
+      <paths name="ubuntu.a.com (9bb67da8-9399-44a5-864b-ad5f411aa024)">
         <serverdata>
           <mappings>
             <mapping deploy="/home/me/clion-dev/learn-cpp" local="$PROJECT_DIR$" />
           </mappings>
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-remote-host" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-ubuntuacom" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-remote-host" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="ubuntu.a.com-gcc (5cc658b5-a466-4951-ad9e-85bdaf3d2b20)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/tmp.ZpIaQjD7Lf" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-ubuntuacom-gcc" />
           </excludedPaths>
         </serverdata>
       </paths>

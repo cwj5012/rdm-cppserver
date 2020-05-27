@@ -24,7 +24,7 @@ Service::~Service() {
 }
 
 bool Service::init() {
-    LOG_INFO("service is init...");
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
     LOG_INFO("================================================");
     LOG_INFO("service start...");
@@ -82,14 +82,14 @@ bool Service::init() {
 }
 
 void Service::run() {
-    LOG_INFO("service is running...");
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
     command_->run();
     net_server_->run(); // boost asio 阻塞
 }
 
 void Service::exit() {
-    LOG_INFO("service is exit...");
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
     connection_manager_->release();
 
