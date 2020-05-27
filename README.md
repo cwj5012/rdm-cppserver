@@ -17,6 +17,7 @@ sudo apt install libprotobuf-dev
 sudo apt install libjsoncpp-dev
 sudo apt install libtinyxml2-dev
 sudo apt install libinih-dev
+sudo apt install libyaml-cpp-dev
 sudo apt install nlohmann-json3-dev
 ```
 
@@ -87,4 +88,6 @@ benchmark 指定用例 `./benchmark --benchmark_filter=<regex>`
 
 ### TODO
 
-- [ ] google c++ 基础库接入 https://abseil.io/docs/cpp/quickstart-cmake.html
+- [ ] google c++ 基础库接入 https://abseil.io/docs/cpp/quickstart-cmake.html；
+- [ ] yaml-cpp 库用 apt install 或者 github 上面源代码安装，获取 yaml 文件的数据一直崩溃，先将源代码放到项目
+        的 third_party 目录中，创建 cmake 文件编译，然后其他项目原来它，测试使用正常，之后再排查哪里出问题；

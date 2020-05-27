@@ -74,3 +74,4 @@ add_subdirectory(src/rdm)
 add_subdirectory(src/test)
 
 add_subdirectory(third_party/inih)
+add_subdirectory(third_party/yaml-cpp)

@@ -35,6 +35,7 @@ target_link_libraries(
         ${Protobuf_LIBRARIES}
         rdm
         mysqlcppconn # g++ mysqlcppconn 写在 rdm 后面才能编译成功
+        yaml-cpp
 )
 
 include_directories(

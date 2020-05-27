@@ -51,12 +51,15 @@ target_link_libraries(
         inih
         jsoncpp
         tinyxml2
+
         ${Boost_LIBRARIES}
+        dl
 )
 
 add_dependencies(
         rdm
         inih
+        yaml-cpp
 )
 
 set_target_properties(
@@ -85,6 +88,7 @@ target_link_libraries(
         ${Boost_LIBRARIES}
         mysqlcppconn
         rdm
+        yaml-cpp
 )
 
 ##########################################
