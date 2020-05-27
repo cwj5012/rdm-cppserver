@@ -13,6 +13,7 @@
 #include "../log/Logger.h"
 #include "../command/Command.h"
 #include "../Version.h"
+#include "../thread/ThreadUtil.h"
 
 namespace rdm {
 
@@ -58,7 +59,7 @@ bool Service::init() {
     }
 
 
-    db_manager_ = std::make_shared<DBServiceManager>();
+    db_manager_ = std::make_shared<DBServiceManager>(shared_from_this());
     if (!db_manager_) {
         LOG_ERROR("database manager create error.");
     }
@@ -78,16 +79,25 @@ bool Service::init() {
         LOG_ERROR("net connection manager create error.");
     }
 
-    LOG_INFO("all component create success.");
+    LOG_INFO("all components create success.");
 
     net_server_->init();
     client_manager_->init();
     command_->init();
     db_manager_->init();
 
+    while (true) {
+        ThreadUtil::sleep(1000);
+
+        // todo 异步加载的模块，要检查状态
+        LOG_INFO("all components init success.");
+
+        break;
+    }
+
     onInit();
 
-    return false;
+    return true;
 }
 
 void Service::run() {

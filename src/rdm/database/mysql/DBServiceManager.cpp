@@ -2,22 +2,34 @@
 #include "DBConnectionPool.h"
 #include "IDBConnection.h"
 #include "../../log/Logger.h"
+#include "../../service/Service.h"
+#include "../../config/ServerNetConfig.h"
 
 namespace rdm {
 
-DBServiceManager::DBServiceManager()
-        : thread_num_(1) {
+DBServiceManager::DBServiceManager() {
+    if (mDBConnectionPool == nullptr) {
+        db_info_.name = "root";
+        db_info_.passwd = "1234";
+        db_info_.ip = "127.0.0.1";
+        db_info_.port = 3306;
 
-    DatabaseLoginInfo info;
-    info.name = "root";
-    info.passwd = "1234";
-    info.ip = "127.0.0.1";
-    info.port = 3306;
+        mDBConnectionPool = new DBConnectionPool(db_info_);
+    }
+}
 
-    mDBConnectionPool = new DBConnectionPool(info);
+DBServiceManager::DBServiceManager(const std::shared_ptr<Service>& service)
+        : service_(service) {
+    if (mDBConnectionPool == nullptr) {
+        auto info = service_.lock()->getServerNetConfig()->getServerNetInfo();
 
-    LOG_INFO("mysql connection pool create success.");
-    LOG_INFO("mysql info {}:{}.", info.ip, info.port);
+        db_info_.name = info->mysql_info.user_name;
+        db_info_.passwd = info->mysql_info.password;
+        db_info_.ip = info->mysql_info.host;
+        db_info_.port = std::stoi(info->mysql_info.port);
+
+        mDBConnectionPool = new DBConnectionPool(db_info_);
+    }
 }
 
 DBServiceManager::~DBServiceManager() {
@@ -46,12 +58,14 @@ void DBServiceManager::init() {
 
     mDBConnectionPool->initPool(4);
 
+    LOG_INFO("mysql connection pool num: 4, create success, {}:{}.", db_info_.ip, db_info_.port);
+
     for (auto i = 0; i < thread_num_; ++i) {
         DatabaseLoginInfo info;
 //            DBConnection db_service(info);
 //            db_service.connect();
 //
-//            db_service_.push_back(&db_service);
+//            db_connections_.push_back(&db_service);
     }
 }
 

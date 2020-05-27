@@ -15,7 +15,7 @@ Logger::Logger()
           daily_file_logger_(nullptr) {
     try {
         spdlog::set_level(spdlog::level::trace);
-        spdlog::set_pattern("[%Y-%m-%d] [%T.%f] [%^%l%$] %v");
+        spdlog::set_pattern("[%Y-%m-%d] [%T.%f] [%^%-6l%$] %v");
         console_logger_ = spdlog::stdout_color_mt("console_logger_");
         // basic_file_logger_ = spdlog::basic_logger_mt("basic_file_logger_", "basic_file_log.log");
         // rotating_file_logger_ = spdlog::rotating_logger_mt("rotating_file_logger_", "rotating_file_log.log"

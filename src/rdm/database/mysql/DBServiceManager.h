@@ -8,9 +8,12 @@
 
 namespace rdm {
 
+class Service;
+
 class DBServiceManager {
 public:
-    DBServiceManager();
+    explicit DBServiceManager();
+    explicit DBServiceManager(const std::shared_ptr<Service>& service);
 
     ~DBServiceManager();
 
@@ -25,10 +28,13 @@ public:
     void init();
 
 private:
-    int32_t thread_num_;
-    std::vector<DBConnection*> db_service_;
+    int32_t thread_num_{1};
+    std::vector<DBConnection*> db_connections_;
 
-    DBConnectionPool* mDBConnectionPool;
+    DBConnectionPool* mDBConnectionPool{nullptr};
+
+    std::weak_ptr<Service> service_;
+    DatabaseLoginInfo db_info_{};
 };
 
 }
