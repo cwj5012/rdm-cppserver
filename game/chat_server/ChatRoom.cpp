@@ -2,7 +2,6 @@
 
 #include <rdm/log/Logger.h>
 #include <rdm/net/NetServer.h>
-#include <rdm/service/Service.h>
 
 ChatRoom::ChatRoom(rdm::Service* service, uint64_t id)
         : service_(service), id_(id) {
@@ -20,7 +19,7 @@ void ChatRoom::doOnMessage(const rdm::NetMsg* net_msg) {
 }
 
 bool ChatRoom::init() {
-    LOG_INFO("ChatRoom::init");
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
     service_->getNetServer()->registMessage(101, this);
     service_->getNetServer()->registMessage(102, this);
