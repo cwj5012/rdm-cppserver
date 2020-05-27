@@ -10,7 +10,9 @@
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-remote-host" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-ubuntuacom" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-relwithdebinfo-ubuntuacom" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-remote-host" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-debug-clang" />
           </excludedPaths>
         </serverdata>
       </paths>

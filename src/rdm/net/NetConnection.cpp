@@ -74,7 +74,7 @@ void NetConnection::handleWrite(const boost::system::error_code& ec,
 void NetConnection::handleRead(const boost::system::error_code& ec,
                                std::size_t bytes_transferred) {
     if (ec /* && ec != boost::asio::error::eof */) {
-        LOG_ERROR("{}", ec.message());
+        LOG_INFO("client disconnectd, {}", ec.message());
         socket_.close();
         return;
     }

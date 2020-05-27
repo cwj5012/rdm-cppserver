@@ -3,6 +3,11 @@ project(learn_cpp)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# add_definitions(-D_DEBUG)
+# add_definitions(-DDEBUG)
+# add_definitions("$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
+# SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
+
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_GLIBCXX_DEBUG")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}

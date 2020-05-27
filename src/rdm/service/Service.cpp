@@ -18,9 +18,10 @@
 namespace rdm {
 
 Service::Service() {
+    LOG_INFO("pid: {}, tid: {}.", getpid(), gettid());
+
     server_net_config_ = std::make_shared<ServerNetConfig>();
-    if (server_net_config_ == nullptr)
-    {
+    if (server_net_config_ == nullptr) {
         LOG_ERROR("server net config create error.");
     }
 }
@@ -110,7 +111,7 @@ void Service::run() {
 void Service::exit() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
-    net_connection_manager_ ->release();
+    net_connection_manager_->release();
 
     net_server_->release();
     command_->release();

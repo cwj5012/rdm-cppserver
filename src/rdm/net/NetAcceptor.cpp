@@ -23,7 +23,6 @@ void NetAcceptor::bind(boost::asio::io_service& io_service, const std::string& a
     mAddress->from_string(addr);
 
     mEndpoint = std::make_shared<tcp::endpoint>(*mAddress, port);
-
     mAcceptor = std::make_shared<tcp::acceptor>(io_service, *mEndpoint);
 }
 

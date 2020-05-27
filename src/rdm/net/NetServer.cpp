@@ -28,7 +28,13 @@ void NetServer::init() {
         auto id = item.first;
         auto ip = item.second.ip;
         auto port = item.second.port;
-        mNetAcceptPtr[id] = std::make_shared<NetAcceptor>(nm.getService(), ip, std::stoi(port));
+
+        try {
+            mNetAcceptPtr[id] = std::make_shared<NetAcceptor>(nm.getService(), ip, std::stoi(port));
+        }catch (std::exception& ex) {
+            LOG_ERROR("{}", ex.what());
+            abort();
+        }
 
         LOG_INFO("listen, id:{} host: {}:{}", id, ip, port);
     }
