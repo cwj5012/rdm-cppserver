@@ -1,7 +1,6 @@
-#include <tinyxml2.h>
-
 #include "../log/Logger.h"
 #include "ServerNetConfig.h"
+#include "../config/YamlConfig.h"
 
 namespace rdm {
 
@@ -30,68 +29,44 @@ void ServerNetConfig::setPath(const std::string& path) {
 }
 
 bool ServerNetConfig::load() {
-    tinyxml2::XMLDocument doc;
-    if (tinyxml2::XML_SUCCESS != doc.LoadFile((path_).c_str())) {
-        LOG_ERROR("load xml file error");
+    std::string path{path_};
+    auto yaml = YamlConfig(std::move(path));
+    if (yaml.parse() != 0) {
+        LOG_ERROR("load yaml file error.");
+        return false;
+    }
+    auto node = yaml.getNode();
+    if (!node->IsNull()) {
+        LOG_ERROR("yaml data is null.");
         return false;
     }
 
-    tinyxml2::XMLElement* rootEle = doc.RootElement();
-    if (!rootEle) {
-        LOG_ERROR("get root element error");
-        return false;
-    }
+    info_.system_id = (*node)["server"]["id"].as<uint32_t>();
+    info_.system_type = (*node)["server"]["type"].as<uint32_t>();
+    info_.system_name = (*node)["server"]["name"].as<std::string>();
 
-    tinyxml2::XMLElement* ele1 = rootEle->FirstChildElement("System");
-    if (!ele1) {
-        LOG_ERROR("get System element error");
-        return false;
-    }
-
-    info_.system_id = ele1->UnsignedAttribute("ID");
-    info_.system_type = ele1->UnsignedAttribute("Type");
-    info_.system_name = ele1->Attribute("Name");
-
-    tinyxml2::XMLElement* ele2 = rootEle->FirstChildElement("Listen");
-    if (!ele2) {
-        LOG_ERROR("get Listen element error");
-        return false;
-    }
-    for (tinyxml2::XMLElement* e = ele2->FirstChildElement("List");
-         e != nullptr;
-         e = e->NextSiblingElement("List")) {
-        auto id = e->UnsignedAttribute("ID");
-        auto ip = e->Attribute("IP");
-        auto port = e->Attribute("PORT");
+    for (auto item:(*node)["server"]["listen"]) {
+        auto id = item["id"].as<uint32_t>();
+        auto ip = item["ip"].as<std::string>();
+        auto port =item["port"].as<std::string>();
         info_.listen_list[id] = HostInfo(ip, port);
     }
 
-
-    tinyxml2::XMLElement* ele3 = rootEle->FirstChildElement("Connect");
-    if (!ele3) {
-        LOG_ERROR("get Connect element error");
-        return false;
-    }
-    for (tinyxml2::XMLElement* e = ele3->FirstChildElement("List");
-         e != nullptr;
-         e = e->NextSiblingElement("List")) {
-        auto id = e->UnsignedAttribute("ID");
-        auto ip = e->Attribute("IP");
-        auto port = e->Attribute("PORT");
+    for (auto item:(*node)["server"]["connect"]) {
+        auto id = item["id"].as<uint32_t>();
+        auto ip = item["ip"].as<std::string>();
+        auto port =item["port"].as<std::string>();
         info_.connect_list[id] = HostInfo(ip, port);
     }
 
-    tinyxml2::XMLElement* ele4 = rootEle->FirstChildElement("Mysql");
-    if (!ele4) {
-        LOG_ERROR("get Mysql element error");
-        return false;
-    }
-    auto host = ele4->Attribute("Host");
-    auto port = ele4->Attribute("Port");
-    auto user_name = ele4->Attribute("UserName");
-    auto password = ele4->Attribute("Password");
-    auto db_name = ele4->Attribute("DBName");
+    for (auto item:(*node)["server"]["db"]["mysql"]) {
+    auto host = item["host"].as<std::string>();
+    auto port = item["port"].as<std::string>();
+    auto user_name =item["user"].as<std::string>();
+    auto password = item["passwd"].as<std::string>();
+    auto db_name = item["schema"].as<std::string>();
     info_.mysql_info = MysqlInfo(host, port, user_name, password, db_name);
+    }
 
     return true;
 }
