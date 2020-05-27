@@ -86,6 +86,10 @@ benchmark 指定用例 `./benchmark --benchmark_filter=<regex>`
 
 参考：https://github.com/google/benchmark
 
+### yaml 格式转 json
+
+https://onlineyamltools.com/convert-yaml-to-json
+
 ### TODO
 
 - [ ] google c++ 基础库接入 https://abseil.io/docs/cpp/quickstart-cmake.html；
