@@ -9,6 +9,7 @@ namespace rdm {
 
 DBServiceManager::DBServiceManager() {
     if (mDBConnectionPool == nullptr) {
+        // todo 默认登录信息，等没用了删除
         db_info_.name = "root";
         db_info_.passwd = "1234";
         db_info_.ip = "127.0.0.1";
