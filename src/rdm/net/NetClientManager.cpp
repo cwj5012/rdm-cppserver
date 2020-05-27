@@ -5,10 +5,16 @@
 #include "../thread/ThreadUtil.h"
 #include "../message/proto/server_info.pb.h"
 #include "../message/Codec.h"
+#include "../service/Service.h"
 
 namespace rdm {
 
 NetClientManager::NetClientManager() {
+
+}
+
+NetClientManager::NetClientManager(const std::shared_ptr<Service>& service)
+    : service_(service) {
 
 }
 

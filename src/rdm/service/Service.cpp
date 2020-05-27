@@ -7,6 +7,7 @@
 #include "../net/NetConnectionManager.h"
 #include "../net/NetClientManager.h"
 #include "../net/NetManager.h"
+#include "../config/ServerNetConfig.h"
 #include "../thread/ThreadPool.h"
 #include "../timer/TimerManager.h"
 #include "../log/Logger.h"
@@ -16,7 +17,11 @@
 namespace rdm {
 
 Service::Service() {
-
+    server_net_config_ = std::make_shared<ServerNetConfig>();
+    if (server_net_config_ == nullptr)
+    {
+        LOG_ERROR("server net config create error.");
+    }
 }
 
 Service::~Service() {
@@ -31,7 +36,11 @@ bool Service::init() {
     LOG_INFO("{} {}", "version:", kRdmVersion);
     LOG_INFO("================================================");
 
-    net_server_ = std::make_shared<NetServer>();
+    if (!server_net_config_->init()) {
+        LOG_ERROR("server net config init error.");
+    }
+
+    net_server_ = std::make_shared<NetServer>(shared_from_this());
     if (!net_server_) {
         LOG_ERROR("net server create error.");
     }
@@ -59,13 +68,13 @@ bool Service::init() {
         LOG_ERROR("timer manager create error.");
     }
 
-    client_manager_ = std::make_shared<NetClientManager>();
+    client_manager_ = std::make_shared<NetClientManager>(shared_from_this());
     if (!client_manager_) {
         LOG_ERROR("client manager create error.");
     }
 
-    connection_manager_ = std::make_shared<NetConnectionManager>();
-    if (!connection_manager_) {
+    net_connection_manager_ = std::make_shared<NetConnectionManager>();
+    if (!net_connection_manager_) {
         LOG_ERROR("net connection manager create error.");
     }
 
@@ -91,7 +100,7 @@ void Service::run() {
 void Service::exit() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
-    connection_manager_->release();
+    net_connection_manager_ ->release();
 
     net_server_->release();
     command_->release();
@@ -127,7 +136,15 @@ const std::shared_ptr<ThreadPool>& Service::getThreadPool() const {
 }
 
 const std::shared_ptr<NetConnectionManager>& Service::getConnectionManager() const {
-    return connection_manager_;
+    return net_connection_manager_;
+}
+
+const std::shared_ptr<ServerNetConfig>& Service::getServerNetConfig() const {
+    return server_net_config_;
+}
+
+void Service::setConfigPath(std::string&& path) {
+    server_net_config_->setPath(path);
 }
 
 }

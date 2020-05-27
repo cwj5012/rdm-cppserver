@@ -8,9 +8,12 @@
 
 namespace rdm {
 
+class Service;
+
 class NetClientManager {
 public:
     NetClientManager();
+    NetClientManager(const std::shared_ptr<Service>& service);
     ~NetClientManager();
 
     bool init();
@@ -19,6 +22,8 @@ public:
 
 private:
     std::map<uint32_t, NetClient*> net_clients_;
+
+    std::weak_ptr<Service> service_;
 };
 
 }

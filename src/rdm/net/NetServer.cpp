@@ -1,10 +1,16 @@
 ﻿#include "../config/ServerNetConfig.h"
 #include "NetServer.h"
 #include "../log/Logger.h"
+#include "../service/Service.h"
 
 namespace rdm {
 
 NetServer::NetServer() {
+
+}
+
+NetServer::NetServer(const std::shared_ptr<Service>& service)
+        : service_(service) {
 
 }
 
@@ -16,7 +22,7 @@ NetServer::~NetServer() {
 void NetServer::init() {
     NetManager& nm = NetManager::inst();
 
-    auto info = ServerNetConfig::inst()->getServerNetInfo();
+    auto info = service_.lock()->getServerNetConfig()->getServerNetInfo();
     LOG_INFO("=====================");
     for (auto& item : info->listen_list) {
         auto id = item.first;
@@ -56,7 +62,6 @@ std::shared_ptr<NetAcceptor> NetServer::getNetAccept(uint32_t type) {
     }
     return nullptr;
 }
-
 
 
 }

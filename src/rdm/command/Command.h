@@ -32,6 +32,7 @@ struct CommandInfo {
 
 class Command {
 public:
+    explicit Command();
     explicit Command(const std::shared_ptr<Service>& service);
 
     ~Command();

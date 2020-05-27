@@ -11,6 +11,7 @@ class NetClientManager;
 class NetConnectionManager;
 class TimerManager;
 class ThreadPool;
+class ServerNetConfig;
 
 class Service : public std::enable_shared_from_this<Service> {
 public:
@@ -25,6 +26,8 @@ public:
     void run();
     void exit();
 
+    void setConfigPath(std::string&& path);
+
     [[nodiscard]] const std::shared_ptr<NetServer>& getNetServer() const;
     [[nodiscard]] const std::shared_ptr<Command>& getCommand() const;
     [[nodiscard]] const std::shared_ptr<DBServiceManager>& getDbManager() const;
@@ -32,6 +35,7 @@ public:
     [[nodiscard]] const std::shared_ptr<TimerManager>& getTimerManager() const;
     [[nodiscard]] const std::shared_ptr<ThreadPool>& getThreadPool() const;
     [[nodiscard]] const std::shared_ptr<NetConnectionManager>& getConnectionManager() const;
+    [[nodiscard]] const std::shared_ptr<ServerNetConfig>& getServerNetConfig() const;
 
 private:
     std::shared_ptr<NetServer> net_server_;
@@ -40,7 +44,8 @@ private:
     std::shared_ptr<NetClientManager> client_manager_;
     std::shared_ptr<TimerManager> timer_manager_;
     std::shared_ptr<ThreadPool> thread_pool_;
-    std::shared_ptr<NetConnectionManager> connection_manager_;
+    std::shared_ptr<NetConnectionManager> net_connection_manager_;
+    std::shared_ptr<ServerNetConfig> server_net_config_;
 };
 
 }

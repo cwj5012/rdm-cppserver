@@ -6,6 +6,10 @@
 
 namespace rdm {
 
+Command::Command() {
+
+}
+
 Command::Command(const std::shared_ptr<Service>& service)
         : service_(service) {
 

@@ -2,12 +2,8 @@
 #include <rdm/config/YamlConfig.h>
 
 int main(int argc, char* argv[]) {
-    std::string path{"/home/me/test/test.yaml"};
-    auto yaml = rdm::YamlConfig(std::move(path));
-    yaml.parse();
-
-
     auto service = std::make_shared<ChatServer>();
+    service->setConfigPath("/home/me/clion-dev/learn-cpp/config/chat_room.yaml");
     service->init();
     service->run();
 

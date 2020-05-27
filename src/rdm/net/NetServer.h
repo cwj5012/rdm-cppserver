@@ -9,9 +9,12 @@
 
 namespace rdm {
 
+class Service;
+
 class NetServer {
 public:
     explicit NetServer();
+    explicit NetServer(const std::shared_ptr<Service>& service);
 
     ~NetServer();
 
@@ -33,6 +36,8 @@ public:
 
 private:
     std::map<uint32_t, std::shared_ptr<NetAcceptor>> mNetAcceptPtr;
+
+    std::weak_ptr<Service> service_;
 
 };
 
