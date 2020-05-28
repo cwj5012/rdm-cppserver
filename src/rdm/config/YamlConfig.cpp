@@ -3,7 +3,7 @@
 
 rdm::YamlConfig::YamlConfig(std::string&& path)
         : path_(path) {
-
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 }
 
 rdm::YamlConfig::~YamlConfig() {

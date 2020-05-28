@@ -55,7 +55,7 @@ DBConnectionPool* DBServiceManager::getDBConnectionPool() {
 }
 
 void DBServiceManager::init() {
-    LOG_INFO("DBServiceManager::init");
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
     mDBConnectionPool->initPool(4);
 
