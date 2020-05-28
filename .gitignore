@@ -1,4 +1,8 @@
 /cmake-*
+out_cpp/
+out_csharp/
+
+##################
 
 CMakeLists.txt.user
 CMakeCache.txt
