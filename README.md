@@ -90,6 +90,13 @@ benchmark 指定用例 `./benchmark --benchmark_filter=<regex>`
 
 https://onlineyamltools.com/convert-yaml-to-json
 
+### linux 检查端口占用
+
+```shell
+netstat -tunlp | grep [port]
+kill -9 [pid]
+```
+
 ### TODO
 
 - [ ] google c++ 基础库接入 https://abseil.io/docs/cpp/quickstart-cmake.html；
