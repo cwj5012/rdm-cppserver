@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cce.pb;
+package rdm.pb;
 
 // 跟其他消息绑定，用来告诉路由服，消息转发目的地
 message ServerInfo {
