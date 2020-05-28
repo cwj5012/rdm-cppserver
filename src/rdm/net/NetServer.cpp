@@ -31,14 +31,13 @@ void NetServer::init() {
 
         try {
             mNetAcceptPtr[id] = std::make_shared<NetAcceptor>(nm.getService(), ip, std::stoi(port));
-        }catch (std::exception& ex) {
-            LOG_ERROR("{}", ex.what());
+        } catch (std::exception& ex) {
+            LOG_ERROR("{}：{}, {}", ip, port, ex.what());
             abort();
         }
 
-        LOG_INFO("listen, id:{} host: {}:{}", id, ip, port);
+        LOG_INFO("listen, id:{}, host: {}:{}", id, ip, port);
     }
-
 }
 
 void NetServer::run() {
