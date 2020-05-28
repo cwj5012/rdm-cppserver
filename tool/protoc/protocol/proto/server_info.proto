@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package cce.pb;
+
+// 跟其他消息绑定，用来告诉路由服，消息转发目的地
+message ServerInfo {
+	uint32 id = 1;      // 服务器 ID
+    uint32 type = 2;    // 服务器类型
+}
+
+// 注册服务器之间的连接信息
+message ServerRegister {
+    uint32 id = 1;      // 服务器 ID
+    uint32 type = 2;    // 服务器类型
+}
