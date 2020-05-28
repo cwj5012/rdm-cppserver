@@ -28,7 +28,6 @@ public:
     void start();
 
     void setPlayerID(uint64_t id);
-
     uint64_t getPlayerID();
 
     void doWrite(const std::string& str);
@@ -37,12 +36,9 @@ private:
     explicit NetConnection(boost::asio::io_service& io_service);
 
     void doRead();
-
     void doWrite(std::size_t length);
 
-
     void handleWrite(const boost::system::error_code& ec, size_t bytes_transferred);
-
     void handleRead(const boost::system::error_code& ec, size_t bytes_transferred);
 
     tcp::socket socket_;
@@ -53,7 +49,7 @@ private:
     enum {
         max_length = 1024
     };
-    char data_[max_length];
+    char data_[max_length]{0};
 
     uint64_t mPlayerID;
 

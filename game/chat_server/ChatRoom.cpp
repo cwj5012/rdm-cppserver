@@ -3,6 +3,8 @@
 #include <rdm/log/Logger.h>
 #include <rdm/net/NetServer.h>
 
+#include "MessageType.h"
+
 ChatRoom::ChatRoom(rdm::Service* service, uint64_t id)
         : service_(service), id_(id) {
 
@@ -15,14 +17,14 @@ ChatRoom::~ChatRoom() {
 }
 
 void ChatRoom::doOnMessage(const rdm::NetMsg* net_msg) {
-
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 }
 
 bool ChatRoom::init() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
-    service_->getNetServer()->registMessage(101, this);
-    service_->getNetServer()->registMessage(102, this);
+    service_->getNetServer()->registMessage(static_cast<uint32_t>(MessageType::kCommand), this);
+    service_->getNetServer()->registMessage(static_cast<uint32_t>(MessageType::kNone), this);
 
     return loadData();
 }

@@ -74,7 +74,10 @@ void NetConnection::handleWrite(const boost::system::error_code& ec,
 void NetConnection::handleRead(const boost::system::error_code& ec,
                                std::size_t bytes_transferred) {
     if (ec /* && ec != boost::asio::error::eof */) {
-        LOG_INFO("client disconnectd, {}", ec.message());
+        LOG_INFO("client disconnectd, {}:{} , {}",
+                 socket_.remote_endpoint().address().to_string(),
+                 socket_.remote_endpoint().port(),
+                 ec.message());
         socket_.close();
         return;
     }
@@ -87,10 +90,10 @@ void NetConnection::handleRead(const boost::system::error_code& ec,
         if (mReadMessageBuffer.length() >= 4) {
             std::string len_str = mReadMessageBuffer.substr(0, 4);
             try {
-                int32_t len = int32_t((uint8_t) (len_str[0]) << 24 |
-                                      (uint8_t) (len_str[1]) << 16 |
-                                      (uint8_t) (len_str[2]) << 8 |
-                                      (uint8_t) (len_str[3]));
+                auto len = uint32_t((uint8_t) (len_str[0]) << 24u |
+                                    (uint8_t) (len_str[1]) << 16u |
+                                    (uint8_t) (len_str[2]) << 8u |
+                                    (uint8_t) (len_str[3]));
 
                 if (mReadMessageBuffer.length() >= len + 4) {
                     std::string read_msg = mReadMessageBuffer.substr(0, len + 4);

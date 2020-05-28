@@ -63,7 +63,9 @@ void NetAcceptor::startAccept() {
 void NetAcceptor::handleAccept(NetConnection::ptrConnection new_connection,
                                const boost::system::error_code& ec) {
     if (!ec) {
-        LOG_INFO("A client connected");
+        LOG_INFO("a client connected, {}:{}.",
+                 new_connection->getSocket().remote_endpoint().address().to_string(),
+                 new_connection->getSocket().remote_endpoint().port());
         mSocketConnection[&new_connection->getSocket()] = new_connection;
         new_connection->start();
     }
