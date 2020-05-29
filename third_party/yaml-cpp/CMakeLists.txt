@@ -11,6 +11,6 @@ file(
 )
 
 add_library(
-        yaml-cpp STATIC
+         yaml-cpp SHARED
         ${CPP_FILES}
 )

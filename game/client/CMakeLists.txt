@@ -1,13 +1,14 @@
+
 file(
         GLOB CPP_FILES
-        "*.h"
-        "*.cpp"
-        "*/*.h"
-        "*/*.cpp"
-        "*/*/*.h"
-        "*/*/*.cpp"
-        "*/*/*/*.h"
-        "*/*/*/*.cpp"
+        "./*.h"
+        "./*.cpp"
+        "./*/*.h"
+        "./*/*.cpp"
+        "./*/*/*.h"
+        "./*/*/*.cpp"
+        "./*/*/*/*.h"
+        "./*/*/*/*.cpp"
 )
 
 add_executable(
@@ -22,8 +23,10 @@ add_dependencies(
 
 target_link_libraries(
         client
-        pthread
-        dl
-        boost_filesystem
-        rdm
+        ${RDM_SHARED}
+)
+
+link_directories(
+        ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+        ${Boost_LIBRARY_DIR}
 )

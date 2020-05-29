@@ -29,10 +29,13 @@ add_dependencies(
 
 target_link_libraries(
         chat_server
+        inih
+        jsoncpp
+        tinyxml2
         pthread
         dl
-        ${Boost_LIBRARIES}
-        ${Protobuf_LIBRARIES}
+        boost_filesystem
+        protobuf
         rdm
         mysqlcppconn # g++ mysqlcppconn 写在 rdm 后面才能编译成功
         yaml-cpp
@@ -41,4 +44,9 @@ target_link_libraries(
 include_directories(
         ${CMAKE_INCLUDE_PATH}
         ${CMAKE_SOURCE_DIR}/src
+)
+
+link_directories(
+        ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+        ${Boost_LIBRARY_DIR}
 )

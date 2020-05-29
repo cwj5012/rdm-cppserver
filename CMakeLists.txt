@@ -3,6 +3,9 @@ project(learn_cpp)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# 如果动态链接库失败，尝试下面设置
+# set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_GLIBCXX_DEBUG")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
@@ -60,6 +63,19 @@ endif()
 # 编译项目
 ##########################################
 
+set(
+        RDM_SHARED
+        rdm
+        mysqlcppconn
+        boost_filesystem
+        protobuf
+        inih
+        jsoncpp
+        tinyxml2
+        yaml-cpp
+)
+
+
 add_subdirectory(game/chat_server)
 add_subdirectory(game/client)
 add_subdirectory(game/login_server)
@@ -67,7 +83,6 @@ add_subdirectory(game/login_server)
 add_subdirectory(src/benchmark)
 add_subdirectory(src/boost)
 add_subdirectory(src/coding_interview)
-add_subdirectory(src/game_server)
 add_subdirectory(src/hello_world)
 add_subdirectory(src/leetcode)
 add_subdirectory(src/rdm)

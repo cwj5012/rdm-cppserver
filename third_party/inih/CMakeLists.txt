@@ -1,5 +1,5 @@
 add_library(
-        inih STATIC
+         inih SHARED
         ini.h
         ini.cpp
         INIReader.h

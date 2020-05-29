@@ -10,6 +10,8 @@ file(
         "*/*/*.cpp"
         "*/*/*/*.h"
         "*/*/*/*.cpp"
+        "protocol/*.pb.h"
+        "protocol/*.pb.cc"
 )
 
 # 获取目录下所有测试文件 *Test.cpp 文件
@@ -42,7 +44,7 @@ list(REMOVE_ITEM CPP_FILES ${BM_CPP_FILES})
 ##########################################
 
 add_library(
-        rdm STATIC
+        rdm SHARED
         ${CPP_FILES}
 )
 
@@ -54,8 +56,9 @@ add_dependencies(
 
 target_link_libraries(
         rdm
-        ${Boost_LIBRARIES}
 )
+
+link_directories(${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 set_target_properties(
         rdm
@@ -78,13 +81,7 @@ add_dependencies(
 
 target_link_libraries(
         rdm_test
-        ${Boost_LIBRARIES}
-        mysqlcppconn
-        rdm
-        yaml-cpp
-        inih
-        jsoncpp
-        tinyxml2
+        ${RDM_SHARED}
         pthread
         dl
 )
@@ -105,10 +102,10 @@ add_dependencies(
 
 target_link_libraries(
         rdm_benchmark PRIVATE
+        ${RDM_SHARED}
         pthread
         dl
         benchmark::benchmark
-        ${Boost_LIBRARIES}
 )
 
 add_subdirectory(submodule)

@@ -23,6 +23,8 @@ sudo apt install nlohmann-json3-dev
 
 ### Boost 1.73.0 安装
 
+动态链接，依赖 boost 的项目链接 .so 文件
+
 ```
 ./bootstrap.sh
 
@@ -38,11 +40,13 @@ sudo apt install nlohmann-json3-dev
   address-model=64 \
   architecture=x86 \
   threading=multi \
-  link=static \
+  link=shared \
   runtime-link=shared 
  
 sudo cp -rf ./boost /usr/local/include
 sudo cp ./stage/lib/*.a /usr/local/lib
+sudo cp ./stage/lib/*.so /usr/local/lib
+sudo ldconfig
 ```
 
 ### Boost 1.73.0 cmake 配置

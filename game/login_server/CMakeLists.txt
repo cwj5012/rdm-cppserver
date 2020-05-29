@@ -22,9 +22,5 @@ add_dependencies(
 
 target_link_libraries(
         login_server
-        pthread
-        dl
-        boost_filesystem
-        mysqlcppconn
-        rdm
+         ${RDM_SHARED}
 )
