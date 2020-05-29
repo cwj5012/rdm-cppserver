@@ -12,9 +12,12 @@
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-debug-clang" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-remote-host" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-ubuntuacom" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-release" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-relwithdebinfo-ubuntuacom" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-relwithdebinfo-ubuntuacom" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-debug" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-released" />
           </excludedPaths>
         </serverdata>
       </paths>
