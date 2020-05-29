@@ -23,7 +23,7 @@ sudo apt install nlohmann-json3-dev
 
 ### Boost 1.73.0 安装
 
-动态链接，依赖 boost 的项目链接 .so 文件
+动态链接，依赖 boost 的项目链接 .so 文件，注意可执行文件发布以后，要把依赖的动态库拷贝到系统目录，不然程序找不到启动报错。
 
 ```
 ./bootstrap.sh
