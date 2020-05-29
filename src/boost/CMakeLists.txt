@@ -1,9 +1,12 @@
 add_executable(
         boost
         main.cpp
+        echo_client.h
+        echo_server.h
 )
 
 target_link_libraries(
         boost
-        boost_filesystem
+        ${Boost_LIBRARIES}
+        pthread
 )
