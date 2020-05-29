@@ -54,6 +54,8 @@ tcp::socket& NetConnection::getSocket() {
 }
 
 void NetConnection::start() {
+    remote_addr = socket_.remote_endpoint().address().to_string();
+    remote_port = socket_.remote_endpoint().port();
     doRead();
 }
 
@@ -67,7 +69,11 @@ uint64_t NetConnection::getPlayerID() {
 
 void NetConnection::handleWrite(const boost::system::error_code& ec,
                                 std::size_t bytes_transferred) {
-    // LOG_INFO("NetConnection: handle write");
+    if (ec) {
+        LOG_INFO("write error, {}", ec.message());
+    } else {
+        // LOG_DEBUG("send size: {}", bytes_transferred);
+    }
     // doRead();
 }
 
@@ -75,45 +81,56 @@ void NetConnection::handleRead(const boost::system::error_code& ec,
                                std::size_t bytes_transferred) {
     if (ec /* && ec != boost::asio::error::eof */) {
         LOG_INFO("client disconnectd, {}:{} , {}",
-                 socket_.remote_endpoint().address().to_string(),
-                 socket_.remote_endpoint().port(),
+                 remote_addr,
+                 remote_port,
                  ec.message());
         socket_.close();
         return;
     }
 
     const std::string read_data(data_, bytes_transferred);
+    // LOG_DEBUG("recv size: {}, {}", bytes_transferred, DebugPrint::StringToDecSet(read_data));
 
-    mReadMessageBuffer += read_data;
-    while (true) {
-        // 粘包处理
-        if (mReadMessageBuffer.length() >= 4) {
-            std::string len_str = mReadMessageBuffer.substr(0, 4);
-            try {
-                auto len = uint32_t((uint8_t) (len_str[0]) << 24u |
-                                    (uint8_t) (len_str[1]) << 16u |
-                                    (uint8_t) (len_str[2]) << 8u |
-                                    (uint8_t) (len_str[3]));
 
-                if (mReadMessageBuffer.length() >= len + 4) {
-                    std::string read_msg = mReadMessageBuffer.substr(0, len + 4);
-                    mReadMessageBuffer = mReadMessageBuffer.substr(len + 4);
+        doWrite(std::string(data_, bytes_transferred));
+    // LOG_DEBUG("send xxxx: {}, ", DebugPrint::StringToDecSet(std::string(data_, bytes_transferred)));
+//    doRead();
+//    return;
 
-                    NetMsg net_msg;
-                    net_msg.bind(&read_msg, &socket_);
-                    NetManager::inst().getMessageSubject()->resolveMessage(&net_msg);
-                } else {
-                    // 收到的数据长度不足，等待下一个包
-                    break;
-                }
-            } catch (std::exception& e) {
-                LOG_ERROR("get message length failed, {}", e.what());
-                return;
-            }
-        } else {
-            break;
-        }
-    }
+//    mReadMessageBuffer += read_data;
+//    while (true) {
+//        // 粘包处理
+//        if (mReadMessageBuffer.length() >= 4) {
+//            std::string len_str = mReadMessageBuffer.substr(0, 4);
+//            try {
+//                auto len = uint32_t((uint8_t) (len_str[3]) << 24u |
+//                                    (uint8_t) (len_str[2]) << 16u |
+//                                    (uint8_t) (len_str[1]) << 8u |
+//                                    (uint8_t) (len_str[0]));
+//
+//                // LOG_DEBUG("recv header size: {}", len);
+//
+//                if (mReadMessageBuffer.length() >= len + 4) {
+//                    std::string read_msg = mReadMessageBuffer.substr(0, len + 4);
+//                    mReadMessageBuffer = mReadMessageBuffer.substr(len + 4);
+//
+//                    // LOG_DEBUG("recv msg: {}", read_msg);
+//
+//                    // NetMsg net_msg;
+//                    // net_msg.bind(&read_msg, &socket_);
+//                    // NetManager::inst().getMessageSubject()->resolveMessage(&net_msg);
+//                } else {
+//                    // 收到的数据长度不足，等待下一个包
+//                    break;
+//                }
+//            } catch (std::exception& e) {
+//                LOG_ERROR("get message length failed, {}", e.what());
+//                return;
+//            }
+//        } else {
+//            break;
+//        }
+//    }
 
 //        NetMsg net_msg;
 //        net_msg.bind(&read_data, &socket_);

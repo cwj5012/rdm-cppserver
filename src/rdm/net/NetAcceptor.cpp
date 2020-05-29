@@ -68,6 +68,9 @@ void NetAcceptor::handleAccept(NetConnection::ptrConnection new_connection,
                  new_connection->getSocket().remote_endpoint().port());
         mSocketConnection[&new_connection->getSocket()] = new_connection;
         new_connection->start();
+    } else {
+        LOG_ERROR("{}", ec.message());
+        return;
     }
 
     startAccept();
