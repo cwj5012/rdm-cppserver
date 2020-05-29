@@ -70,6 +70,19 @@ if(NOT Boost_VERSION_STRING VERSION_LESS 1.74.0)
 endif()
 ```
 
+### mongo-cxx-driver
+
+```shell
+tar xzvf mongo-c-driver-1.16.2.tar.gz mongo-c-driver-1.16.2
+cd mongo-c-driver-1.16.2
+cmake . -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF
+sudo make install
+
+tar xzvf mongo-cxx-driver-r3.5.0.tar.gz 
+cd mongo-cxx-driver-r3.5.0/build
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local
+```
+
 ### 第三方开源库地址
 
 ```
