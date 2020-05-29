@@ -4,11 +4,11 @@
 int main(int argc, char* argv[]) {
     if (argc >= 2) {
         if (std::string(argv[1]) == "-c") {
-            if (argc != 4) {
-                std::cerr << "Usage: -c <host> <port>\n";
+            if (argc != 5) {
+                std::cerr << "Usage: -c <host> <port> <count>\n";
                 return 1;
             } else {
-                echo_client(std::string(argv[2]), std::string(argv[3]));
+                echo_client(std::string(argv[2]), std::string(argv[3]),std::atoi(argv[4]));
             }
         } else if (std::string(argv[1]) == "-s") {
             if (argc != 3) {

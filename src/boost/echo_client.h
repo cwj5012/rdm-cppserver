@@ -11,7 +11,7 @@ enum {
     max_length = 1024
 };
 
-void echo_client(std::string host, std::string port) {
+void echo_client(std::string host, std::string port, int count) {
     try {
         boost::asio::io_context io_context;
 
@@ -22,7 +22,7 @@ void echo_client(std::string host, std::string port) {
         char request[] = "1234567890";
         size_t request_length = std::strlen(request);
 
-        for (int i = 0; i < 1000 * 100; ++i) {
+        for (int i = 0; i < count; ++i) {
             boost::asio::write(s, boost::asio::buffer(request, request_length));
 
             char reply[max_length];
