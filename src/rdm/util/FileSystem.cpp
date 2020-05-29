@@ -17,6 +17,7 @@ std::string FileSystem::getProgramPath() {
     return boost::dll::program_location().string();
 }
 
+
 std::string FileSystem::getProgramDir() {
     return boost::dll::program_location().parent_path().string();
 }

@@ -8,16 +8,16 @@
             <mapping deploy="/home/me/clion-dev/learn-cpp" local="$PROJECT_DIR$" />
           </mappings>
           <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-released" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-ubuntuacom" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-debug-clang" />
-            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-remote-host" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-ubuntuacom" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-remote-host" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-release" />
-            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-relwithdebinfo-ubuntuacom" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-relwithdebinfo-ubuntuacom" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-debug" />
-            <excludedPath local="true" path="$PROJECT_DIR$/cmake-released" />
           </excludedPaths>
         </serverdata>
       </paths>

@@ -43,21 +43,21 @@ message(STATUS "cmake source dir: " ${CMAKE_SOURCE_DIR})
 # 输出路径
 ##########################################
 
-if(NOT DEFINED CLION)
+if (NOT DEFINED CLION)
     set(CLION 1)
-endif()
+endif ()
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)		# exec
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)  # exec
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)     # shared
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)		# static
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)  # static
 
-if(CLION)
+if (CLION)
     file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
     file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})     # exec
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})     # shared
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})		# static
-endif()
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})  # static
+endif ()
 
 ##########################################
 # 编译项目
@@ -66,6 +66,8 @@ endif()
 set(
         RDM_SHARED
         rdm
+        mongocxx
+        bsoncxx
         mysqlcppconn
         boost_filesystem
         protobuf

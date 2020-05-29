@@ -81,6 +81,12 @@ sudo make install
 tar xzvf mongo-cxx-driver-r3.5.0.tar.gz 
 cd mongo-cxx-driver-r3.5.0/build
 cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local
+
+sudo cp -r /usr/local/include/mongocxx/v_noabi/mongocxx/ /usr/local/include/
+sudo cp -r /usr/local/include/bsoncxx/v_noabi/bsoncxx/ /usr/local/include/
+
+sudo cp -r /opt/mongo-cxx-driver/include//mongocxx/v_noabi/mongocxx/ /usr/local/include/
+sudo cp -r /opt/mongo-cxx-driver/include//bsoncxx/v_noabi/bsoncxx/ /usr/local/include/
 ```
 
 ### 第三方开源库地址
