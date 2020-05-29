@@ -58,8 +58,6 @@ target_link_libraries(
         rdm
 )
 
-link_directories(${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-
 set_target_properties(
         rdm
         PROPERTIES LINKER_LANGUAGE CXX

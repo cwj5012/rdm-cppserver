@@ -18,16 +18,6 @@
           </excludedPaths>
         </serverdata>
       </paths>
-      <paths name="ubuntu.a.com-gcc (5cc658b5-a466-4951-ad9e-85bdaf3d2b20)">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/tmp/tmp.ZpIaQjD7Lf" local="$PROJECT_DIR$" />
-          </mappings>
-          <excludedPaths>
-            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-ubuntuacom-gcc" />
-          </excludedPaths>
-        </serverdata>
-      </paths>
     </serverData>
   </component>
 </project>
