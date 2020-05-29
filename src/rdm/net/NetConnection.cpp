@@ -90,15 +90,18 @@ void NetConnection::handleRead(const boost::system::error_code& ec,
 
     const std::string read_data(data_, bytes_transferred);
     if (mode_ & kDebug) {
-        LOG_DEBUG("recv data {}: {}", bytes_transferred,
-                  DebugPrint::StringToDecSet(read_data));
+        LOG_DEBUG("recv data {}: {}",
+                  bytes_transferred,
+                  bytes_transferred < 20 ? DebugPrint::StringToDecSet(read_data) : "data is long...");
     }
 
     if (mode_ & kEchoMode) {
         doWrite(std::string(data_, bytes_transferred));
         if (mode_ & kDebug) {
-            LOG_DEBUG("send data {}: {}, ", bytes_transferred,
-                      DebugPrint::StringToDecSet(std::string(data_, bytes_transferred)));
+            LOG_DEBUG("send data {}: {}, ",
+                      bytes_transferred,
+                      bytes_transferred < 20 ? DebugPrint::StringToDecSet(std::string(data_, bytes_transferred))
+                                             : "data is long...");
         }
         doRead();
         return;
@@ -108,17 +111,18 @@ void NetConnection::handleRead(const boost::system::error_code& ec,
     while (true) {
         // 粘包处理
         if (mReadMessageBuffer.length() >= 4) {
-            std::string len_str = mReadMessageBuffer.substr(0, 4);
             try {
-                auto len = uint32_t((uint8_t) (len_str[3]) << 24u |
-                                    (uint8_t) (len_str[2]) << 16u |
-                                    (uint8_t) (len_str[1]) << 8u |
-                                    (uint8_t) (len_str[0]));
+                auto len = uint32_t((uint8_t) (mReadMessageBuffer[3]) << 24u |
+                                    (uint8_t) (mReadMessageBuffer[2]) << 16u |
+                                    (uint8_t) (mReadMessageBuffer[1]) << 8u |
+                                    (uint8_t) (mReadMessageBuffer[0]));
                 if (mode_ & kDebug) {
                     LOG_DEBUG("recv body size: {}", len);
                 }
                 if (mReadMessageBuffer.length() >= len + 4) {
+                    // 提取消息
                     std::string read_msg = mReadMessageBuffer.substr(0, len + 4);
+                    // 截断消息
                     mReadMessageBuffer = mReadMessageBuffer.substr(len + 4);
 
                     if (mode_ & kDebug) {
@@ -128,7 +132,7 @@ void NetConnection::handleRead(const boost::system::error_code& ec,
                     // net_msg.bind(&read_msg, &socket_);
                     // NetManager::inst().getMessageSubject()->resolveMessage(&net_msg);
                 } else {
-                    // 收到的数据长度不足，等待下一个包
+                    // 收到的数据长度不足，等待下个包
                     break;
                 }
             } catch (std::exception& e) {
