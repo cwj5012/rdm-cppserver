@@ -80,7 +80,7 @@ void NetConnection::handleWrite(const boost::system::error_code& ec,
 void NetConnection::handleRead(const boost::system::error_code& ec,
                                std::size_t bytes_transferred) {
     if (ec /* && ec != boost::asio::error::eof */) {
-        LOG_INFO("client disconnectd, {}:{} , {}",
+        LOG_INFO("client disconnectd, {}:{}, {}",
                  remote_addr,
                  remote_port,
                  ec.message());
@@ -89,63 +89,58 @@ void NetConnection::handleRead(const boost::system::error_code& ec,
     }
 
     const std::string read_data(data_, bytes_transferred);
-    // LOG_DEBUG("recv size: {}, {}", bytes_transferred, DebugPrint::StringToDecSet(read_data));
+    if (mode_ & kDebug) {
+        LOG_DEBUG("recv data {}: {}", bytes_transferred,
+                  DebugPrint::StringToDecSet(read_data));
+    }
 
-
+    if (mode_ & kEchoMode) {
         doWrite(std::string(data_, bytes_transferred));
-    // LOG_DEBUG("send xxxx: {}, ", DebugPrint::StringToDecSet(std::string(data_, bytes_transferred)));
-//    doRead();
-//    return;
+        if (mode_ & kDebug) {
+            LOG_DEBUG("send data {}: {}, ", bytes_transferred,
+                      DebugPrint::StringToDecSet(std::string(data_, bytes_transferred)));
+        }
+        doRead();
+        return;
+    }
 
-//    mReadMessageBuffer += read_data;
-//    while (true) {
-//        // 粘包处理
-//        if (mReadMessageBuffer.length() >= 4) {
-//            std::string len_str = mReadMessageBuffer.substr(0, 4);
-//            try {
-//                auto len = uint32_t((uint8_t) (len_str[3]) << 24u |
-//                                    (uint8_t) (len_str[2]) << 16u |
-//                                    (uint8_t) (len_str[1]) << 8u |
-//                                    (uint8_t) (len_str[0]));
-//
-//                // LOG_DEBUG("recv header size: {}", len);
-//
-//                if (mReadMessageBuffer.length() >= len + 4) {
-//                    std::string read_msg = mReadMessageBuffer.substr(0, len + 4);
-//                    mReadMessageBuffer = mReadMessageBuffer.substr(len + 4);
-//
-//                    // LOG_DEBUG("recv msg: {}", read_msg);
-//
-//                    // NetMsg net_msg;
-//                    // net_msg.bind(&read_msg, &socket_);
-//                    // NetManager::inst().getMessageSubject()->resolveMessage(&net_msg);
-//                } else {
-//                    // 收到的数据长度不足，等待下一个包
-//                    break;
-//                }
-//            } catch (std::exception& e) {
-//                LOG_ERROR("get message length failed, {}", e.what());
-//                return;
-//            }
-//        } else {
-//            break;
-//        }
-//    }
+    mReadMessageBuffer += read_data;
+    while (true) {
+        // 粘包处理
+        if (mReadMessageBuffer.length() >= 4) {
+            std::string len_str = mReadMessageBuffer.substr(0, 4);
+            try {
+                auto len = uint32_t((uint8_t) (len_str[3]) << 24u |
+                                    (uint8_t) (len_str[2]) << 16u |
+                                    (uint8_t) (len_str[1]) << 8u |
+                                    (uint8_t) (len_str[0]));
+                if (mode_ & kDebug) {
+                    LOG_DEBUG("recv body size: {}", len);
+                }
+                if (mReadMessageBuffer.length() >= len + 4) {
+                    std::string read_msg = mReadMessageBuffer.substr(0, len + 4);
+                    mReadMessageBuffer = mReadMessageBuffer.substr(len + 4);
 
-//        NetMsg net_msg;
-//        net_msg.bind(&read_data, &socket_);
-//        NetManager::inst().getMessageSubject()->resolveMessage(&net_msg);
-
-//        std::string messageRequest;
-//        {
-//            std::stringstream ss;
-//            ss << &message_;
-//            ss.flush();
-//            messageRequest = ss.str();
-//        }
+                    if (mode_ & kDebug) {
+                        LOG_DEBUG("recv body: {}", read_msg);
+                    }
+                    // NetMsg net_msg;
+                    // net_msg.bind(&read_msg, &socket_);
+                    // NetManager::inst().getMessageSubject()->resolveMessage(&net_msg);
+                } else {
+                    // 收到的数据长度不足，等待下一个包
+                    break;
+                }
+            } catch (std::exception& e) {
+                LOG_ERROR("get message length failed, {}", e.what());
+                return;
+            }
+        } else {
+            break;
+        }
+    }
 
     doRead();
-    //doWrite(bytes_transferred);
 }
 
 }

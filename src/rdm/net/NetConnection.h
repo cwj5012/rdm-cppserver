@@ -17,6 +17,13 @@ namespace rdm {
 class NetConnection
         : public std::enable_shared_from_this<NetConnection> {
 public:
+    // 工作模式
+    enum {
+        kDebug = 1 << 1u,         // 打印收发数据
+        kEchoMode = 1 << 2u,      // 收到消息，直接返回
+        kMessageMode = 1 << 3u,   // 消息分发
+    };
+
     ~NetConnection();
 
     typedef std::shared_ptr<NetConnection> ptrConnection;
@@ -57,6 +64,7 @@ private:
 
     std::string remote_addr;
     uint16_t remote_port{0};
+    uint8_t mode_{kDebug | kEchoMode};
 };
 
 }
