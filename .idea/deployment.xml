@@ -14,6 +14,7 @@
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-ubuntuacom" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-relwithdebinfo-ubuntuacom" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-relwithdebinfo-ubuntuacom" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-debug" />
           </excludedPaths>
         </serverdata>
       </paths>
