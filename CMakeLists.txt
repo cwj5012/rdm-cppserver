@@ -11,10 +11,14 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_GLIBCXX_DEBUG")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
         ${CMAKE_SOURCE_DIR}/cmake/)
 
-set(Boost_USE_STATIC_LIBS ON)
+# set(Boost_USE_STATIC_LIBS ON)
 find_package(benchmark 1.5.0 REQUIRED)
 find_package(Protobuf 3.6.1 REQUIRED)
 find_package(Boost 1.73.0 REQUIRED COMPONENTS system filesystem)
+find_package(jsoncpp REQUIRED)
+# find_package(tinyxml2 REQUIRED)
+# find_package(yaml-cpp REQUIRED)
+# find_package(mysqlcppconn REQUIRED)
 
 include_directories(
         ${CMAKE_INCLUDE_PATH}

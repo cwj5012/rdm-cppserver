@@ -14,6 +14,7 @@ sudo apt install libbenchmark-dev
 sudo apt install libmysqlcppconn-dev
 sudo apt install libspdlog-dev
 sudo apt install libprotobuf-dev
+sudo apt  install protobuf-compiler
 sudo apt install libjsoncpp-dev
 sudo apt install libtinyxml2-dev
 sudo apt install libinih-dev
