@@ -121,25 +121,10 @@ netstat -tunlp | grep [port]
 kill -9 [pid]
 ```
 
-### windows 环境
+### vmware 收缩磁盘
 
 ```shell script
-bootstrap.bat
-
-b2 stage ^
-  --with-random ^
-  --with-system ^
-  --with-filesystem ^
-  --with-thread ^
-  --with-date_time ^
-  --with-regex ^
-  --with-serialization ^
-  --toolset=msvc ^
-  address-model=64 ^
-  architecture=x86 ^
-  threading=multi ^
-  link=shared ^
-  runtime-link=shared 
+vmware-toolbox-cmd disk shrink /
 ```
 
 ### TODO
