@@ -121,10 +121,15 @@ netstat -tunlp | grep [port]
 kill -9 [pid]
 ```
 
-### vmware 收缩磁盘
+### vmware 使用
 
 ```shell script
+# 收缩磁盘
 vmware-toolbox-cmd disk shrink /
+
+# 克隆后获取新 ip
+netplan apply
+reboot
 ```
 
 ### TODO
