@@ -6,7 +6,7 @@ rdm (remote dream library)
 
 ## ubuntu 20.04
 
-```shell
+```shell script
 sudo apt update
 sudo apt install libbenchmark-dev
 # 手动安装 boost
@@ -72,7 +72,7 @@ endif()
 
 ### mongo-cxx-driver
 
-```shell
+```shell script
 tar xzvf mongo-c-driver-1.16.2.tar.gz mongo-c-driver-1.16.2
 cd mongo-c-driver-1.16.2
 cmake . -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF
@@ -115,9 +115,30 @@ https://onlineyamltools.com/convert-yaml-to-json
 
 ### linux 检查端口占用
 
-```shell
+```shell script
 netstat -tunlp | grep [port]
 kill -9 [pid]
+```
+
+### windows 环境
+
+```shell script
+bootstrap.bat
+
+b2 stage ^
+  --with-random ^
+  --with-system ^
+  --with-filesystem ^
+  --with-thread ^
+  --with-date_time ^
+  --with-regex ^
+  --with-serialization ^
+  --toolset=msvc ^
+  address-model=64 ^
+  architecture=x86 ^
+  threading=multi ^
+  link=shared ^
+  runtime-link=shared 
 ```
 
 ### TODO
