@@ -27,7 +27,13 @@ DBServiceManager::DBServiceManager(const std::shared_ptr<Service>& service)
         db_info_.name = info->mysql_info.user_name;
         db_info_.passwd = info->mysql_info.password;
         db_info_.ip = info->mysql_info.host;
-        db_info_.port = std::stoi(info->mysql_info.port);
+        try {
+            db_info_.port = std::stoi(info->mysql_info.port);
+        } catch (std::exception& ex) {
+            LOG_ERROR("{}", ex.what());
+            return;
+        }
+
 
         mDBConnectionPool = new DBConnectionPool(db_info_);
     }
@@ -54,9 +60,12 @@ DBConnectionPool* DBServiceManager::getDBConnectionPool() {
     return mDBConnectionPool;
 }
 
-void DBServiceManager::init() {
+bool DBServiceManager::init() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
+    if (mDBConnectionPool == nullptr) {
+        return false;
+    }
     mDBConnectionPool->initPool(4);
 
     LOG_INFO("mysql connection pool num: 4, create success, {}:{}.", db_info_.ip, db_info_.port);
@@ -68,6 +77,7 @@ void DBServiceManager::init() {
 //
 //            db_connections_.push_back(&db_service);
     }
+    return true;
 }
 
 }

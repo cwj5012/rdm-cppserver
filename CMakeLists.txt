@@ -90,7 +90,7 @@ add_subdirectory(game/chat_server)
 add_subdirectory(game/client)
 add_subdirectory(game/login_server)
 
-add_subdirectory(src/benchmark)
+add_subdirectory(src/benchmarkx)
 add_subdirectory(src/boost)
 add_subdirectory(src/coding_interview)
 add_subdirectory(src/hello_world)

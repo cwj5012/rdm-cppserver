@@ -25,7 +25,7 @@ public:
 
     DBConnectionPool* getDBConnectionPool();
 
-    void init();
+    bool init();
 
 private:
     int32_t thread_num_{1};
