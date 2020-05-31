@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package rdm.pb;
+
+// 客户端->服务端，服务端->服务端，命令
+message Command {
+	string args = 1;
+}
