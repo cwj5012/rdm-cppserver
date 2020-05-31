@@ -14,7 +14,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 # set(Boost_USE_STATIC_LIBS ON)
 find_package(benchmark 1.5.0 REQUIRED)
 find_package(Protobuf 3.6.1 REQUIRED)
-find_package(Boost 1.73.0 REQUIRED COMPONENTS system filesystem)
+find_package(Boost 1.71.0 REQUIRED system filesystem)
+# find_package(Boost 1.73.0 REQUIRED COMPONENTS system filesystem)
 find_package(jsoncpp REQUIRED)
 # find_package(tinyxml2 REQUIRED)
 # find_package(yaml-cpp REQUIRED)
@@ -23,6 +24,9 @@ find_package(jsoncpp REQUIRED)
 include_directories(
         ${CMAKE_INCLUDE_PATH}
         ${CMAKE_SOURCE_DIR}/third_party
+        ${CMAKE_SOURCE_DIR}/third_party/yaml-cpp/include
+        /usr/local/include/mongocxx/v_noabi
+        /usr/local/include/bsoncxx/v_noabi
 )
 
 if (Boost_FOUND)

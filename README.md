@@ -9,8 +9,7 @@ rdm (remote dream library)
 ```shell script
 sudo apt update
 sudo apt install libbenchmark-dev
-# 手动安装 boost
-# sudo apt install libboost-all-dev
+
 sudo apt install libmysqlcppconn-dev
 sudo apt install libspdlog-dev
 sudo apt install libprotobuf-dev
@@ -20,6 +19,32 @@ sudo apt install libtinyxml2-dev
 sudo apt install libinih-dev
 sudo apt install libyaml-cpp-dev
 sudo apt install nlohmann-json3-dev
+
+# 手动安装 boost
+# sudo apt install libboost-all-dev
+# or manual instal needed library
+# sudo apt install libboost_filesystem-dev
+```
+
+### mongo driver cxx
+
+```shell script
+tar xzvf mongo-c-driver-1.15.0.tar.gz
+cd mongo-c-driver-1.15.0
+cmake . -DBUILD_VERSION=1.15.0
+make -j 8
+sudo make install
+
+tar xzvf mongo-cxx-driver-r3.5.0.tar.gz
+cd mongo-cxx-driver-r3.5.0/build
+cmake ..                                            \
+    -DCMAKE_BUILD_TYPE=Release                      \
+    -DBUILD_SHARED_AND_STATIC_LIBS=ON               \
+    -DCMAKE_PREFIX_PATH=/usr/local/lib/             \
+    -DCMAKE_INSTALL_PREFIX=/usr/local               \
+    -DBUILD_VERSION=3.5.0
+sudo make
+sudo make install
 ```
 
 ### Boost 1.73.0 安装
@@ -44,9 +69,9 @@ sudo apt install nlohmann-json3-dev
   link=shared \
   runtime-link=shared 
  
-sudo cp -rf ./boost /usr/local/include
-sudo cp ./stage/lib/*.a /usr/local/lib
-sudo cp ./stage/lib/*.so /usr/local/lib
+sudo cp -rf ./boost /usr/local/include      && \
+sudo cp ./stage/lib/*.a /usr/local/lib      && \
+sudo cp ./stage/lib/*.so /usr/local/lib     && \
 sudo ldconfig
 ```
 

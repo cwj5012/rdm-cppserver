@@ -14,3 +14,5 @@ add_library(
          yaml-cpp SHARED
         ${CPP_FILES}
 )
+
+include_directories(include)

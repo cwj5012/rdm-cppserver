@@ -1,4 +1,6 @@
 /cmake-*
+/bin/
+/lib/
 out_cpp/
 out_csharp/
 
