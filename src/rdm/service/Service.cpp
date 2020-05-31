@@ -18,7 +18,8 @@
 namespace rdm {
 
 Service::Service() {
-    LOG_INFO("pid: {}, tid: {}.", getpid(), gettid());
+    // msvc 不支持
+    // LOG_INFO("pid: {}, tid: {}.", getpid(), gettid());
 
     server_net_config_ = std::make_shared<ServerNetConfig>();
     if (server_net_config_ == nullptr) {

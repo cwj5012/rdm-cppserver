@@ -43,25 +43,66 @@ list(REMOVE_ITEM CPP_FILES ${BM_CPP_FILES})
 # rdm lib
 ##########################################
 
-add_library(
-        rdm SHARED
-        ${CPP_FILES}
-)
+if (WIN32)
+    add_library(
+            rdm STATIC
+            ${CPP_FILES}
+    )
 
-add_dependencies(
-        rdm
-        inih
-        yaml-cpp
-)
+    add_definitions(-DYAML_CPP_DLL)
+    target_link_libraries(
+            rdm
+            ${LIBMONGOCXX_LIBRARY}
+            ${LIBMYSQLCPPCONN_LIBRARY}
+            ${Boost_LIBRARIES}
+            ${Protobuf_LIBRARIES}
+            ${Jsoncpp_LIBRARIES}
+            ${Tinyxml2_LIBRARIES}
+            ${Spdlog_LIBRARIES}
+            ${Spdlog_LIBRARIES}
+            spdlog::spdlog spdlog::spdlog_header_only
+            # D:/Users/cwj/Desktop/vcpkg/installed/x64-windows/debug/lib/yaml-cpp.lib
+            D:/Users/cwj/Desktop/learn-cpp/lib/Debug/inih.lib
+    )
 
-target_link_libraries(
-        rdm
-)
+else ()
+    add_library(
+            rdm SHARED
+            ${CPP_FILES}
+    )
+
+    add_dependencies(
+            rdm
+            inih
+            yaml-cpp
+    )
+
+    target_link_libraries(
+            rdm
+    )
+endif ()
+
 
 set_target_properties(
         rdm
         PROPERTIES LINKER_LANGUAGE CXX
 )
+
+
+if (MSVC_VERSION GREATER_EQUAL "1900")
+    include(CheckCXXCompilerFlag)
+    CHECK_CXX_COMPILER_FLAG("/std:c++latest" _cpp_latest_flag_supported)
+    if (_cpp_latest_flag_supported)
+        add_compile_options("/std:c++latest")
+    endif ()
+endif ()
+
+# 连接器，命令行添加 /ignore:4099
+set_target_properties(rdm PROPERTIES LINK_FLAGS "/ignore:4819 /ignore:4566")
+# 目标平台 win7 及以上
+add_definitions(-D _WIN32_WINNT=0x0601)
+add_definitions(-D _CRT_SECURE_NO_WARNINGS)
+
 
 ##########################################
 # rdm test exe
@@ -77,12 +118,20 @@ add_dependencies(
         rdm
 )
 
-target_link_libraries(
-        rdm_test
-        ${RDM_SHARED}
-        pthread
-        dl
-)
+if (WIN32)
+    target_link_libraries(
+            rdm_test
+            ${RDM_SHARED}
+    )
+else ()
+    target_link_libraries(
+            rdm_test
+            ${RDM_SHARED}
+            pthread
+            dl
+    )
+endif ()
+
 
 ##########################################
 # rdm benchmark exe
@@ -98,12 +147,20 @@ add_dependencies(
         rdm
 )
 
-target_link_libraries(
-        rdm_benchmark PRIVATE
-        ${RDM_SHARED}
-        pthread
-        dl
-        benchmark::benchmark
-)
+if (WIN32)
+    target_link_libraries(
+            rdm_benchmark PRIVATE
+            ${RDM_SHARED}
+    )
+else ()
+    target_link_libraries(
+            rdm_benchmark PRIVATE
+            ${RDM_SHARED}
+            pthread
+            dl
+            benchmark::benchmark
+    )
+endif ()
+
 
 add_subdirectory(submodule)

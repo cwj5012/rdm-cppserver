@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding" native2AsciiForPropertiesFiles="true">
-    <file url="PROJECT" charset="UTF-8" />
+  <component name="Encoding" defaultCharsetForPropertiesFiles="GBK" addBOMForNewFiles="with BOM under Windows, with no BOM otherwise">
+    <file url="file://$PROJECT_DIR$/src/rdm/container/SortedSet.cpp" charset="UTF-8" />
+    <file url="PROJECT" charset="GBK" />
   </component>
 </project>

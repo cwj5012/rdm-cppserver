@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 
-#include <inih/INIReader.h>
+#include <INIReader.h>
 
 namespace rdm {
 

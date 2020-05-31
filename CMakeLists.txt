@@ -1,7 +1,23 @@
 cmake_minimum_required(VERSION 3.16)
-project(learn_cpp)
+
+set(PROJECT_NAME learn_cpp)
+project(${PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 17)
+
+if(MSVC)
+    # cmake 默认项目放在 CMake 解决方案文件夹中
+    # set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "CMake")
+    # Visual Studio 多核编译
+    # add_definitions("/MP")
+    # dispaly folder in MSVS
+    SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
+    # C/C++ -> 所有选项 -> 附加选项
+    # 修复 Visual Studio 编译 utf8 文件报错的问题
+    add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+    add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+endif()
+
 
 # 如果动态链接库失败，尝试下面设置
 # set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -10,30 +26,53 @@ set(CMAKE_CXX_STANDARD 17)
 # if open blow comment, project use benchmark will cause core dump
 # set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_GLIBCXX_DEBUG")
 
-
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
         ${CMAKE_SOURCE_DIR}/cmake/)
 
-# set(Boost_USE_STATIC_LIBS ON)
-find_package(benchmark 1.5.0 REQUIRED)
-find_package(Protobuf 3.6.1 REQUIRED)
-find_package(Boost 1.71.0 REQUIRED system filesystem)
-# find_package(Boost 1.73.0 REQUIRED COMPONENTS system filesystem)
-find_package(jsoncpp REQUIRED)
-# find_package(tinyxml2 REQUIRED)
-# find_package(yaml-cpp REQUIRED)
-# find_package(mysqlcppconn REQUIRED)
-
-include_directories(
+set(CMAKE_INCLUDE_PATH
         ${CMAKE_INCLUDE_PATH}
-        ${CMAKE_SOURCE_DIR}/third_party
-        ${CMAKE_SOURCE_DIR}/third_party/yaml-cpp/include
-        /usr/local/include/mongocxx/v_noabi
-        /usr/local/include/bsoncxx/v_noabi
-)
+        C:/usr/local/include)
+
+set(CMAKE_LIBRARY_PATH
+        ${CMAKE_LIBRARY_PATH}
+        C:/usr/local/lib/${CMAKE_BUILD_TYPE})
+
+# set(Boost_USE_STATIC_LIBS ON)
+if (WIN32)
+    # vcpkg install benchmark:x64-windows
+    # vcpkg install protobuf:x64-windows
+    # vcpkg install boost-system:x64-windows
+    # vcpkg install boost-filesystem:x64-windows
+    # vcpkg install boost-asio:x64-windows
+    # vcpkg install boost-dll:x64-windows
+    # vcpkg install jsoncpp:x64-windows
+    # vcpkg install tinyxml2:x64-windows
+    # vcpkg install yaml-cpp:x64-windows
+    # vcpkg install inih:x64-windows
+    # vcpkg install mongo-cxx-driver:x64-windows
+    # vcpkg install spdlog:x64-windows
+    find_package(benchmark REQUIRED)
+    find_package(Protobuf REQUIRED)
+    find_package(Boost 1.73.0 REQUIRED COMPONENTS system filesystem)
+    find_package(jsoncpp REQUIRED)
+    find_package(tinyxml2 REQUIRED)
+    find_package(yaml-cpp REQUIRED)
+    # find_package(inih REQUIRED)
+    # find_package(mysqlcppconn REQUIRED)
+    # find_package(mongo-cxx-driver REQUIRED)
+    find_package(spdlog CONFIG REQUIRED)
+    find_package(mysqlcppconn REQUIRED)
+    find_package(mongocxx REQUIRED)
+    # target_link_libraries(main PRIVATE spdlog::spdlog spdlog::spdlog_header_only)
+else ()
+    find_package(benchmark 1.5.0 REQUIRED)
+    find_package(Protobuf 3.6.1 REQUIRED)
+    find_package(Boost 1.71.0 REQUIRED system filesystem)
+    # find_package(Boost 1.73.0 REQUIRED COMPONENTS system filesystem)
+endif ()
 
 if (Boost_FOUND)
-    message(STATUS "boost found:")
+    message(STATUS "中文 boost found:")
     foreach (library : ${Boost_LIBRARIES})
         if (NOT ${library} STREQUAL ":")
             MESSAGE(STATUS "    " ${library})
@@ -45,10 +84,28 @@ if (Protobuf_FOUND)
     message(STATUS "protobuf found:")
     message(STATUS "    prorobuf version: " ${Protobuf_VERSION})
     message(STATUS "    protoc version: " ${_PROTOBUF_PROTOC_EXECUTABLE_VERSION})
-    MESSAGE(STATUS "    " ${Protobuf_LIBRARIES})
+    foreach (library : ${Protobuf_LIBRARIES})
+        if (NOT ${library} STREQUAL ":")
+            MESSAGE(STATUS "    " ${library})
+        endif ()
+    endforeach ()
 endif ()
 
 message(STATUS "cmake source dir: " ${CMAKE_SOURCE_DIR})
+
+include_directories(
+        ${CMAKE_INCLUDE_PATH}
+        ${CMAKE_SOURCE_DIR}/third_party
+        ${CMAKE_SOURCE_DIR}/third_party/win
+        ${CMAKE_SOURCE_DIR}/third_party/yaml-cpp/include
+        /usr/local/include/mongocxx/v_noabi
+        /usr/local/include/bsoncxx/v_noabi
+        D:/Users/cwj/Desktop/vcpkg/installed/x64-windows/include
+)
+
+if (WIN32)
+    add_definitions(-D__PRETTY_FUNCTION__ "")
+endif ()
 
 ##########################################
 # 输出路径
@@ -77,15 +134,17 @@ endif ()
 set(
         RDM_SHARED
         rdm
-        mongocxx
-        bsoncxx
-        mysqlcppconn
-        boost_filesystem
-        protobuf
-        inih
-        jsoncpp
-        tinyxml2
-        yaml-cpp
+        ${LIBMONGOCXX_LIBRARY}
+        ${LIBMYSQLCPPCONN_LIBRARY}
+        ${Boost_LIBRARIES}
+        ${Protobuf_LIBRARIES}
+        ${Spdlog_LIBRARIES}
+        jsoncpp_lib
+        tinyxml2::tinyxml2
+        benchmark::benchmark benchmark::benchmark_main
+        spdlog::spdlog spdlog::spdlog_header_only
+        D:/Users/cwj/Desktop/vcpkg/installed/x64-windows/lib/yaml-cpp.lib
+        D:/Users/cwj/Desktop/vcpkg/installed/x64-windows/lib/inih.lib
 )
 
 
@@ -94,12 +153,15 @@ add_subdirectory(game/client)
 add_subdirectory(game/login_server)
 
 add_subdirectory(src/benchmark_usage)
-add_subdirectory(src/boost)
+add_subdirectory(src/boost_usage)
 add_subdirectory(src/coding_interview)
 add_subdirectory(src/hello_world)
 add_subdirectory(src/leetcode)
 add_subdirectory(src/rdm)
 add_subdirectory(src/test)
 
+if (WIN32)
+else()
 add_subdirectory(third_party/inih)
 add_subdirectory(third_party/yaml-cpp)
+endif()

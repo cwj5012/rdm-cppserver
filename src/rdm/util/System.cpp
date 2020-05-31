@@ -1,4 +1,8 @@
-﻿#include <sys/sysinfo.h>
+﻿#ifdef __linux__
+#include <sys/sysinfo.h>
+#else
+#endif
+
 #include <fstream>
 #include <cstring>
 

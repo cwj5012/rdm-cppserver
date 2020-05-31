@@ -73,16 +73,16 @@ public:
     static double getCpuCurrentProcessUsage();
 
 private:
-#ifdef _WIN32
-    static PDH_HQUERY cpuQuery_;
-    static PDH_HCOUNTER cpuTotal_;
-
-    static ULARGE_INTEGER lastCPU_;
-    static ULARGE_INTEGER lastSysCPU_;
-    static ULARGE_INTEGER lastUserCPU_;
-    static int numProcessors_;
-    static HANDLE self_;
+#ifdef __linux__
 #else
+    // static PDH_HQUERY cpuQuery_;
+    // static PDH_HCOUNTER cpuTotal_;
+    //
+    // static ULARGE_INTEGER lastCPU_;
+    // static ULARGE_INTEGER lastSysCPU_;
+    // static ULARGE_INTEGER lastUserCPU_;
+    // static int numProcessors_;
+    // static HANDLE self_;
 #endif
 }; // class System
 

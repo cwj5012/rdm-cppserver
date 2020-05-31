@@ -27,19 +27,38 @@ add_dependencies(
         rdm
 )
 
-target_link_libraries(
-        chat_server
-        inih
-        jsoncpp
-        tinyxml2
-        pthread
-        dl
-        boost_filesystem
-        protobuf
-        rdm
-        mysqlcppconn # g++ mysqlcppconn 写在 rdm 后面才能编译成功
-        yaml-cpp
-)
+if (WIN32)
+    target_link_libraries(
+            chat_server
+            #        inih
+            #        jsoncpp
+            #        tinyxml2
+            #        pthread
+            #        dl
+            #        boost_filesystem
+            #        protobuf
+            #        rdm
+            #        mysqlcppconn # g++ mysqlcppconn 写在 rdm 后面才能编译成功
+            #        yaml-cpp
+
+            ${RDM_SHARED}
+    )
+else ()
+    target_link_libraries(
+            chat_server
+            inih
+            jsoncpp
+            tinyxml2
+            pthread
+            dl
+            boost_filesystem
+            protobuf
+            rdm
+            mysqlcppconn # g++ mysqlcppconn 写在 rdm 后面才能编译成功
+            yaml-cpp
+    )
+endif ()
+
 
 include_directories(
         ${CMAKE_INCLUDE_PATH}

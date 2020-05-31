@@ -55,7 +55,7 @@ bool NetClientManager::init() {
         ThreadUtil::sleep(1000);
     }
 
-    cce::pb::ServerRegister send_msg;
+    rdm::pb::ServerRegister send_msg;
     send_msg.set_id(info->system_id);
     send_msg.set_type(info->system_type);
     for (auto client : net_clients_) {

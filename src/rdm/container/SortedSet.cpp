@@ -19,7 +19,9 @@ int SortedSet::add(const std::string& key, int64_t score) {
         sortedSet_.erase(it2);
     }
 
-    Item item{.key = key, .score=score};
+    // vs 2019 不支持这个写法
+    // Item item{.key = key, .score=score};
+    Item item{key, score};
     auto p = sortedSet_.insert(item);
     existed_[key] = p.first;
 
