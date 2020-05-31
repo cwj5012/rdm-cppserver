@@ -48,23 +48,6 @@ if (WIN32)
             rdm STATIC
             ${CPP_FILES}
     )
-
-    add_definitions(-DYAML_CPP_DLL)
-    target_link_libraries(
-            rdm
-            ${LIBMONGOCXX_LIBRARY}
-            ${LIBMYSQLCPPCONN_LIBRARY}
-            ${Boost_LIBRARIES}
-            ${Protobuf_LIBRARIES}
-            ${Jsoncpp_LIBRARIES}
-            ${Tinyxml2_LIBRARIES}
-            ${Spdlog_LIBRARIES}
-            ${Spdlog_LIBRARIES}
-            spdlog::spdlog spdlog::spdlog_header_only
-            # D:/Users/cwj/Desktop/vcpkg/installed/x64-windows/debug/lib/yaml-cpp.lib
-            D:/Users/cwj/Desktop/learn-cpp/lib/Debug/inih.lib
-    )
-
 else ()
     add_library(
             rdm SHARED
@@ -91,10 +74,10 @@ set_target_properties(
 
 if (MSVC_VERSION GREATER_EQUAL "1900")
     include(CheckCXXCompilerFlag)
-    CHECK_CXX_COMPILER_FLAG("/std:c++latest" _cpp_latest_flag_supported)
-    if (_cpp_latest_flag_supported)
-        add_compile_options("/std:c++latest")
-    endif ()
+    # CHECK_CXX_COMPILER_FLAG("/std:c++latest" _cpp_latest_flag_supported)
+    # if (_cpp_latest_flag_supported)
+        #        add_compile_options("/std:c++latest")
+    # endif ()
 endif ()
 
 # 连接器，命令行添加 /ignore:4099
@@ -158,7 +141,6 @@ else ()
             ${RDM_SHARED}
             pthread
             dl
-            benchmark::benchmark
     )
 endif ()
 

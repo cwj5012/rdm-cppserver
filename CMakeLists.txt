@@ -143,8 +143,8 @@ set(
         tinyxml2::tinyxml2
         benchmark::benchmark benchmark::benchmark_main
         spdlog::spdlog spdlog::spdlog_header_only
-        D:/Users/cwj/Desktop/vcpkg/installed/x64-windows/lib/yaml-cpp.lib
-        D:/Users/cwj/Desktop/vcpkg/installed/x64-windows/lib/inih.lib
+        D:/Users/cwj/Desktop/vcpkg/installed/x64-windows/debug/lib/yaml-cpp.lib
+        D:/Users/cwj/Desktop/vcpkg/installed/x64-windows/debug/lib/inih.lib
 )
 
 
