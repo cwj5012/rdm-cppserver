@@ -6,7 +6,10 @@ set(CMAKE_CXX_STANDARD 17)
 # 如果动态链接库失败，尝试下面设置
 # set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_GLIBCXX_DEBUG")
+# use ubuntu apt install benchmark
+# if open blow comment, project use benchmark will cause core dump
+# set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_GLIBCXX_DEBUG")
+
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
         ${CMAKE_SOURCE_DIR}/cmake/)
@@ -90,7 +93,7 @@ add_subdirectory(game/chat_server)
 add_subdirectory(game/client)
 add_subdirectory(game/login_server)
 
-add_subdirectory(src/benchmarkx)
+add_subdirectory(src/benchmark_usage)
 add_subdirectory(src/boost)
 add_subdirectory(src/coding_interview)
 add_subdirectory(src/hello_world)
