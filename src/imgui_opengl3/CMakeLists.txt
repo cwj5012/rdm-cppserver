@@ -25,7 +25,7 @@ endif ()
 
 target_link_libraries(
         imgui_opengl3
-        "C:/Users/IGG/Desktop/learn-cpp/src/imgui_opengl3/glfw3.lib"
+        ${CMAKE_SOURCE_DIR}/src/imgui_opengl3/lib/glfw3.lib
         opengl32.lib
 )
 
