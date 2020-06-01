@@ -5,6 +5,9 @@ project(${PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(SYSTEM_PATH
+        D:/Users/IGG/Desktop/usr/local)
+
 if(MSVC)
     # cmake 默认项目放在 CMake 解决方案文件夹中
     # set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "CMake")
@@ -31,11 +34,11 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 
 set(CMAKE_INCLUDE_PATH
         ${CMAKE_INCLUDE_PATH}
-        C:/usr/local/include)
+        ${SYSTEM_PATH}/include)
 
 set(CMAKE_LIBRARY_PATH
         ${CMAKE_LIBRARY_PATH}
-        C:/usr/local/lib/${CMAKE_BUILD_TYPE})
+        ${SYSTEM_PATH}/lib/${CMAKE_BUILD_TYPE})
 
 # set(Boost_USE_STATIC_LIBS ON)
 if (WIN32)
@@ -100,7 +103,7 @@ include_directories(
         ${CMAKE_SOURCE_DIR}/third_party/yaml-cpp/include
         /usr/local/include/mongocxx/v_noabi
         /usr/local/include/bsoncxx/v_noabi
-        D:/Users/cwj/Desktop/vcpkg/installed/x64-windows/include
+        ${SYSTEM_PATH}/vcpkg/installed/x64-windows/include
 )
 
 if (WIN32)
@@ -143,8 +146,8 @@ set(
         tinyxml2::tinyxml2
         benchmark::benchmark benchmark::benchmark_main
         spdlog::spdlog spdlog::spdlog_header_only
-        D:/Users/cwj/Desktop/vcpkg/installed/x64-windows/debug/lib/yaml-cpp.lib
-        D:/Users/cwj/Desktop/vcpkg/installed/x64-windows/debug/lib/inih.lib
+        ${SYSTEM_PATH}/vcpkg/installed/x64-windows/debug/lib/yaml-cpp.lib
+        ${SYSTEM_PATH}/vcpkg/installed/x64-windows/debug/lib/inih.lib
 )
 
 
