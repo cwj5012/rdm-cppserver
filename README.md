@@ -157,6 +157,10 @@ netplan apply
 reboot
 ```
 
+### clion 使用
+
+- cmake 文件中的 Target 没有自动加入到 Run/Debug Configurations... 里面，尝试删除 .idea 目录下的 workspace.xml，重新启动 clion 加载 cmake 工程
+
 ### TODO
 
 - [ ] google c++ 基础库接入 https://abseil.io/docs/cpp/quickstart-cmake.html；

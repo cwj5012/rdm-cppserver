@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(USER_LOCAL_PATH
         d:/usr/local)
 
-if(MSVC)
+if (MSVC)
     # cmake 默认项目放在 CMake 解决方案文件夹中
     # set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "CMake")
     # Visual Studio 多核编译
@@ -20,7 +20,10 @@ if(MSVC)
     # 修复 Visual Studio 编译 utf8 文件报错的问题
     add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
     add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
-endif()
+
+    set(MSVC_COMPILE_FLAGS "/MP")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MSVC_COMPILE_FLAGS}")
+endif ()
 
 
 # 如果动态链接库失败，尝试下面设置
@@ -158,14 +161,14 @@ add_subdirectory(src/boost_usage)
 add_subdirectory(src/coding_interview)
 add_subdirectory(src/hello_world)
 if (WIN32)
-add_subdirectory(src/imgui_opengl3)
-endif()
+    add_subdirectory(src/imgui_opengl3)
+endif ()
 add_subdirectory(src/leetcode)
 add_subdirectory(src/rdm)
 add_subdirectory(src/test)
 
 if (WIN32)
-else()
-# add_subdirectory(third_party/linux/inih)
-# add_subdirectory(third_party/linux/yaml-cpp)
-endif()
+else ()
+    # add_subdirectory(third_party/linux/inih)
+    # add_subdirectory(third_party/linux/yaml-cpp)
+endif ()
