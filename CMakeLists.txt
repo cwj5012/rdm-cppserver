@@ -5,6 +5,7 @@ project(${PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 17)
 
+# 根据实际路径配置
 set(SYSTEM_PATH
         D:/Users/IGG/Desktop/usr/local)
 
