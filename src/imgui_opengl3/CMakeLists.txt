@@ -1,6 +1,7 @@
 add_executable(
         imgui_opengl3
         main.cpp
+        example.cpp
         imgui_impl_glfw.cpp
         imgui_impl_glfw.h
         imgui_impl_opengl3.cpp
