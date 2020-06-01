@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 # 根据实际路径配置
 set(USER_LOCAL_PATH
-        D:/Users/IGG/Desktop/usr/local)
+        d:/usr/local)
 
 if(MSVC)
     # cmake 默认项目放在 CMake 解决方案文件夹中
