@@ -1,31 +1,37 @@
 if (WIN32)
-	FIND_PATH(LIBMYSQLCPPCONN_INCLUDE_DIR
+	FIND_PATH(MYSQLCPPCONN_INCLUDE_DIR
         NAME cppconn
         PATHS ${CMAKE_INCLUDE_PATH})
 else()
-	FIND_PATH(LIBMYSQLCPPCONN_INCLUDE_DIR
+	FIND_PATH(MYSQLCPPCONN_INCLUDE_DIR
             NAME cppconn
             PATHS /usr/local/include/)
 endif()
 
 if (WIN32)
-	FIND_LIBRARY(LIBMYSQLCPPCONN_LIBRARY
+	FIND_LIBRARY(MYSQLCPPCONN_LIBRARY
         NAMES mysqlcppconn.lib
         PATHS ${CMAKE_LIBRARY_PATH})
 else()
-	FIND_LIBRARY(LIBMYSQLCPPCONN_LIBRARY
+	FIND_LIBRARY(MYSQLCPPCONN_LIBRARY
             NAMES libmysqlcppconn.so
             PATHS /usr/local/lib)
 endif()
 
-if (LIBMYSQLCPPCONN_INCLUDE_DIR)
-    MESSAGE(STATUS "mysqlcppconn include dir: " ${LIBMYSQLCPPCONN_INCLUDE_DIR})
+if (MYSQLCPPCONN_INCLUDE_DIR)
+    MESSAGE(STATUS "mysqlcppconn include dir: " ${MYSQLCPPCONN_INCLUDE_DIR})
 else ()
     MESSAGE(WARNING "mysqlcppconn include dir not found")
 endif ()
 
-if (LIBMYSQLCPPCONN_LIBRARY)
-    MESSAGE(STATUS "mysqlcppconn library: " ${LIBMYSQLCPPCONN_LIBRARY})
+if (MYSQLCPPCONN_LIBRARY)
+    MESSAGE(STATUS "mysqlcppconn library: " ${MYSQLCPPCONN_LIBRARY})
 else ()
     MESSAGE(WARNING "mysqlcppconn library not found")
+endif ()
+
+# copy dll
+if (EXISTS ${USER_LOCAL_PATH}/lib/${CMAKE_BUILD_TYPE}/mysqlcppconn.dll)
+    configure_file(${USER_LOCAL_PATH}/lib/${CMAKE_BUILD_TYPE}/mysqlcppconn.dll
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
 endif ()

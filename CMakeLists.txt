@@ -29,6 +29,25 @@ if (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MSVC_COMPILE_FLAGS}")
 endif ()
 
+##########################################
+# 输出路径
+##########################################
+
+if (NOT DEFINED CLION)
+    set(CLION 1)
+endif ()
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)  # exec
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)     # shared
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)  # static
+
+if (CLION)
+    file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+    file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})     # exec
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})     # shared
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})     # static
+endif ()
 
 # 如果动态链接库失败，尝试下面设置
 # set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -115,25 +134,7 @@ if (WIN32)
     add_definitions(-D__PRETTY_FUNCTION__=__FUNCSIG__)
 endif ()
 
-##########################################
-# 输出路径
-##########################################
 
-if (NOT DEFINED CLION)
-    set(CLION 1)
-endif ()
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)  # exec
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)     # shared
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)  # static
-
-if (CLION)
-    file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-    file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})     # exec
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})     # shared
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})  # static
-endif ()
 
 ##########################################
 # 编译项目
