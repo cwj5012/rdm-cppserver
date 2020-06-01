@@ -18,8 +18,9 @@ add_executable(
 )
 
 if (MSVC)
-    # 自定义编译规则
-    set_property(TARGET imgui_opengl3 APPEND PROPERTY LINK_FLAGS "/NODEFAULTLIB:MSVCRT")
+    if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+        set_property(TARGET imgui_opengl3 APPEND PROPERTY LINK_FLAGS "/NODEFAULTLIB:MSVCRT")
+    endif ()
 endif ()
 
 target_link_libraries(
