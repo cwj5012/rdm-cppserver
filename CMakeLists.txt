@@ -20,7 +20,7 @@ if (MSVC)
     # 修复 Visual Studio 编译 utf8 文件报错的问题
     add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
     add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
-
+    # nmake 不支持，所以在 clion 中编译，还是单线程
     set(MSVC_COMPILE_FLAGS "/MP")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MSVC_COMPILE_FLAGS}")
 endif ()
