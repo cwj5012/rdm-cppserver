@@ -6,7 +6,7 @@ project(${PROJECT_NAME})
 set(CMAKE_CXX_STANDARD 17)
 
 # 根据实际路径配置
-set(SYSTEM_PATH
+set(USER_LOCAL_PATH
         D:/Users/IGG/Desktop/usr/local)
 
 if(MSVC)
@@ -35,11 +35,11 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 
 set(CMAKE_INCLUDE_PATH
         ${CMAKE_INCLUDE_PATH}
-        ${SYSTEM_PATH}/include)
+        ${USER_LOCAL_PATH}/include)
 
 set(CMAKE_LIBRARY_PATH
         ${CMAKE_LIBRARY_PATH}
-        ${SYSTEM_PATH}/lib/${CMAKE_BUILD_TYPE})
+        ${USER_LOCAL_PATH}/lib/${CMAKE_BUILD_TYPE})
 
 # set(Boost_USE_STATIC_LIBS ON)
 if (WIN32)
@@ -62,12 +62,9 @@ if (WIN32)
     find_package(tinyxml2 REQUIRED)
     find_package(yaml-cpp REQUIRED)
     # find_package(inih REQUIRED)
-    # find_package(mysqlcppconn REQUIRED)
-    # find_package(mongo-cxx-driver REQUIRED)
     find_package(spdlog CONFIG REQUIRED)
     find_package(mysqlcppconn REQUIRED)
     find_package(mongocxx REQUIRED)
-    # target_link_libraries(main PRIVATE spdlog::spdlog spdlog::spdlog_header_only)
 else ()
     find_package(benchmark 1.5.0 REQUIRED)
     find_package(Protobuf 3.6.1 REQUIRED)
@@ -104,11 +101,11 @@ include_directories(
         ${CMAKE_SOURCE_DIR}/third_party/yaml-cpp/include
         /usr/local/include/mongocxx/v_noabi
         /usr/local/include/bsoncxx/v_noabi
-        ${SYSTEM_PATH}/vcpkg/installed/x64-windows/include
+        ${USER_LOCAL_PATH}/vcpkg/installed/x64-windows/include
 )
 
 if (WIN32)
-    add_definitions(-D__PRETTY_FUNCTION__ "")
+    add_definitions(-D__PRETTY_FUNCTION__=__FUNCSIG__)
 endif ()
 
 ##########################################
@@ -147,8 +144,8 @@ set(
         tinyxml2::tinyxml2
         benchmark::benchmark benchmark::benchmark_main
         spdlog::spdlog spdlog::spdlog_header_only
-        ${SYSTEM_PATH}/vcpkg/installed/x64-windows/debug/lib/yaml-cpp.lib
-        ${SYSTEM_PATH}/vcpkg/installed/x64-windows/debug/lib/inih.lib
+        ${USER_LOCAL_PATH}/vcpkg/installed/x64-windows/debug/lib/yaml-cpp.lib
+        ${USER_LOCAL_PATH}/vcpkg/installed/x64-windows/debug/lib/inih.lib
 )
 
 
@@ -160,12 +157,15 @@ add_subdirectory(src/benchmark_usage)
 add_subdirectory(src/boost_usage)
 add_subdirectory(src/coding_interview)
 add_subdirectory(src/hello_world)
+if (WIN32)
+add_subdirectory(src/imgui_opengl3)
+endif()
 add_subdirectory(src/leetcode)
 add_subdirectory(src/rdm)
 add_subdirectory(src/test)
 
 if (WIN32)
 else()
-add_subdirectory(third_party/inih)
-add_subdirectory(third_party/yaml-cpp)
+# add_subdirectory(third_party/linux/inih)
+# add_subdirectory(third_party/linux/yaml-cpp)
 endif()
