@@ -9,6 +9,10 @@ set(CMAKE_CXX_STANDARD 17)
 set(USER_LOCAL_PATH
         d:/usr/local)
 
+if (NOT DEFINED CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug)
+endif ()
+
 if (MSVC)
     # cmake 默认项目放在 CMake 解决方案文件夹中
     # set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "CMake")
