@@ -132,6 +132,8 @@ include_directories(
 
 if (WIN32)
     add_definitions(-D__PRETTY_FUNCTION__=__FUNCSIG__)
+    add_definitions(-DBOOST_BIND_GLOBAL_PLACEHOLDERS)
+    add_definitions(-D_WIN32_WINNT=0x0601)
 endif ()
 
 
