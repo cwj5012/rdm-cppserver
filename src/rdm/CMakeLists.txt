@@ -86,7 +86,6 @@ set_target_properties(rdm PROPERTIES LINK_FLAGS "/ignore:4819 /ignore:4566")
 add_definitions(-D _WIN32_WINNT=0x0601)
 add_definitions(-D _CRT_SECURE_NO_WARNINGS)
 
-
 ##########################################
 # rdm test exe
 ##########################################
@@ -115,11 +114,10 @@ else ()
     )
 endif ()
 
-
 ##########################################
 # rdm benchmark exe
 ##########################################
-message(111111 ${BM_CPP_FILES})
+
 add_executable(
         rdm_benchmark
         ${BM_CPP_FILES}
