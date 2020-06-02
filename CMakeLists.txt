@@ -87,7 +87,7 @@ if (WIN32)
     find_package(jsoncpp REQUIRED)
     find_package(tinyxml2 REQUIRED)
     find_package(yaml-cpp REQUIRED)
-    # find_package(inih REQUIRED)
+    find_package(inih REQUIRED)
     find_package(spdlog CONFIG REQUIRED)
     find_package(mysqlcppconn REQUIRED)
     find_package(mongocxx REQUIRED)
@@ -145,8 +145,8 @@ endif ()
 set(
         RDM_SHARED
         rdm
-        ${LIBMONGOCXX_LIBRARY}
-        ${LIBMYSQLCPPCONN_LIBRARY}
+        ${MONGOCXX_LIBRARYS}
+        ${MYSQLCPPCONN_LIBRARYS}
         ${Boost_LIBRARIES}
         ${Protobuf_LIBRARIES}
         ${Spdlog_LIBRARIES}
@@ -154,8 +154,8 @@ set(
         tinyxml2::tinyxml2
         benchmark::benchmark benchmark::benchmark_main
         spdlog::spdlog spdlog::spdlog_header_only
-        ${USER_LOCAL_PATH}/vcpkg/installed/x64-windows/debug/lib/yaml-cpp.lib
-        ${USER_LOCAL_PATH}/vcpkg/installed/x64-windows/debug/lib/inih.lib
+        yaml-cpp
+        ${INIH_LIBRARYS}
 )
 
 

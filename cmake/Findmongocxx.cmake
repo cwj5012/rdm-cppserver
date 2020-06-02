@@ -9,16 +9,16 @@ else()
 endif()
 
 if (WIN32)
-	FIND_LIBRARY(MONGOCXX_LIBRARY
+	FIND_LIBRARY(MONGOCXX_LIBRARYS
         NAMES mongocxx.lib
         PATHS ${CMAKE_LIBRARY_PATH})
-	FIND_LIBRARY(LIBBSONCXX_LIBRARY
+	FIND_LIBRARY(LIBBSONCXX_LIBRARYS
         NAMES bsoncxx.lib
         PATHS ${CMAKE_LIBRARY_PATH})
 
-    set(MONGOCXX_LIBRARY
-            ${MONGOCXX_LIBRARY}
-            ${LIBBSONCXX_LIBRARY})
+    set(MONGOCXX_LIBRARYS
+            ${MONGOCXX_LIBRARYS}
+            ${LIBBSONCXX_LIBRARYS})
 else()
 	FIND_LIBRARY(MONGOCXX_LIBRARY
             NAMES mongocxx.so
@@ -31,8 +31,8 @@ else ()
     MESSAGE(WARNING "mongocxx include dir not found")
 endif ()
 
-if (MONGOCXX_LIBRARY)
-    MESSAGE(STATUS "mongocxx library: " ${MONGOCXX_LIBRARY})
+if (MONGOCXX_LIBRARYS)
+    MESSAGE(STATUS "mongocxx library: " ${MONGOCXX_LIBRARYS})
 else ()
     MESSAGE(WARNING "mongocxx library not found")
 endif ()

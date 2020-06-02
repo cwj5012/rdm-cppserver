@@ -9,11 +9,11 @@ else()
 endif()
 
 if (WIN32)
-	FIND_LIBRARY(MYSQLCPPCONN_LIBRARY
+	FIND_LIBRARY(MYSQLCPPCONN_LIBRARYS
         NAMES mysqlcppconn.lib
         PATHS ${CMAKE_LIBRARY_PATH})
 else()
-	FIND_LIBRARY(MYSQLCPPCONN_LIBRARY
+	FIND_LIBRARY(MYSQLCPPCONN_LIBRARYS
             NAMES libmysqlcppconn.so
             PATHS /usr/local/lib)
 endif()
@@ -24,8 +24,8 @@ else ()
     MESSAGE(WARNING "mysqlcppconn include dir not found")
 endif ()
 
-if (MYSQLCPPCONN_LIBRARY)
-    MESSAGE(STATUS "mysqlcppconn library: " ${MYSQLCPPCONN_LIBRARY})
+if (MYSQLCPPCONN_LIBRARYS)
+    MESSAGE(STATUS "mysqlcppconn library: " ${MYSQLCPPCONN_LIBRARYS})
 else ()
     MESSAGE(WARNING "mysqlcppconn library not found")
 endif ()
