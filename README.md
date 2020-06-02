@@ -166,6 +166,20 @@ clion on windows with msvc 多线程编译，下载 JOM 解压后，路径添加
 -G "NMake Makefiles JOM" -DCMAKE_TOOLCHAIN_FILE=D:\usr\local\vcpkg\scripts\buildsystems\vcpkg.cmake
 ```
 
+### mongodb 配置
+
+```
+# https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB
+# Where and how to store data.
+storage:
+  dbPath: C:\usr\MongoDB\data
+  journal:
+    enabled: true
+  wiredTiger:
+    engineConfig:
+      cacheSizeGB: 0.25 # 配置内存上限，机器配置低，这个值设置小一点
+```
+
 
 ### TODO
 

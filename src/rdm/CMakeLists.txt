@@ -119,7 +119,7 @@ endif ()
 ##########################################
 # rdm benchmark exe
 ##########################################
-
+message(111111 ${BM_CPP_FILES})
 add_executable(
         rdm_benchmark
         ${BM_CPP_FILES}
