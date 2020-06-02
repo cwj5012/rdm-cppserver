@@ -51,7 +51,7 @@ sudo make install
 
 动态链接，依赖 boost 的项目链接 .so 文件，注意可执行文件发布以后，要把依赖的动态库拷贝到系统目录，不然程序找不到启动报错。
 
-```
+```shell script
 ./bootstrap.sh
 
 ./b2 stage \
@@ -77,7 +77,7 @@ sudo ldconfig
 
 ### Boost 1.73.0 cmake 配置
 
-```
+```cmake
 set(Boost_VERSION 1.73.0)
 set(Boost_VERSION 107300)
 set(Boost_DEBUG ON)
@@ -88,9 +88,8 @@ find_package(Boost 1.73.0 REQUIRED COMPONENTS system filesystem)
 
 ### Boost 1.73.0 cmake 警告忽略
 
-```
-boost 版本太新会有警告，修改文件 /usr/share/cmake-3.16/Modules/FindBoost.cmake，版本号改小，或者删除警告。
-
+```cmake
+# boost 版本太新会有警告，修改文件 /usr/share/cmake-3.16/Modules/FindBoost.cmake，版本号改小，或者删除警告。
 if(NOT Boost_VERSION_STRING VERSION_LESS 1.74.0)
     message(WARNING "New Boost version may have incorrect or missing dependencies and imported targets")
 endif()
