@@ -32,6 +32,11 @@ endif ()
 
 # copy dll
 if (EXISTS ${USER_LOCAL_PATH}/lib/${CMAKE_BUILD_TYPE}/mysqlcppconn.dll)
-    configure_file(${USER_LOCAL_PATH}/lib/${CMAKE_BUILD_TYPE}/mysqlcppconn.dll
-            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
+if (VISUAL_STUDIO)
+    configure_file(${USER_LOCAL_PATH}/lib/${CMAKE_BUILD_TYPE}/mysqlcppconn.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE} COPYONLY)
+    configure_file(${USER_LOCAL_PATH}/lib/${CMAKE_BUILD_TYPE}/libmysql.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE} COPYONLY)
+else ()
+    configure_file(${USER_LOCAL_PATH}/lib/${CMAKE_BUILD_TYPE}/mysqlcppconn.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
+    configure_file(${USER_LOCAL_PATH}/lib/${CMAKE_BUILD_TYPE}/libmysql.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
+endif ()
 endif ()
