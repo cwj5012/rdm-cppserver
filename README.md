@@ -163,7 +163,7 @@ cmake 文件中的 Target 没有自动加入到 Run/Debug Configurations... 里�
 
 clion on windows with msvc 多线程编译，下载 JOM 解压后，路径添加到 PATH 环境变量，设置 Preferences | Build, Execution, Deployment | CMake | Cmake options
 ```
--G "NMake Makefiles JOM" -DCMAKE_TOOLCHAIN_FILE=D:/Users/IGG/Desktop/usr/local/vcpkg/scripts/buildsystems/vcpkg.cmake
+-G "NMake Makefiles JOM" -DCMAKE_TOOLCHAIN_FILE=D:\usr\local\vcpkg\scripts\buildsystems\vcpkg.cmake
 ```
 
 
