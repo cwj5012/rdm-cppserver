@@ -89,7 +89,7 @@ if (WIN32)
     # vcpkg install spdlog:x64-windows
     find_package(benchmark REQUIRED)
     find_package(Protobuf REQUIRED)
-    find_package(Boost 1.73.0 REQUIRED COMPONENTS system filesystem)
+    find_package(Boost 1.73.0 REQUIRED COMPONENTS system filesystem program_options)
     find_package(jsoncpp REQUIRED)
     find_package(tinyxml2 REQUIRED)
     find_package(yaml-cpp REQUIRED)
