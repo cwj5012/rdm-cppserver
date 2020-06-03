@@ -22,7 +22,7 @@ struct CommandInfo {
     std::string desc;
     CommandFunc func;
 
-    CommandInfo(std::string name,
+    explicit CommandInfo(std::string name,
                 std::string desc,
                 CommandFunc func)
             : name(std::move(name)),
@@ -42,11 +42,13 @@ public:
     void release();
 
     void registCommand(std::unique_ptr<CommandInfo>& cmd_info);
+    void registCommand(std::unique_ptr<CommandFunc>& func);
     void parseInput(const std::string& str);
     void executeCommand(const std::string& str);
 
     static void cmd_help(const std::string& param);
-    static void cmd_exit(const std::string& param);
+    static void cmd_abort(const std::string& param);
+    void cmd_options(const std::string& param);
 
 private:
     /**
@@ -55,8 +57,8 @@ private:
      */
     std::vector<CommandInfo::uptr>& getCommand();
 
-    std::map<std::string, CommandInfo::uptr> mCommandFunc;
-
+    std::map<std::string, CommandInfo::uptr> command_func_;
+    std::vector<std::unique_ptr<CommandFunc>> flag_func_;
     std::weak_ptr<Service> service_;
 };
 
