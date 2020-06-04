@@ -5,6 +5,22 @@
 
 #include <boost/core/noncopyable.hpp>
 
+constexpr const char* file_name(const char* path) {
+    const char* file = path;
+    while (*path) {
+#ifdef __linux__
+        if (*path++ == '/') {
+            file = path;
+        }
+#else
+        if (*path++ == '\\') {
+            file = path;
+        }
+#endif
+    }
+    return file;
+}
+
 #define LOG_TRACE(fmt, ...)                                                            \
     Logger::getLogger().trace(fmt, ##__VA_ARGS__)
 
@@ -15,10 +31,10 @@
     Logger::getLogger().info(fmt, ##__VA_ARGS__)
 
 #define LOG_WARN(fmt, ...)                                                            \
-    Logger::getLogger().warn("{}::{} " fmt, __FILE__, __LINE__,  ##__VA_ARGS__)
+    Logger::getLogger().warn("{}:{} " fmt, file_name(__FILE__), __LINE__,  ##__VA_ARGS__)
 
 #define LOG_ERROR(fmt, ...)                                                            \
-    Logger::getLogger().error("{}::{} " fmt, __FILE__, __LINE__,  ##__VA_ARGS__)
+    Logger::getLogger().error("{}:{} " fmt, file_name(__FILE__), __LINE__,  ##__VA_ARGS__)
 
 class Logger : boost::noncopyable {
 public:

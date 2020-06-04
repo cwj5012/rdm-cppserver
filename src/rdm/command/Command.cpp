@@ -72,16 +72,14 @@ void Command::executeCommand(const std::string& str) {
 }
 
 void Command::cmd_help(const std::string& param) {
-    LOG_INFO("cmd_help");
+
 }
 
 void Command::cmd_abort(const std::string& param) {
-    LOG_INFO("cmd_abort");
     abort();
 }
 
 void Command::cmd_options(const std::string& param) {
-    LOG_INFO("cmd_options");
     for (auto& item:flag_func_) {
         (*item)(param);
     }

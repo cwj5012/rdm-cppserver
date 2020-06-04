@@ -6,55 +6,16 @@
 #include <string>
 #include <vector>
 
-#include <boost/bind.hpp>
-#include <boost/tokenizer.hpp>
+#include <boost/algorithm/string.hpp>
+
+#include "../log/Logger.h"
 
 namespace rdm {
 
-// copy_if was left out of the C++03 standard, so mimic the C++11
-// behavior to support all predicate types.  The alternative is to
-// use remove_copy_if, but it only works for adaptable functors.
-template<typename InputIterator,
-        typename OutputIterator,
-        typename Predicate>
-OutputIterator
-copy_ifx(InputIterator first,
-         InputIterator last,
-         OutputIterator result,
-         Predicate pred) {
-    while (first != last) {
-        if (pred(*first))
-            *result++ = *first;
-        ++first;
-    }
-    return result;
-}
-
-/// @brief Tokenize a string.  The tokens will be separated by each non-quoted
-///        space or equal character.  Empty tokens are removed.
-///
-/// @param input The string to tokenize.
-///
-/// @return Vector of tokens.
-std::vector<std::string> tokenize(const std::string& input) {
-    typedef boost::escaped_list_separator<char> separator_type;
-    separator_type separator("\\",    // The escape characters.
-                             "= ",    // The separator characters.
-                             "\"\'"); // The quote characters.
-
-    // Tokenize the intput.
-    boost::tokenizer<separator_type> tokens(input, separator);
-
-    // Copy non-empty tokens from the tokenizer into the result.
-    std::vector<std::string> result;
-    copy_ifx(tokens.begin(), tokens.end(), std::back_inserter(result),
-             !boost::bind(&std::string::empty, _1));
-    return result;
-}
-
 namespace po = boost::program_options;
 
-Options::Options() {
+Options::Options()
+        : desc_("xxxxxxxxxxxxx") {
 
 }
 
@@ -63,18 +24,50 @@ Options::~Options() {
 }
 
 bool Options::init() {
-    std::string a;
-    uint32_t port;
     desc_.add_options()
-            ("address", po::value<std::string>(&a))
-            ("port", po::value<uint32_t>(&port));
+            ("help,h", "111")
+            ("address,a", po::value<std::string>(), "222")
+            ("port,p", po::value<std::vector<std::string>>()->multitoken(), "333");
 
     return true;
 }
 
 void Options::parse(const std::string& cmd) {
-    po::store(po::command_line_parser(tokenize(cmd)).options(desc_).run(), vm_);
-    po::notify(vm_);
+    try {
+        std::vector<std::string> parsedInput;
+        boost::split(parsedInput, cmd, boost::is_any_of(" "), boost::token_compress_on);
+
+        std::vector<char const*> args{"command"};
+        for (auto& arg : parsedInput)
+            args.push_back(arg.c_str());
+
+        po::store(po::parse_command_line(args.size(), args.data(), desc_), vm_);
+        po::notify(vm_);
+    } catch (std::exception& ex) {
+        LOG_ERROR("{}", ex.what());
+        return;
+    }
+
+    // for (const auto& it : vm_) {
+    //     std::cout << it.first.c_str() << ": ";
+    //     auto& value = it.second.value();
+    //     if (auto v = boost::any_cast<uint32_t>(&value))
+    //         std::cout << *v;
+    //     else if (auto v = boost::any_cast<std::string>(&value))
+    //         std::cout << *v;
+    //     else
+    //         std::cout << "error";
+    //     std::cout << std::endl;
+    // }
+
+    if (vm_.count("port")) {
+        // std::cout << "size: " << vm_["port"].as<std::vector<std::string>>().size();
+    }
+    std::cout << std::endl;
+
+    if (vm_.count("help")) {
+        showUsage();
+    }
 }
 
 void Options::reset() {
@@ -83,6 +76,12 @@ void Options::reset() {
 
 void Options::release() {
 
+}
+
+void Options::showUsage() {
+    std::stringstream ss;
+    ss << desc_;
+    LOG_INFO("\n{}", ss.str());
 }
 
 }

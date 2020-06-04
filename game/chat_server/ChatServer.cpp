@@ -36,13 +36,10 @@ bool ChatServer::onInit() {
     getCommand()->registCommand(exit); // std::unique_ptr<CommandFunc>& func
 
     auto flag = std::make_unique<rdm::CommandFunc>([](const std::string& arg) {
-        LOG_INFO("{}", arg);
-
         rdm::Options op;
         op.init();
         op.parse(arg);
         auto vm = op.getValues();
-
     });
     getCommand()->registCommand(flag);
 
