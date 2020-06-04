@@ -55,6 +55,10 @@ else ()
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)     # static
 endif ()
 
+file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+file(MAKE_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+file(MAKE_DIRECTORY ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
+
 # 如果动态链接库失败，尝试下面设置
 # set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
@@ -168,6 +172,8 @@ set(
 add_subdirectory(game/chat_server)
 add_subdirectory(game/client)
 add_subdirectory(game/login_server)
+add_subdirectory(game/service_server)
+add_subdirectory(game/manager_server)
 
 add_subdirectory(src/benchmark_usage)
 add_subdirectory(src/boost_usage)
