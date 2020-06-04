@@ -15,6 +15,9 @@ manager sercer 用于管理所有服务器，包括关闭，启动，查看负�
     - 其他类型的服务器只跟对应类型的 service server 连接；
     - manager server 可以配置一台或多台，跟所有 service server 连接；
     
+---
+
+```
 | --- manager_server (one or n)
 |
 | --- service_server(n)     --- chat_server A
@@ -37,7 +40,8 @@ manager sercer 用于管理所有服务器，包括关闭，启动，查看负�
 |                           --- client B
 |                           --- client ... (n)
 |
-| --- service ......            
+| --- service ......          
+```
 
 ## ubuntu 20.04
 
