@@ -33,6 +33,6 @@ TEST_CASE("xxxxx", "[]") {
     }
 
     sw.end();
-    std::cout << "insert_one 1w, " << sw.duration() << " ms" << std::endl;
+    std::cout << "insert_one 1w, " << sw.durationMs() << " ms" << std::endl;
     sw.reset();
 }

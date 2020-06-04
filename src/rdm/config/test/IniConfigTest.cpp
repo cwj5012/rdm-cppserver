@@ -5,7 +5,7 @@
 using namespace rdm;
 
 TEST_CASE("IniConfig", "[]") {
-    std::string path{"/home/me/test/test.ini"};
+    std::string path{"../../src/rdm/config/test/test.ini"};
     auto ini = IniConfig(path);
     ini.parse();
     auto reader = ini.getReader();

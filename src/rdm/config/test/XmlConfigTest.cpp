@@ -5,7 +5,7 @@
 using namespace rdm;
 
 TEST_CASE("XmlConfig", "[]") {
-    std::string path{"/home/me/test/test.xml"};
+    std::string path{"../../src/rdm/config/test/test.xml"};
     auto xml = XmlConfig(path);
     REQUIRE(xml.parse() == 0);
     auto doc = xml.getDoc();

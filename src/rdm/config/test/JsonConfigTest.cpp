@@ -6,7 +6,7 @@
 using namespace rdm;
 
 TEST_CASE("JsonConfig", "[]") {
-    std::string path{"/home/me/test/test.json"};
+    std::string path{"../../src/rdm/config/test/test.json"};
     auto json = JsonConfig(path);
     json.parse();
     auto root = json.getRoot();

@@ -6,7 +6,7 @@
 using namespace rdm;
 
 TEST_CASE("YamlConfig", "[]") {
-    std::string path{"/home/me/test/test.yaml"};
+    std::string path{"../../src/rdm/config/test/test.yaml"};
     auto yaml = YamlConfig(std::move(path));
     REQUIRE(yaml.parse() == 0);
     auto node = yaml.getNode();

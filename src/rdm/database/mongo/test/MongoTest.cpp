@@ -22,7 +22,7 @@ TEST_CASE("MongoTest", "[]") {
         collection.insert_one(document.view());
     }
     sw.end();
-    std::cout << "insert_one 1w, " << sw.duration() << " ms" << std::endl;
+    std::cout << "insert_one 1w, " << sw.durationMs() << " ms" << std::endl;
     sw.reset();
 
     sw.start();
@@ -33,7 +33,7 @@ TEST_CASE("MongoTest", "[]") {
     }
     collection.insert_many(documents);
     sw.end();
-    std::cout << "insert_many 10w, " << sw.duration() << " ms" << std::endl;
+    std::cout << "insert_many 10w, " << sw.durationMs() << " ms" << std::endl;
     sw.reset();
 
 //    auto cursor = collection.find({});
