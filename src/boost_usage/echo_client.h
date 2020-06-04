@@ -5,6 +5,8 @@
 #include <iostream>
 #include <boost/asio.hpp>
 
+#include "../rdm/util/Time.h"
+
 using boost::asio::ip::tcp;
 
 enum {
@@ -23,12 +25,18 @@ void echo_client(std::string host, std::string port, int count) {
         size_t request_length = std::strlen(request);
 
         for (int i = 0; i < count; ++i) {
+            // rdm::StopWatch sw;
+            // sw.restart();
+            // 测试时间开始 ==============================
+
             boost::asio::write(s, boost::asio::buffer(request, request_length));
 
             char reply[max_length];
             boost::asio::read(s, boost::asio::buffer(reply, request_length));
-            // size_t reply_length =
-            // std::cout.write(reply, reply_length);
+
+            // 测试时间结束 ==============================
+            // sw.end();
+            // std::cout << sw.durationUs() << std::endl;
         }
     }
     catch (std::exception& e) {

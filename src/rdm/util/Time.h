@@ -21,6 +21,11 @@ using std::chrono::duration_cast;
 
 class StopWatch {
 public:
+    void restart() {
+        reset();
+        now_ = high_resolution_clock::now();
+    }
+
     void start() { now_ = high_resolution_clock::now(); }
 
     void end() { end_ = high_resolution_clock::now(); }
@@ -30,7 +35,14 @@ public:
         end_ = {};
     }
 
-    int64_t duration() { return duration_cast<std::chrono::milliseconds>(end_ - now_).count(); }
+    // 单位（秒）
+    int64_t durationS() { return duration_cast<std::chrono::seconds>(end_ - now_).count(); }
+    // 单位（毫秒）
+    int64_t durationMs() { return duration_cast<std::chrono::milliseconds>(end_ - now_).count(); }
+    // 单位（微秒）
+    int64_t durationUs() { return duration_cast<std::chrono::microseconds>(end_ - now_).count(); }
+    // 单位（纳秒）
+    int64_t durationNs() { return duration_cast<std::chrono::nanoseconds>(end_ - now_).count(); }
 
 private:
     time_point<steady_clock> now_;
