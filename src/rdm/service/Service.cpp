@@ -62,7 +62,7 @@ bool Service::init() {
 
 
     db_manager_ = std::make_shared<DBServiceManager>(shared_from_this());
-    if (!db_manager_) {
+    if (!db_manager_ || db_manager_->status() != 0) {
         LOG_ERROR("database manager create error.");
     }
 
@@ -116,11 +116,10 @@ void Service::exit() {
 
     net_server_->release();
     command_->release();
-//    db_manager_->release();
-//    client_manager_->release();
-//    timer_manager_->release();
-//    thread_pool_->release();
-
+    // db_manager_->release();
+    // client_manager_->release();
+    // timer_manager_->release();
+    // thread_pool_->release();
 }
 
 const std::shared_ptr<NetServer>& Service::getNetServer() const {

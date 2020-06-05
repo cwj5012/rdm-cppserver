@@ -1,4 +1,4 @@
-set(TARGET_NAME manager_server)
+set(TARGET_NAME master_server)
 
 file(
         GLOB CPP_FILES

@@ -21,13 +21,16 @@ public:
 
     void setThreadNum(int32_t num);
 
-    int32_t getThreadNum() const;
+    [[nodiscard]] int32_t getThreadNum() const;
 
     DBConnectionPool* getDBConnectionPool();
 
     bool init();
 
+    [[nodiscard]] int32_t status() const;
+
 private:
+    int32_t status_{0};
     int32_t thread_num_{1};
     std::vector<DBConnection*> db_connections_;
 

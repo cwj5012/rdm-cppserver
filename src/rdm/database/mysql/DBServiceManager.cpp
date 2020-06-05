@@ -1,10 +1,10 @@
-﻿#include "DBServiceManager.h"
+﻿#include <sstream>
+#include "DBServiceManager.h"
 #include "DBConnectionPool.h"
 #include "IDBConnection.h"
 #include "../../log/Logger.h"
 #include "../../service/Service.h"
 #include "../../config/ServerNetConfig.h"
-
 namespace rdm {
 
 DBServiceManager::DBServiceManager() {
@@ -23,19 +23,24 @@ DBServiceManager::DBServiceManager(const std::shared_ptr<Service>& service)
         : service_(service) {
     if (mDBConnectionPool == nullptr) {
         auto info = service_.lock()->getServerNetConfig()->getServerNetInfo();
-
-        db_info_.name = info->mysql_info.user_name;
-        db_info_.passwd = info->mysql_info.password;
-        db_info_.ip = info->mysql_info.host;
-        try {
-            db_info_.port = std::stoi(info->mysql_info.port);
-        } catch (std::exception& ex) {
-            LOG_ERROR("{}", ex.what());
+        if (!info->mysql_info.host.empty()) {
+            // mysql 信息找到配置
+            db_info_.name = info->mysql_info.user_name;
+            db_info_.passwd = info->mysql_info.password;
+            db_info_.ip = info->mysql_info.host;
+            try {
+                db_info_.port = std::stoi(info->mysql_info.port);
+            } catch (std::exception& ex) {
+                status_ = 1;
+                LOG_ERROR("{}", ex.what());
+                return;
+            }
+            mDBConnectionPool = new DBConnectionPool(db_info_);
+        } else {
+            status_ = 2;
             return;
         }
-
-
-        mDBConnectionPool = new DBConnectionPool(db_info_);
+        status_ = 0;
     }
 }
 
@@ -63,6 +68,10 @@ DBConnectionPool* DBServiceManager::getDBConnectionPool() {
 bool DBServiceManager::init() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
+    if (status_ != 0) {
+        return false;
+    }
+
     if (mDBConnectionPool == nullptr) {
         return false;
     }
@@ -72,12 +81,16 @@ bool DBServiceManager::init() {
 
     for (auto i = 0; i < thread_num_; ++i) {
         DatabaseLoginInfo info;
-//            DBConnection db_service(info);
-//            db_service.connect();
-//
-//            db_connections_.push_back(&db_service);
+        // DBConnection db_service(info);
+        // db_service.connect();
+        //
+        // db_connections_.push_back(&db_service);
     }
     return true;
+}
+
+int32_t DBServiceManager::status() const {
+    return status_;
 }
 
 }

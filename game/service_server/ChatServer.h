@@ -6,15 +6,10 @@
 
 #include "ChatRoom.h"
 
-/**
- * 聊天室服务器
- * 支持创建聊天室，进入聊天室
- * 收发消息
- */
-class ChatServer : public rdm::Service {
+class MasterServer : public rdm::Service {
 public:
-    ChatServer();
-    ~ChatServer() override;
+    MasterServer();
+    ~MasterServer() override;
 
     bool onInit() override;
     void onRun() override;

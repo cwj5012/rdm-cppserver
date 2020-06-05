@@ -173,7 +173,7 @@ add_subdirectory(game/chat_server)
 add_subdirectory(game/client)
 add_subdirectory(game/login_server)
 add_subdirectory(game/service_server)
-add_subdirectory(game/manager_server)
+add_subdirectory(game/master_server)
 
 add_subdirectory(src/benchmark_usage)
 add_subdirectory(src/boost_usage)

@@ -60,13 +60,14 @@ bool ServerNetConfig::load() {
     }
 
     auto mysql_config = (*node)["server"]["db"]["mysql"];
-    auto host = mysql_config["host"].as<std::string>();
-    auto port = mysql_config["port"].as<std::string>();
-    auto user_name = mysql_config["user"].as<std::string>();
-    auto password = mysql_config["passwd"].as<std::string>();
-    auto db_name = mysql_config["schema"].as<std::string>();
-    info_.mysql_info = MysqlInfo(host, port, user_name, password, db_name);
-
+    if (mysql_config.IsDefined()) {
+        auto host = mysql_config["host"].as<std::string>();
+        auto port = mysql_config["port"].as<std::string>();
+        auto user_name = mysql_config["user"].as<std::string>();
+        auto password = mysql_config["passwd"].as<std::string>();
+        auto db_name = mysql_config["schema"].as<std::string>();
+        info_.mysql_info = MysqlInfo(host, port, user_name, password, db_name);
+    }
 
     return true;
 }
