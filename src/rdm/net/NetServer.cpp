@@ -23,7 +23,7 @@ void NetServer::init() {
     NetManager& nm = NetManager::inst();
 
     auto info = service_.lock()->getServerNetConfig()->getServerNetInfo();
-    LOG_INFO("=====================");
+    LOG_INFO("===================== listen from remote...");
     for (auto& item : info->listen_list) {
         auto id = item.first;
         auto ip = item.second.ip;

@@ -21,12 +21,9 @@ server:
     - id: 1
       ip: 127.0.0.1
       port: 6001
-    - id: 2
-      ip: 127.0.0.1
-      port: 6002
   connect:
     - id: 1
       ip: 127.0.0.1
-      port: 6051
+      port: 6091
   db:
     mysql: *mysql_1

@@ -33,8 +33,6 @@ NetClient::NetClient(boost::asio::io_service* io_context,
 
     mMessageSubject = std::make_shared<MessageSubject>();
 
-    // doConnect(ip, port);
-
     tcp::resolver resolver(*mIoContext);
     endpoints_ = resolver.resolve(ip, port);
     start();
@@ -53,8 +51,6 @@ NetClient::NetClient(boost::asio::io_service* io_context,
     mMessageSubject = std::make_shared<MessageSubject>();
 
     endpoints_ = endpoints;
-
-    // doConnect(endpoints);
 
     start();
 }
@@ -92,7 +88,7 @@ void NetClient::stop() {
 
 void NetClient::restart() {
     if (!isConnected()) {
-        // LOG_INFO("connect again");
+        LOG_INFO("connect again");
 
         mSocket->close();
         if (mSocket != nullptr) {

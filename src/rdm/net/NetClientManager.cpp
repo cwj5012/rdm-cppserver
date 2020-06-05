@@ -25,8 +25,8 @@ NetClientManager::~NetClientManager() {
 bool NetClientManager::init() {
     NetManager& nm = NetManager::inst();
 
-    auto info = ServerNetConfig::inst()->getServerNetInfo();
-    LOG_INFO("=====================");
+    auto info = service_.lock()->getServerNetConfig()->getServerNetInfo();
+    LOG_INFO("===================== connect to remote...");
     for (auto& item : info->connect_list) {
         auto id = item.first;
         auto ip = item.second.ip;
@@ -37,6 +37,8 @@ bool NetClientManager::init() {
     }
 
     while (true) {
+        // todo 等待 1 秒检查连接远程服务器是否成功，如果不是内网连接，等待时间配大点，比如 3 秒
+        ThreadUtil::sleep(1000);
         bool all_connected = true;
         for (auto& item : info->connect_list) {
             auto id = item.first;
@@ -52,7 +54,6 @@ bool NetClientManager::init() {
             LOG_INFO("all server is connected");
             break;
         }
-        ThreadUtil::sleep(1000);
     }
 
     rdm::pb::ServerRegister send_msg;

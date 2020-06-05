@@ -64,7 +64,7 @@ private:
 
     std::string remote_addr;
     uint16_t remote_port{0};
-    uint8_t mode_{kDebug | kEchoMode};
+    uint8_t mode_{kDebug | kMessageMode};
 };
 
 }
