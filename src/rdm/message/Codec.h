@@ -182,6 +182,28 @@ inline static std::string packHeader(const std::string& buf);
  */
 inline static std::string unpackHeader(const std::string& buf);
 
+inline uint32_t byte4ToInt32(char* buf) {
+    return uint32_t((uint8_t) (buf[0]) << 24u |
+                    (uint8_t) (buf[1]) << 16u |
+                    (uint8_t) (buf[2]) << 8u |
+                    (uint8_t) (buf[3]));
+}
+
+inline uint32_t byte4ToInt32(const std::string& buf) {
+    if (buf.size() < 4) return 0;
+    return uint32_t((uint8_t) (buf[0]) << 24u |
+                    (uint8_t) (buf[1]) << 16u |
+                    (uint8_t) (buf[2]) << 8u |
+                    (uint8_t) (buf[3]));
+}
+
+inline uint32_t byte4ToInt32Big(char* buf) {
+    return uint32_t((uint8_t) (buf[3]) << 24u |
+                    (uint8_t) (buf[2]) << 16u |
+                    (uint8_t) (buf[1]) << 8u |
+                    (uint8_t) (buf[0]));
+}
+
 /*********************************
  *
  * definition
@@ -328,8 +350,8 @@ google::protobuf::Message* decodeE(const std::string& buf) {
 
     int32_t len = static_cast<int32_t>(buf.length());
 
-    if (len >= kHeaderLenX2) {
-        const char* begin = buf.c_str() + kHeaderLen;
+    if (len >= kHeaderLen) {
+        const char* begin = buf.c_str();
 
         int32_t message_enum = 0;
         message_enum += (uint8_t) begin[0] << 24;
@@ -354,8 +376,8 @@ google::protobuf::Message* decodeE(const std::string& buf) {
             Message* message = proto->New();
 
             if (message) {
-                const char* data = buf.c_str() + kHeaderLenX2;
-                int32_t dataLen = len - kHeaderLenX2;
+                const char* data = buf.c_str() + kHeaderLen;
+                int32_t dataLen = len - kHeaderLen;
                 if (message->ParseFromArray(data, dataLen)) {
                     result = message;
                 } else {

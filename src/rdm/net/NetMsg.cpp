@@ -30,7 +30,7 @@ const std::string* NetMsg::getBuf() {
 }
 
 google::protobuf::Message* NetMsg::getProtoMsg() const {
-    return decode(*mBuf);
+    return decodeE(*mBuf);
 }
 
 tcp::socket* NetMsg::getSocket() const {

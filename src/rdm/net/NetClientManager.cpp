@@ -61,7 +61,7 @@ bool NetClientManager::init() {
     send_msg.set_type(info->system_type);
     for (auto client : net_clients_) {
         // 连接上服务器以后，会发一条自己的信息通知服务器
-        client.second->write(encode(send_msg));
+        client.second->write(encodeE(send_msg));
     }
     LOG_INFO("notify other server the id and type info");
 

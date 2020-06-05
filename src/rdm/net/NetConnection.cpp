@@ -92,7 +92,7 @@ void NetConnection::handleRead(const boost::system::error_code& ec,
     if (mode_ & kDebug) {
         LOG_DEBUG("recv data {}: {}",
                   bytes_transferred,
-                  bytes_transferred < 20 ? DebugPrint::StringToDecSet(read_data) : "data is long...");
+                  bytes_transferred < 80 ? DebugPrint::StringToDecSet(read_data) : "data is long...");
     }
 
     if (mode_ & kEchoMode) {
@@ -112,25 +112,25 @@ void NetConnection::handleRead(const boost::system::error_code& ec,
         // 粘包处理
         if (mReadMessageBuffer.length() >= 4) {
             try {
-                auto len = uint32_t((uint8_t) (mReadMessageBuffer[3]) << 24u |
-                                    (uint8_t) (mReadMessageBuffer[2]) << 16u |
-                                    (uint8_t) (mReadMessageBuffer[1]) << 8u |
-                                    (uint8_t) (mReadMessageBuffer[0]));
+                auto len = byte4ToInt32(mReadMessageBuffer);
+
                 if (mode_ & kDebug) {
                     LOG_DEBUG("recv body size: {}", len);
                 }
                 if (mReadMessageBuffer.length() >= len + 4) {
                     // 提取消息
-                    std::string read_msg = mReadMessageBuffer.substr(0, len + 4);
+                    std::string read_msg = mReadMessageBuffer.substr(4, len);
+
                     // 截断消息
                     mReadMessageBuffer = mReadMessageBuffer.substr(len + 4);
 
                     if (mode_ & kDebug) {
-                        LOG_DEBUG("recv body: {}", read_msg);
+                        LOG_DEBUG("recv body: {}", DebugPrint::StringToDecSet(read_msg));
+                        LOG_DEBUG("buff size: {}", mReadMessageBuffer.size());
                     }
-                    // NetMsg net_msg;
-                    // net_msg.bind(&read_msg, &socket_);
-                    // NetManager::inst().getMessageSubject()->resolveMessage(&net_msg);
+                    NetMsg net_msg;
+                    net_msg.bind(&read_msg, &socket_);
+                    NetManager::inst().getMessageSubject()->resolveMessage(&net_msg);
                 } else {
                     // 收到的数据长度不足，等待下个包
                     break;

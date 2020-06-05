@@ -51,7 +51,7 @@ void MessageSubject::onChange(NetMsg* net_msg) {
     auto resolve_type = net_msg->getResolveType();
     switch (resolve_type) {
         case MessageResolveType::BY_PROTOBUF_NAME : {
-            auto* pb_msg = decode(*net_msg->getBuf());
+            auto* pb_msg = decodeE(*net_msg->getBuf());
             if (pb_msg == nullptr) {
                 LOG_ERROR("net msg decode is null, type: {}, size: {}",
                           static_cast<int32_t>(MessageResolveType::BY_PROTOBUF_NAME),
@@ -91,8 +91,6 @@ void MessageSubject::onChange(NetMsg* net_msg) {
             LOG_ERROR("unknow message resolve type");
             break;
     }
-
-
 }
 
 void MessageSubject::resolveMessage(NetMsg* net_msg) {
@@ -100,7 +98,6 @@ void MessageSubject::resolveMessage(NetMsg* net_msg) {
         LOG_ERROR("net msg is null");
         return;
     }
-
     onChange(net_msg);
 }
 
