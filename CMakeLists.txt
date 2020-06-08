@@ -6,8 +6,8 @@ project(${PROJECT_NAME})
 set(CMAKE_CXX_STANDARD 17)
 
 # 根据实际路径配置
-set(USER_LOCAL_PATH
-        d:/usr/local)
+set(USER_LOCAL_PATH c:/root/usr/local)
+set(USER_VCPKG_PATH c:/root/opt/vcpkg)
 
 if (NOT DEFINED CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
@@ -137,7 +137,7 @@ include_directories(
         ${CMAKE_SOURCE_DIR}/third_party/yaml-cpp/include
         /usr/local/include/mongocxx/v_noabi
         /usr/local/include/bsoncxx/v_noabi
-        ${USER_LOCAL_PATH}/vcpkg/installed/x64-windows/include
+        ${USER_VCPKG_PATH}/installed/x64-windows/include
 )
 
 if (WIN32)
