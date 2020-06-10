@@ -10,9 +10,17 @@ using namespace rdm;
 TEST_CASE("RedisTest", "[]") {
     cpp_redis::client client;
 
-    client.connect();
+    client.connect("ubuntu.a.com", 6379);
 
-    client.set("hello", "42");
+    StopWatch sw;
+    sw.start();
+    for (int i = 0; i < 10 * 1000; ++i) {
+        client.set(std::to_string(i), "42");
+    }
+    sw.end();
+    std::cout << "insert_one 1w, " << sw.durationMs() << " ms" << std::endl;
+    sw.reset();
+
     client.get("hello", [](cpp_redis::reply& reply) {
         std::cout << reply << std::endl;
     });

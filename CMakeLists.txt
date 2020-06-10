@@ -166,6 +166,7 @@ set(
         benchmark::benchmark benchmark::benchmark_main
         spdlog::spdlog spdlog::spdlog_header_only
         yaml-cpp
+        ${CPPREDIS_LIBRARY}
         ${INIH_LIBRARYS}
 )
 
