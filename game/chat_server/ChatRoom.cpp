@@ -6,7 +6,8 @@
 #include "MessageType.h"
 
 ChatRoom::ChatRoom(rdm::Service* service, uint64_t id)
-        : service_(service), id_(id) {
+        : service_(service),
+          id_(id) {
 
 }
 
