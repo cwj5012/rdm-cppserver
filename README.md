@@ -17,9 +17,10 @@ service server 作为服务入口，通过 service server 访问外部服务。
 manager sercer 用于管理所有服务器，包括关闭，启动，查看负载等。
 
 网络连接：
-    - service server 理论上与所有其他 service server 连接，可以根据内部和外部服务，做区分，比如跟客户端连接的 sercie 和跟 db 连接的 server 之间不应该有连接；
-    - 其他类型的服务器只跟对应类型的 service server 连接；
-    - manager server 可以配置一台或多台，跟所有 service server 连接；
+
+- service server 理论上与所有其他 service server 连接，可以根据内部和外部服务，做区分，比如跟客户端连接的 sercie 和跟 db 连接的 server 之间不应该有连接；
+- 其他类型的服务器只跟对应类型的 service server 连接；
+- manager server 可以配置一台或多台，跟所有 service server 连接；
     
 ---
 
