@@ -4,7 +4,7 @@ This is a Game Server develop by c++ 17, implement any basic module, and you can
 
 The structure is like micrro service, all the service is access by api service. Dedicate server is manage by api service, and all the api service is manage by master server, you can easily extend the server when player is more.
 
-important: the current version is in developing, the api will be changed frequently, you may use this library when it release a stable version like v1.0.0.
+Important: the current version is in developing, the api will be changed frequently, you may use this library when it release a stable version like v1.0.0.
 
 ## file structure
 
