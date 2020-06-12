@@ -49,3 +49,12 @@ master_server:
     - id: 1
       ip: 127.0.0.1
       port: 6091
+
+client:
+  id: 1
+  type: 1
+  name: client
+  connect:
+    - id: 1
+      ip: 127.0.0.1
+      port: 6051

@@ -4,10 +4,10 @@
 
 #include <rdm/service/Service.h>
 
-class MasterServer : public rdm::Service {
+class Client : public rdm::Service {
 public:
-    MasterServer();
-    ~MasterServer() override;
+    Client();
+    ~Client() override;
 
     bool onInit() override;
     void onRun() override;
