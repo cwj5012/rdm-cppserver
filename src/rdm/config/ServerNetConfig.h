@@ -80,11 +80,13 @@ public:
     ServerNetInfo* getServerNetInfo();
 
     void setPath(const std::string& path);
+    void setKey(const std::string& key);
 
 private:
     bool load();
 
     std::string path_;
+    std::string key_{"server"};
     ServerNetInfo info_;
 };
 

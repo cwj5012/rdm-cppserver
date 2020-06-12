@@ -7,12 +7,12 @@
 
 #include "User.h"
 
-class ApiServer;
+class ApiService;
 class ChatRoom final : public rdm::IObserver, rdm::DataModule {
 public:
     using uptr = std::unique_ptr<ChatRoom>;
 
-    explicit ChatRoom(const std::shared_ptr<ApiServer>& service, uint64_t id);
+    explicit ChatRoom(const std::shared_ptr<ApiService>& service, uint64_t id);
     ~ChatRoom() override;
 
     void doOnMessage(const rdm::NetMsg* net_msg) override;
@@ -26,7 +26,7 @@ private:
 private:
     uint64_t id_{0};
     std::map<uint64_t, std::unique_ptr<User>> users_;
-    std::weak_ptr<ApiServer> service_;
+    std::weak_ptr<ApiService> service_;
 };
 
 

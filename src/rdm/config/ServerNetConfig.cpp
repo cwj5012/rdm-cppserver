@@ -28,6 +28,10 @@ void ServerNetConfig::setPath(const std::string& path) {
     path_ = path;
 }
 
+void ServerNetConfig::setKey(const std::string& key) {
+    key_ = key;
+}
+
 bool ServerNetConfig::load() {
     std::string path{path_};
     auto yaml = YamlConfig(std::move(path));
@@ -41,25 +45,25 @@ bool ServerNetConfig::load() {
         return false;
     }
 
-    info_.system_id = (*node)["server"]["id"].as<uint32_t>();
-    info_.system_type = (*node)["server"]["type"].as<uint32_t>();
-    info_.system_name = (*node)["server"]["name"].as<std::string>();
+    info_.system_id = (*node)[key_]["id"].as<uint32_t>();
+    info_.system_type = (*node)[key_]["type"].as<uint32_t>();
+    info_.system_name = (*node)[key_]["name"].as<std::string>();
 
-    for (auto item:(*node)["server"]["listen"]) {
+    for (auto item:(*node)[key_]["listen"]) {
         auto id = item["id"].as<uint32_t>();
         auto ip = item["ip"].as<std::string>();
         auto port = item["port"].as<std::string>();
         info_.listen_list[id] = HostInfo(ip, port);
     }
 
-    for (auto item:(*node)["server"]["connect"]) {
+    for (auto item:(*node)[key_]["connect"]) {
         auto id = item["id"].as<uint32_t>();
         auto ip = item["ip"].as<std::string>();
         auto port = item["port"].as<std::string>();
         info_.connect_list[id] = HostInfo(ip, port);
     }
 
-    auto mysql_config = (*node)["server"]["db"]["mysql"];
+    auto mysql_config = (*node)[key_]["db"]["mysql"];
     if (mysql_config.IsDefined()) {
         auto host = mysql_config["host"].as<std::string>();
         auto port = mysql_config["port"].as<std::string>();

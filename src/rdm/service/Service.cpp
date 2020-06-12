@@ -41,6 +41,7 @@ bool Service::init() {
 
     if (!server_net_config_->init()) {
         LOG_ERROR("server net config init error.");
+        return false;
     }
 
     net_server_ = std::make_shared<NetServer>(shared_from_this());
@@ -96,6 +97,8 @@ bool Service::init() {
         break;
     }
 
+    status_ = Status::init_ok;
+
     onInit();
 
     return true;
@@ -103,6 +106,11 @@ bool Service::init() {
 
 void Service::run() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
+
+    if (status_ != Status::init_ok) {
+        LOG_ERROR("init not ok, {}", status_);
+        return;
+    }
 
     command_->run();
     net_server_->run(); // boost asio 阻塞
@@ -155,6 +163,10 @@ const std::shared_ptr<ServerNetConfig>& Service::getServerNetConfig() const {
 
 void Service::setConfigPath(std::string&& path) {
     server_net_config_->setPath(path);
+}
+
+void Service::setConfigKey(std::string&& key) {
+    server_net_config_->setKey(key);
 }
 
 }

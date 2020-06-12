@@ -1,4 +1,4 @@
-set(TARGET_NAME service_server)
+set(TARGET_NAME api_service)
 
 file(
         GLOB CPP_FILES

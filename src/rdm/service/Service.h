@@ -28,6 +28,7 @@ public:
     void exit();
 
     void setConfigPath(std::string&& path);
+    void setConfigKey(std::string&& key);
 
     [[nodiscard]] const std::shared_ptr<NetServer>& getNetServer() const;
     [[nodiscard]] const std::shared_ptr<Command>& getCommand() const;
@@ -39,6 +40,12 @@ public:
     [[nodiscard]] const std::shared_ptr<ServerNetConfig>& getServerNetConfig() const;
 
 private:
+    enum Status {
+        none,
+        init_ok,
+        init_error,
+    };
+    Status status_{init_error};
     std::shared_ptr<NetServer> net_server_;
     std::shared_ptr<Command> command_;
     std::shared_ptr<DBServiceManager> db_manager_;

@@ -4,9 +4,9 @@
 #include <rdm/net/NetServer.h>
 
 #include "MessageType.h"
-#include "ApiServer.h"
+#include "ApiService.h"
 
-ChatRoom::ChatRoom(const std::shared_ptr<ApiServer>& service, uint64_t id)
+ChatRoom::ChatRoom(const std::shared_ptr<ApiService>& service, uint64_t id)
         : service_(service),
           id_(id) {
 

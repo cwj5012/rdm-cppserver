@@ -1,4 +1,4 @@
-#include "ApiServer.h"
+#include "ApiService.h"
 
 #include <functional>
 #include <memory>
@@ -7,18 +7,18 @@
 #include <rdm/command/Command.h>
 #include <rdm/command/Options.h>
 
-ApiServer::ApiServer() {
+ApiService::ApiService() {
 
 }
 
-ApiServer::~ApiServer() {
+ApiService::~ApiService() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 }
 
-bool ApiServer::onInit() {
+bool ApiService::onInit() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
-    auto this_ptr = std::dynamic_pointer_cast<ApiServer>(shared_from_this());
+    auto this_ptr = std::dynamic_pointer_cast<ApiService>(shared_from_this());
 
     auto new_room = std::make_unique<rdm::CommandInfo>(
             "new_room", "create room", [&](const std::string& arg) {
@@ -48,10 +48,10 @@ bool ApiServer::onInit() {
     return true;
 }
 
-void ApiServer::onRun() {
+void ApiService::onRun() {
 
 }
 
-bool ApiServer::onExit() {
+bool ApiService::onExit() {
     return true;
 }

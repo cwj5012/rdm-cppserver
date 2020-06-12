@@ -174,7 +174,7 @@ set(
 add_subdirectory(game/chat_server)
 add_subdirectory(game/client)
 add_subdirectory(game/login_server)
-add_subdirectory(game/service_server)
+add_subdirectory(game/api_service)
 add_subdirectory(game/master_server)
 
 add_subdirectory(src/benchmark_usage)

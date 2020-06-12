@@ -27,23 +27,23 @@ manager sercer 用于管理所有服务器，包括关闭，启动，查看负�
 ```
 | --- manager_server (one or n)
 |
-| --- service_server(n)     --- chat_server A
+| --- api_service(n)     --- chat_server A
 |                           --- chat_server B
 |                           --- chat_server ... (n)
 |                  
-| --- service_server(n)     --- login_server A
+| --- api_service(n)     --- login_server A
 |                           --- login_server B
 |                           --- login_server ... (n)
 |               
-| --- service_server(n)     --- game_server A
+| --- api_service(n)     --- game_server A
 |                           --- game_server B
 |                           --- game_server ... (n)
 |
-| --- service_server(n)     --- db_server A
+| --- api_service(n)     --- db_server A
 |                           --- db_server B
 |                           --- db_server ... (n)
 |
-| --- service_server(n)     --- client A
+| --- api_service(n)     --- client A
 |                           --- client B
 |                           --- client ... (n)
 |

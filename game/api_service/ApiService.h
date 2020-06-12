@@ -6,10 +6,10 @@
 
 #include "ChatRoom.h"
 
-class ApiServer : public rdm::Service {
+class ApiService : public rdm::Service {
 public:
-    ApiServer();
-    ~ApiServer() override;
+    ApiService();
+    ~ApiService() override;
 
     bool onInit() override;
     void onRun() override;

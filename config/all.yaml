@@ -13,7 +13,7 @@ mysql_1: &mysql_1
 # server
 #################################################
 
-server:
+chat_server:
   id: 1
   type: 1
   name: chat_room
@@ -24,6 +24,28 @@ server:
   connect:
     - id: 1
       ip: 127.0.0.1
-      port: 6051
+      port: 6091
   db:
     mysql: *mysql_1
+
+api_service:
+  id: 1
+  type: 1
+  name: api_service
+  listen:
+    - id: 1
+      ip: 127.0.0.1
+      port: 6051
+  connect:
+    - id: 1
+      ip: 127.0.0.1
+      port: 6091
+
+master_server:
+  id: 1
+  type: 1
+  name: master
+  listen:
+    - id: 1
+      ip: 127.0.0.1
+      port: 6091
