@@ -4,14 +4,16 @@
 #include <rdm/net/NetServer.h>
 
 #include "MessageType.h"
+#include "ChatServer.h"
 
-ChatRoom::ChatRoom(rdm::Service* service, uint64_t id)
+ChatRoom::ChatRoom(const std::shared_ptr<ChatServer>& service, uint64_t id)
         : service_(service),
           id_(id) {
 
 }
 
 ChatRoom::~ChatRoom() {
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
     for (auto& item:users_) {
         item.second.reset();
     }
@@ -24,8 +26,8 @@ void ChatRoom::doOnMessage(const rdm::NetMsg* net_msg) {
 bool ChatRoom::init() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
-    service_->getNetServer()->registMessage(static_cast<uint32_t>(MessageType::kCommand), this);
-    service_->getNetServer()->registMessage(static_cast<uint32_t>(MessageType::kNone), this);
+    // service_.lock()->getNetServer()->registMessage(static_cast<uint32_t>(MessageType::kCommand), this);
+    service_.lock()->getNetServer()->registMessage(static_cast<uint32_t>(MessageType::kNone), this);
 
     return loadData();
 }

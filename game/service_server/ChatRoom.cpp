@@ -4,9 +4,11 @@
 #include <rdm/net/NetServer.h>
 
 #include "MessageType.h"
+#include "ChatServer.h"
 
-ChatRoom::ChatRoom(rdm::Service* service, uint64_t id)
-        : service_(service), id_(id) {
+ChatRoom::ChatRoom(ChatServer* service, uint64_t id)
+        : service_(service),
+          id_(id) {
 
 }
 

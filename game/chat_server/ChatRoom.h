@@ -8,16 +8,18 @@
 
 #include "User.h"
 
-class ChatRoom final : public rdm::IObserver, rdm::DataModule {
+class ChatServer;
+class ChatRoom final :
+        public rdm::IObserver,
+        public rdm::DataModule {
 public:
     using uptr = std::unique_ptr<ChatRoom>;
 
-    explicit ChatRoom(rdm::Service* service, uint64_t id);
+    explicit ChatRoom(const std::shared_ptr<ChatServer>& service, uint64_t id);
     ~ChatRoom() override;
 
     void doOnMessage(const rdm::NetMsg* net_msg) override;
 
-private:
     bool init() override;
     bool loadData() override;
     void release() override;
@@ -26,7 +28,7 @@ private:
 private:
     uint64_t id_{0};
     std::map<uint64_t, std::unique_ptr<User>> users_;
-    std::shared_ptr<rdm::Service> service_;
+    std::weak_ptr<ChatServer> service_;
 };
 
 
