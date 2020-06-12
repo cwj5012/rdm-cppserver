@@ -226,6 +226,16 @@ storage:
       cacheSizeGB: 0.25 # 配置内存上限，机器配置低，这个值设置小一点
 ```
 
+### cmake 命令
+
+```shell
+cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "Visual Studio 16 2019" -DCMAKE_TOOLCHAIN_FILE=c:\root\opt\vcpkg\scripts\buildsystems\vcpkg.cmake ..
+cmake.exe -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 16 2019" -DCMAKE_TOOLCHAIN_FILE=c:\root\opt\vcpkg\scripts\buildsystems\vcpkg.cmake ..
+
+cmake --build . --target [target-name] --config Debug
+cmake --build . --target [target-name] --config Release
+```
+
 
 ### TODO
 
