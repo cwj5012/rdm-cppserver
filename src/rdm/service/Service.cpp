@@ -60,7 +60,6 @@ bool Service::init() {
         LOG_ERROR("command create error.");
     }
 
-
     db_manager_ = std::make_shared<DBServiceManager>(shared_from_this());
     if (!db_manager_ || db_manager_->status() != 0) {
         LOG_ERROR("database manager create error.");

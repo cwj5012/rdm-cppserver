@@ -7,15 +7,15 @@
 #include <rdm/command/Command.h>
 #include <rdm/command/Options.h>
 
-MasterServer::MasterServer() {
+ChatServer::ChatServer() {
 
 }
 
-MasterServer::~MasterServer() {
+ChatServer::~ChatServer() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 }
 
-bool MasterServer::onInit() {
+bool ChatServer::onInit() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
     auto new_room = std::make_unique<rdm::CommandInfo>(
@@ -46,10 +46,10 @@ bool MasterServer::onInit() {
     return true;
 }
 
-void MasterServer::onRun() {
+void ChatServer::onRun() {
 
 }
 
-bool MasterServer::onExit() {
+bool ChatServer::onExit() {
     return true;
 }

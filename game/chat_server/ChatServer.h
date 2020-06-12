@@ -11,10 +11,10 @@
  * 支持创建聊天室，进入聊天室
  * 收发消息
  */
-class MasterServer : public rdm::Service {
+class ChatServer : public rdm::Service {
 public:
-    MasterServer();
-    ~MasterServer() override;
+    ChatServer();
+    ~ChatServer() override;
 
     bool onInit() override;
     void onRun() override;

@@ -37,6 +37,7 @@ DBServiceManager::DBServiceManager(const std::shared_ptr<Service>& service)
             }
             mDBConnectionPool = new DBConnectionPool(db_info_);
         } else {
+            LOG_ERROR("mysql host is empty.");
             status_ = 2;
             return;
         }

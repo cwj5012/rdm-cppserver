@@ -3,7 +3,7 @@
 #################################################
 
 mysql_1: &mysql_1
-  host: 127.0.0.1
+  host: ubuntu.a.com
   port: 3306
   user: root
   passwd: 1234

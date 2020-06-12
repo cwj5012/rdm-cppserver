@@ -2,7 +2,6 @@
 
 namespace rdm {
 
-
 DBConnection::DBConnection(sql::Driver* driver, const DatabaseLoginInfo& info)
         : info_(info),
           driver_(driver),
@@ -23,7 +22,8 @@ DBConnection::~DBConnection() {
 void DBConnection::connect() {
     try {
         driver_ = get_driver_instance();
-        con_ = driver_->connect("tcp://127.0.0.1:3306", "root", "1234");
+        con_ = driver_->connect("tcp://" + info_.ip + ":" + std::to_string(info_.port),
+                                info_.name, info_.passwd);
         stmt_ = con_->createStatement();
     } catch (sql::SQLException& e) {
         std::cout << "# ERR: SQLException in " << __FILE__;

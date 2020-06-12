@@ -88,16 +88,12 @@ void NetClient::stop() {
 
 void NetClient::restart() {
     if (!isConnected()) {
-        LOG_INFO("connect again");
-
         mSocket->close();
         if (mSocket != nullptr) {
             delete mSocket;
             mSocket = nullptr;
         }
-
         mSocket = new tcp::socket(*mIoContext);
-
         start();
     }
 
