@@ -24,7 +24,7 @@ void WebCommand::doOnMessage(const rdm::NetMsg* net_msg) {
 bool WebCommand::init() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
-    // service_.lock()->getNetServer()->registMessage(static_cast<uint32_t>(MessageType::kCommand), this);
+    service_.lock()->getNetServer()->registMessage(static_cast<uint32_t>(MessageType::kCommand), this);
 
     return true;
 }
