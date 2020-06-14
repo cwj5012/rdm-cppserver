@@ -5,6 +5,7 @@
 #include "../log/Logger.h"
 #include "NetClient.h"
 #include"../thread/ThreadUtil.h"
+#include "../message/Codec.h"
 
 namespace rdm {
 
@@ -135,7 +136,7 @@ void NetClient::doConnect(const boost::asio::ip::tcp::resolver::results_type& en
     boost::asio::async_connect(*mSocket,
                                endpoints,
                                [this](boost::system::error_code ec,
-                                      boost::asio::ip::tcp::endpoint) {
+                                      const boost::asio::ip::tcp::endpoint&) {
                                    if (stopped_) {
                                        LOG_ERROR("this socket is stopped, {}", ec.message());
                                        return;
@@ -186,10 +187,7 @@ void NetClient::doRead() {
                                          if (mReadMessageBuffer.length() >= 4) {
                                              std::string len_str = mReadMessageBuffer.substr(0, 4);
                                              try {
-                                                 int32_t len = int32_t((uint8_t) (len_str[0]) << 24 |
-                                                                       (uint8_t) (len_str[1]) << 16 |
-                                                                       (uint8_t) (len_str[2]) << 8 |
-                                                                       (uint8_t) (len_str[3]));
+                                                 uint32_t len = byte4ToInt32(len_str);
 
                                                  if (mReadMessageBuffer.length() >= len + 4) {
                                                      std::string read_msg = mReadMessageBuffer.substr(0, len + 4);

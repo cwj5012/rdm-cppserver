@@ -10,7 +10,7 @@ TEST_CASE("xxxxx", "[]") {
     DatabaseLoginInfo info;
     info.name = "root";
     info.passwd = "1234";
-    info.ip = "127.0.0.1";
+    info.ip = "ubuntu.a.com";
     info.port = 3306;
 
     DBConnectionPool pool(info);
