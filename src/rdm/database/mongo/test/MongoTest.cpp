@@ -9,7 +9,7 @@ using namespace rdm;
 
 TEST_CASE("MongoTest", "[]") {
     mongocxx::instance inst{};
-    mongocxx::client conn{mongocxx::uri{}};
+    mongocxx::client conn{mongocxx::uri{"mongodb://ubuntu.a.com:27017"}};
 
     bsoncxx::builder::stream::document document{};
 
