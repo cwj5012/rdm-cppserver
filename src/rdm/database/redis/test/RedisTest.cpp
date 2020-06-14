@@ -21,6 +21,7 @@ TEST_CASE("RedisTest", "[]") {
     std::cout << "insert_one 1w, " << sw.durationMs() << " ms" << std::endl;
     sw.reset();
 
+    client.set("hello", "world");
     client.get("hello", [](cpp_redis::reply& reply) {
         std::cout << reply << std::endl;
     });
