@@ -70,22 +70,25 @@ void MessageSubject::onChange(NetMsg* net_msg) {
         }
             break;
         case MessageResolveType::BY_PROTOBUF_TYPE : {
-            auto* pb_msg = decodeE(*net_msg->getBuf());
-            if (pb_msg == nullptr) {
-                LOG_ERROR("net msg decode is null, type: {}",
-                          static_cast<int32_t>(MessageResolveType::BY_PROTOBUF_TYPE));
-                return;
-            }
+            // auto* pb_msg = decodeE(*net_msg->getBuf());
+            // if (pb_msg == nullptr) {
+            //     LOG_ERROR("net msg decode is null, type: {}",
+            //               static_cast<int32_t>(MessageResolveType::BY_PROTOBUF_TYPE));
+            //     return;
+            // }
+            //
+            // // 释放对象
+            // delete pb_msg;
 
-            // 释放对象
-            delete pb_msg;
-
-            auto it = mMessageObserverMapByType.find(111);
+            auto opcode = byte4ToInt32(*net_msg->getBuf());
+            auto it = mMessageObserverMapByType.find(opcode);
             if (it != mMessageObserverMapByType.end()) {
-                mMessageObserverMapByType[111]->doOnMessage(net_msg);
+                mMessageObserverMapByType[opcode]->doOnMessage(net_msg);
+            } else {
+                LOG_ERROR("message opcode {} is not registed.", opcode);
             }
-            break;
         }
+            break;
         default:
             LOG_ERROR("unknow message resolve type");
             break;
