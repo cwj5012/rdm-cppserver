@@ -32,6 +32,7 @@ public:
     std::shared_ptr<MessageSubject> getMessageSubject();
 
 private:
+    uint32_t conn_uid_{0};
     boost::asio::io_service io_service_;
     MessageSubject::sptr message_subject_;
 };
