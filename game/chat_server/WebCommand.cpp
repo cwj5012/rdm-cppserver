@@ -3,7 +3,7 @@
 #include <rdm/log/Logger.h>
 #include <rdm/net/NetServer.h>
 
-#include "MessageType.h"
+#include "../protocol/MessageType.h"
 #include "ChatServer.h"
 
 WebCommand::WebCommand(const std::shared_ptr<ChatServer>& service)

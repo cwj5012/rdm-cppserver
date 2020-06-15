@@ -10,6 +10,7 @@ file(
         "*/*/*.cpp"
         "*/*/*/*.h"
         "*/*/*/*.cpp"
+        ../protocol/MessageType.h
 )
 
 file(
@@ -65,6 +66,7 @@ endif ()
 include_directories(
         ${CMAKE_INCLUDE_PATH}
         ${CMAKE_SOURCE_DIR}/src
+        ../protocol
 )
 
 link_directories(

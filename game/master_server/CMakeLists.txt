@@ -10,6 +10,7 @@ file(
         "*/*/*.cpp"
         "*/*/*/*.h"
         "*/*/*/*.cpp"
+        ../protocol/MessageType.h
 )
 
 file(

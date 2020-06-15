@@ -3,7 +3,7 @@
 #include <rdm/log/Logger.h>
 #include <rdm/net/NetServer.h>
 
-#include "MessageType.h"
+#include "../protocol/MessageType.h"
 #include "ApiService.h"
 
 ChatRoom::ChatRoom(const std::shared_ptr<ApiService>& service, uint64_t id)

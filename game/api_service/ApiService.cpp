@@ -40,17 +40,19 @@ bool ApiService::onInit() {
             });
     getCommand()->registCommand(exit); // std::unique_ptr<CommandFunc>& func
 
-    rdm::Options op;
-    op.init();
+    op_.init();
+    op_.add("echo,e", boost::program_options::value<std::string>(), "echo message");
     auto flag = std::make_unique<rdm::CommandFunc>([&](const std::string& arg) {
-        if (op.parse(arg)) {
-            auto vm = op.getValues();
+        if (op_.parse(arg)) {
+            auto vm = op_.getValues();
             if (vm.count("command")) {
                 LOG_INFO("{}", vm["command"].as<std::string>());
             }
         }
     });
     getCommand()->registCommand(flag);
+
+
 
     return true;
 }

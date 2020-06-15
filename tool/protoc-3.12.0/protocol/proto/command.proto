@@ -2,7 +2,20 @@ syntax = "proto3";
 
 package rdm.pb;
 
-// 客户端->服务端，服务端->服务端，命令
 message Command {
 	string args = 1;
+}
+
+message Echo {
+	string args = 1;
+}
+
+message Alive {
+
+}
+
+message Auth {
+	string user = 1;
+	string password = 2;
+	string session = 3;
 }

@@ -6,7 +6,7 @@
 #include <rdm/message/Codec.h>
 #include <rdm/protocol/command.pb.h>
 
-#include "MessageType.h"
+#include "../protocol/MessageType.h"
 #include "ApiService.h"
 
 WebCommand::WebCommand(const std::shared_ptr<ApiService>& service)
@@ -33,8 +33,13 @@ void WebCommand::doOnMessage(const rdm::NetMsg* net_msg) {
             }
         }
             break;
-        case MessageType::kNone: {
-
+        case MessageType::kEcho: {
+            rdm::pb::Echo out;
+            if (rdm::decodeE(*net_msg->getBuf(), &out)) {
+                LOG_INFO("{}", out.args());
+            } else {
+                LOG_ERROR("decode error, opcode {}", opcode);
+            }
         }
             break;
         default:
@@ -46,6 +51,7 @@ bool WebCommand::init() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
     service_.lock()->getNetServer()->registMessage(static_cast<uint32_t>(MessageType::kCommand), this);
+    service_.lock()->getNetServer()->registMessage(static_cast<uint32_t>(MessageType::kEcho), this);
 
     return true;
 }
