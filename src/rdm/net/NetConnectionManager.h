@@ -69,6 +69,8 @@ public:
     bool release();
 
 private:
+    uint32_t server_uid_{0};
+    uint32_t client_uid_{0};
     std::map<uint32_t, std::map<uint32_t, NetConnection::ptrConnection>> server_connections_;
     std::map<uint32_t, NetConnection::ptrConnection> client_connections_;
 };
