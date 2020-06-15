@@ -29,13 +29,13 @@ void MessageSubject::registObserver(const std::string& message_name, IObserver* 
 
 void MessageSubject::registObserver(const uint32_t resolve_type, IObserver* observer) {
     if (observer == nullptr) {
-        LOG_ERROR("regist message failed, name: {}", static_cast<int32_t>(resolve_type));
+        LOG_ERROR("regist message failed, name: {}", resolve_type);
         return;
     }
 
     mMessageObserverMapByType.insert(std::make_pair(resolve_type, observer));
 
-    LOG_INFO("regist message, name: {}", static_cast<int32_t>(resolve_type));
+    LOG_INFO("regist message, opcode: {}", resolve_type);
 }
 
 void MessageSubject::onChange() {
@@ -77,13 +77,12 @@ void MessageSubject::onChange(NetMsg* net_msg) {
                 return;
             }
 
-            const std::string message_name = pb_msg->GetTypeName();
             // 释放对象
             delete pb_msg;
 
-            auto it = mMessageObserverMap.find(message_name);
-            if (it != mMessageObserverMap.end()) {
-                mMessageObserverMap[message_name]->doOnMessage(net_msg);
+            auto it = mMessageObserverMapByType.find(111);
+            if (it != mMessageObserverMapByType.end()) {
+                mMessageObserverMapByType[111]->doOnMessage(net_msg);
             }
             break;
         }

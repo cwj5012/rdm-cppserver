@@ -5,6 +5,7 @@
 #include <rdm/service/Service.h>
 
 #include "ChatRoom.h"
+#include "WebCommand.h"
 
 class ApiService : public rdm::Service {
 public:
@@ -18,6 +19,7 @@ public:
 private:
     uint64_t room_id_{0};
     std::map<uint64_t, ChatRoom::uptr> chat_rooms_;
+    WebCommand::uptr web_command_;
 };
 
 

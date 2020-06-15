@@ -20,6 +20,9 @@ bool ApiService::onInit() {
 
     auto this_ptr = std::dynamic_pointer_cast<ApiService>(shared_from_this());
 
+    web_command_ = std::make_unique<WebCommand>(this_ptr);
+    web_command_->init();
+
     auto new_room = std::make_unique<rdm::CommandInfo>(
             "new_room", "create room", [&](const std::string& arg) {
                 if (chat_rooms_.find(++room_id_) != chat_rooms_.end()) {
@@ -42,6 +45,10 @@ bool ApiService::onInit() {
         op.init();
         op.parse(arg);
         auto vm = op.getValues();
+
+        if (vm.count("command")) {
+            LOG_INFO("{}", vm["command"].as<std::string>());
+        }
     });
     getCommand()->registCommand(flag);
 

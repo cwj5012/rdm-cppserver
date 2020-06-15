@@ -60,20 +60,25 @@ bool NetClientManager::init() {
     send_msg.set_id(info->system_id);
     send_msg.set_type(info->system_type);
     for (auto client : net_clients_) {
+        // todo cwj
         // 连接上服务器以后，会发一条自己的信息通知服务器
-        client.second->write(encodeE(send_msg));
+        // client.second->write(encodeE(send_msg));
     }
     LOG_INFO("notify other server the id and type info");
 
     return true;
 }
 
-NetClient* NetClientManager::getNetClient(uint32_t id) {
+NetClient* NetClientManager::getNetClient(uint32_t id) const {
     auto it = net_clients_.find(id);
     if (it != net_clients_.end()) {
         return it->second;
     }
     return nullptr;
+}
+
+std::map<uint32_t, NetClient*> NetClientManager::getNetClients() const {
+   return net_clients_;
 }
 
 }

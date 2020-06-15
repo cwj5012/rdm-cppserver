@@ -6,7 +6,7 @@ namespace rdm {
 NetMsg::NetMsg() :
         mBuf(nullptr),
         mSocket(nullptr),
-        mResolveType(MessageResolveType::BY_PROTOBUF_NAME) {
+        mResolveType(MessageResolveType::BY_PROTOBUF_TYPE) {
 
 }
 

@@ -24,10 +24,11 @@ Options::~Options() {
 }
 
 bool Options::init() {
-    desc_.add_options()
-            ("help,h", "111")
-            ("address,a", po::value<std::string>(), "222")
-            ("port,p", po::value<std::vector<std::string>>()->multitoken(), "333");
+    desc_.add_options()("help,h", "111");
+    desc_.add_options()("help,h", "111");
+    desc_.add_options()("address,a", po::value<std::string>(), "222");
+    desc_.add_options()("port,p", po::value<std::vector<std::string>>()->multitoken(), "333");
+    desc_.add_options()("command,c", po::value<std::string>()->multitoken(), "send command");
 
     return true;
 }
@@ -61,7 +62,7 @@ void Options::parse(const std::string& cmd) {
     // }
 
     if (vm_.count("port")) {
-        // std::cout << "size: " << vm_["port"].as<std::vector<std::string>>().size();
+        std::cout << "size: " << vm_["port"].as<std::vector<std::string>>().size();
     }
     std::cout << std::endl;
 

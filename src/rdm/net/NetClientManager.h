@@ -18,7 +18,8 @@ public:
 
     bool init();
 
-    NetClient* getNetClient(uint32_t id);
+    NetClient* getNetClient(uint32_t id) const;
+    std::map<uint32_t, NetClient*> getNetClients() const;
 
 private:
     std::map<uint32_t, NetClient*> net_clients_;

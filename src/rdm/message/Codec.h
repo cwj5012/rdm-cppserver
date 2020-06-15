@@ -72,7 +72,7 @@ inline google::protobuf::Message* decode(const std::string& buf);
  * @param message
  * @return
  */
-inline static std::string encodeE(const google::protobuf::Message& message);
+inline static std::string encodeE(const google::protobuf::Message& message, int32_t opcode);
 
 /**
  * 字符串解析为 protobuf::Message 对象（基于消息枚举）
@@ -306,20 +306,16 @@ google::protobuf::Message* decode(const std::string& buf) {
     return result;
 }
 
-std::string encodeE(const google::protobuf::Message& message) {
+std::string encodeE(const google::protobuf::Message& message, int32_t opcode) {
     std::string result;
 
     result.resize(kHeaderLen);
 
-    // 消息枚举
-    // todo 写死枚举编号测试
-    int32_t message_enum = 99;
-
     char buf[4];
-    buf[0] = static_cast<uint8_t>((message_enum >> 24) & 0xFF);
-    buf[1] = static_cast<uint8_t>((message_enum >> 16) & 0xFF);
-    buf[2] = static_cast<uint8_t>((message_enum >> 8) & 0xFF);
-    buf[3] = static_cast<uint8_t>(message_enum & 0xFF);
+    buf[0] = static_cast<uint8_t>((opcode >> 24) & 0xFF);
+    buf[1] = static_cast<uint8_t>((opcode >> 16) & 0xFF);
+    buf[2] = static_cast<uint8_t>((opcode >> 8) & 0xFF);
+    buf[3] = static_cast<uint8_t>(opcode & 0xFF);
     result.append(buf, kHeaderLen);
 
     // 消息内容
@@ -353,14 +349,14 @@ google::protobuf::Message* decodeE(const std::string& buf) {
     if (len >= kHeaderLen) {
         const char* begin = buf.c_str();
 
-        int32_t message_enum = 0;
-        message_enum += (uint8_t) begin[0] << 24;
-        message_enum += (uint8_t) begin[1] << 16;
-        message_enum += (uint8_t) begin[2] << 8;
-        message_enum += (uint8_t) begin[3];
+        int32_t opcode = 0;
+        opcode += (uint8_t) begin[0] << 24;
+        opcode += (uint8_t) begin[1] << 16;
+        opcode += (uint8_t) begin[2] << 8;
+        opcode += (uint8_t) begin[3];
 
-        if (message_enum >= 0) {
-            std::string type_name("Person");
+        if (opcode >= 0) {
+            std::string type_name("rdm.pb.Command");
 
             const Descriptor* desc = DescriptorPool::generated_pool()->FindMessageTypeByName(type_name);
             if (desc == nullptr) {
