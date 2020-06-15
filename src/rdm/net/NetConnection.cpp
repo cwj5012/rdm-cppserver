@@ -97,26 +97,26 @@ void NetConnection::handleRead(const boost::system::error_code& ec,
         return;
     }
 
-    mReadMessageBuffer += read_data;
+    read_message_buffer_ += read_data;
     while (true) {
         // 粘包处理
-        if (mReadMessageBuffer.length() >= 4) {
+        if (read_message_buffer_.length() >= 4) {
             try {
-                auto len = byte4ToUint32(mReadMessageBuffer);
+                auto len = byte4ToUint32(read_message_buffer_);
 
                 if (mode_ & kDebug) {
                     LOG_DEBUG("recv body size: {}", len);
                 }
-                if (mReadMessageBuffer.length() >= len + 4) {
+                if (read_message_buffer_.length() >= len + 4) {
                     // 提取消息
-                    std::string read_msg = mReadMessageBuffer.substr(4, len);
+                    std::string read_msg = read_message_buffer_.substr(4, len);
 
                     // 截断消息
-                    mReadMessageBuffer = mReadMessageBuffer.substr(len + 4);
+                    read_message_buffer_ = read_message_buffer_.substr(len + 4);
 
                     if (mode_ & kDebug) {
                         LOG_DEBUG("recv body: {}", DebugPrint::StringToDecSet(read_msg));
-                        LOG_DEBUG("buff size: {}", mReadMessageBuffer.size());
+                        LOG_DEBUG("buff size: {}", read_message_buffer_.size());
                     }
                     NetMsg net_msg;
                     net_msg.bind(&read_msg, &socket_);

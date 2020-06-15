@@ -56,7 +56,7 @@ private:
     char data_[max_length]{0};
     uint32_t conn_id_{0};
     tcp::socket socket_;
-    std::string mReadMessageBuffer; // 消息缓冲区，如果接受到的消息不完整，先存起来等下个 TCP 包
+    std::string read_message_buffer_; // 消息缓冲区，如果接受到的消息不完整，先存起来等下个 TCP 包
 
     std::string remote_addr;
     uint16_t remote_port{0};
