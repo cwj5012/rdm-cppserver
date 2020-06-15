@@ -23,7 +23,7 @@ NetConnection::ptrConnection NetConnectionManager::getServerConnection(uint32_t 
     return nullptr;
 }
 
-NetConnection::ptrConnection NetConnectionManager::getClientConnection(uint64_t id) const {
+NetConnection::ptrConnection NetConnectionManager::getClientConnection(uint32_t id) const {
     auto it = client_connections_.find(id);
     if (it != client_connections_.end()) {
         return it->second;
@@ -59,7 +59,7 @@ bool NetConnectionManager::pushServerConnection(NetConnection::ptrConnection con
     return true;
 }
 
-bool NetConnectionManager::pushClientConnection(NetConnection::ptrConnection conn, uint64_t id) {
+bool NetConnectionManager::pushClientConnection(NetConnection::ptrConnection conn, uint32_t id) {
     if (getClientConnection(id)) {
         return false;
     }

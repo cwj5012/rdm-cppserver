@@ -29,7 +29,7 @@ public:
      * @param id 玩家 ID
      * @return
      */
-    NetConnection::ptrConnection getClientConnection(uint64_t id) const;
+    NetConnection::ptrConnection getClientConnection(uint32_t id) const;
 
     /**
      * 获取服务端连接数量
@@ -63,13 +63,13 @@ public:
      *  true 添加成功
      *  false 如果已经存在相同 ID 的记录，则失败
      */
-    bool pushClientConnection(NetConnection::ptrConnection conn, uint64_t id);
+    bool pushClientConnection(NetConnection::ptrConnection conn, uint32_t id);
 
     bool release();
 
 private:
     std::map<uint32_t, std::map<uint32_t, NetConnection::ptrConnection>> server_connections_;
-    std::map<uint64_t, NetConnection::ptrConnection> client_connections_;
+    std::map<uint32_t, NetConnection::ptrConnection> client_connections_;
 };
 
 }

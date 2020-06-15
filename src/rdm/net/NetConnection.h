@@ -48,6 +48,7 @@ private:
     void handleWrite(const boost::system::error_code& ec, size_t bytes_transferred);
     void handleRead(const boost::system::error_code& ec, size_t bytes_transferred);
 
+    uint32_t conn_id_{0};
     tcp::socket socket_;
 
     // boost::asio::streambuf message_;
