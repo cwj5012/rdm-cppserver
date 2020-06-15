@@ -33,9 +33,7 @@ public:
 
 private:
     boost::asio::io_service io_service_;
-
-    std::shared_ptr<MessageSubject> mMessageSubject;
-
+    MessageSubject::sptr message_subject_;
 };
 
 }

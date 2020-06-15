@@ -2,6 +2,7 @@
 
 #include <string>
 #include <map>
+#include <memory>
 
 #include <google/protobuf/message.h>
 
@@ -12,6 +13,7 @@ namespace rdm {
 
 class MessageSubject {
 public:
+    using sptr = std::shared_ptr<MessageSubject>;
     MessageSubject();
     ~MessageSubject();
 

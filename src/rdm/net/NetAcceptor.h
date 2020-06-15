@@ -60,12 +60,12 @@ private:
     void handleAccept(NetConnection::sptr new_connection,
                       const boost::system::error_code& ec);
 
-    std::shared_ptr<tcp::acceptor> mAcceptor;
-    std::shared_ptr<tcp::endpoint> mEndpoint;
-    std::shared_ptr<address> mAddress;
+    std::shared_ptr<tcp::acceptor> accecptor_;
+    std::shared_ptr<tcp::endpoint> endpoint_;
+    std::shared_ptr<address> addr_;
 
-    boost::asio::io_context& mIoContext;
-    std::map<tcp::socket*, NetConnection::sptr> mSocketConnection;
+    boost::asio::io_context& io_context_;
+    std::map<tcp::socket*, NetConnection::sptr> conns_;
 
 };
 

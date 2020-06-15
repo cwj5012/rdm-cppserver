@@ -4,12 +4,12 @@
 namespace rdm {
 
 NetAcceptor::NetAcceptor(boost::asio::io_service& io_service)
-        : mIoContext(io_service) {
+        : io_context_(io_service) {
 
 }
 
 NetAcceptor::NetAcceptor(boost::asio::io_service& io_service, const std::string& addr, uint16_t port)
-        : mIoContext(io_service) {
+        : io_context_(io_service) {
     bind(io_service, addr, port);
     startAccept();
 }
@@ -19,24 +19,24 @@ NetAcceptor::~NetAcceptor() {
 }
 
 void NetAcceptor::bind(boost::asio::io_service& io_service, const std::string& addr, uint16_t port) {
-    mAddress = std::make_shared<address>();
-    mAddress->from_string(addr);
+    addr_ = std::make_shared<address>();
+    addr_->from_string(addr);
 
-    mEndpoint = std::make_shared<tcp::endpoint>(*mAddress, port);
-    mAcceptor = std::make_shared<tcp::acceptor>(io_service, *mEndpoint);
+    endpoint_ = std::make_shared<tcp::endpoint>(*addr_, port);
+    accecptor_ = std::make_shared<tcp::acceptor>(io_service, *endpoint_);
 }
 
 NetConnection::sptr NetAcceptor::getConnection(tcp::socket* s) {
-    auto it = mSocketConnection.find(s);
-    if (it != mSocketConnection.end()) {
+    auto it = conns_.find(s);
+    if (it != conns_.end()) {
         return it->second;
     }
     return nullptr;
 }
 
 NetConnection::sptr NetAcceptor::getConnection() {
-    auto it = mSocketConnection.begin();
-    if (it != mSocketConnection.end()) {
+    auto it = conns_.begin();
+    if (it != conns_.end()) {
         return it->second;
     }
     return nullptr;
@@ -44,16 +44,16 @@ NetConnection::sptr NetAcceptor::getConnection() {
 
 std::vector<NetConnection::sptr> NetAcceptor::getConnections() {
     std::vector<NetConnection::sptr> cons;
-    for (auto it : mSocketConnection) {
+    for (auto it : conns_) {
         cons.push_back(it.second);
     }
     return cons;
 }
 
 void NetAcceptor::startAccept() {
-    NetConnection::sptr new_connection = NetConnection::create(mIoContext);
-    mAcceptor->async_accept(new_connection->getSocket(),
-                            boost::bind(&NetAcceptor::handleAccept,
+    NetConnection::sptr new_connection = NetConnection::create(io_context_);
+    accecptor_->async_accept(new_connection->getSocket(),
+                             boost::bind(&NetAcceptor::handleAccept,
                                         this,
                                         new_connection,
                                         boost::asio::placeholders::error));
@@ -65,7 +65,7 @@ void NetAcceptor::handleAccept(NetConnection::sptr new_connection,
         LOG_INFO("a client connected, {}:{}.",
                  new_connection->getSocket().remote_endpoint().address().to_string(),
                  new_connection->getSocket().remote_endpoint().port());
-        mSocketConnection[&new_connection->getSocket()] = new_connection;
+        conns_[&new_connection->getSocket()] = new_connection;
         new_connection->start();
     } else {
         LOG_ERROR("{}", ec.message());
