@@ -9,8 +9,7 @@
 namespace rdm {
 
 NetConnection::NetConnection(boost::asio::io_service& io_service)
-        : socket_(io_service),
-          mPlayerID(0) {
+        : socket_(io_service) {
 
 }
 
@@ -23,7 +22,6 @@ NetConnection::sptr NetConnection::create(boost::asio::io_context& io_service) {
 }
 
 void NetConnection::doRead() {
-    // LOG_INFO("NetConnection: do read");
     socket_.async_read_some(
             boost::asio::buffer(data_, max_length),
             boost::bind(&NetConnection::handleRead,
@@ -57,14 +55,6 @@ void NetConnection::start() {
     remote_addr = socket_.remote_endpoint().address().to_string();
     remote_port = socket_.remote_endpoint().port();
     doRead();
-}
-
-void NetConnection::setPlayerID(uint64_t id) {
-    mPlayerID = id;
-}
-
-uint64_t NetConnection::getPlayerID() {
-    return mPlayerID;
 }
 
 void NetConnection::handleWrite(const boost::system::error_code& ec,
@@ -145,6 +135,14 @@ void NetConnection::handleRead(const boost::system::error_code& ec,
     }
 
     doRead();
+}
+
+void NetConnection::setConnId(uint32_t connId) {
+    conn_id_ = connId;
+}
+
+uint32_t NetConnection::getConnId() const {
+    return conn_id_;
 }
 
 }

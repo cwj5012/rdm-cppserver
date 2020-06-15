@@ -40,7 +40,7 @@ public:
      */
     void bind(boost::asio::io_service& io_service, const std::string& addr, uint16_t port);
 
-    NetConnection::sptr getConnection(tcp::socket* s);
+    NetConnection::sptr getConnection(uint32_t conn_id);
 
     /**
      * 获取一条连接，无条件限制
@@ -65,8 +65,7 @@ private:
     std::shared_ptr<address> addr_;
 
     boost::asio::io_context& io_context_;
-    std::map<tcp::socket*, NetConnection::sptr> conns_;
-
+    std::map<uint32_t, NetConnection::sptr> conns_;
 };
 
 } // namespace rdm

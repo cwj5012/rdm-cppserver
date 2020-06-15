@@ -1,5 +1,6 @@
 ﻿#include "NetAcceptor.h"
 #include "../log/Logger.h"
+#include "NetManager.h"
 
 namespace rdm {
 
@@ -26,8 +27,8 @@ void NetAcceptor::bind(boost::asio::io_service& io_service, const std::string& a
     accecptor_ = std::make_shared<tcp::acceptor>(io_service, *endpoint_);
 }
 
-NetConnection::sptr NetAcceptor::getConnection(tcp::socket* s) {
-    auto it = conns_.find(s);
+NetConnection::sptr NetAcceptor::getConnection(uint32_t conn_id) {
+    auto it = conns_.find(conn_id);
     if (it != conns_.end()) {
         return it->second;
     }
@@ -65,7 +66,8 @@ void NetAcceptor::handleAccept(NetConnection::sptr new_connection,
         LOG_INFO("a client connected, {}:{}.",
                  new_connection->getSocket().remote_endpoint().address().to_string(),
                  new_connection->getSocket().remote_endpoint().port());
-        conns_[&new_connection->getSocket()] = new_connection;
+        new_connection->setConnId(NetManager::inst().getConnUid());
+        conns_[new_connection->getConnId()] = new_connection;
         new_connection->start();
     } else {
         LOG_ERROR("{}", ec.message());

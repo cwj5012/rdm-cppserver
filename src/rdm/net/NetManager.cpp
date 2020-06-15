@@ -30,4 +30,12 @@ void NetManager::registMessage(const uint32_t message_type, IObserver* observer)
 std::shared_ptr<MessageSubject> NetManager::getMessageSubject() {
     return message_subject_;
 }
+
+uint32_t NetManager::getConnUid() {
+    if (conn_uid_== UINT32_MAX) {
+        conn_uid_ = 0;
+    }
+    return ++conn_uid_;
+}
+
 }

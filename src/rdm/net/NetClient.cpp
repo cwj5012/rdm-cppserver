@@ -10,46 +10,46 @@
 namespace rdm {
 
 NetClient::NetClient(boost::asio::io_service* io_context)
-        : mIoContext(io_context),
-          mSocket(nullptr),
+        : io_context_(io_context),
+          socket_(nullptr),
           is_connected_(false),
-          m_reconnect_timer_(*io_context, boost::posix_time::seconds(3)) {
-    mSocket = new tcp::socket(*io_context);
+          reconnect_timer_(*io_context, boost::posix_time::seconds(3)) {
+    socket_ = new tcp::socket(*io_context);
 
-    m_reconnect_timer_.async_wait(boost::bind(&NetClient::restart, this));
+    reconnect_timer_.async_wait(boost::bind(&NetClient::restart, this));
 
-    mMessageSubject = std::make_shared<MessageSubject>();
+    message_subject_ = std::make_shared<MessageSubject>();
 }
 
 NetClient::NetClient(boost::asio::io_service* io_context,
                      const std::string& ip,
                      const std::string& port)
-        : mIoContext(io_context),
-          mSocket(nullptr),
+        : io_context_(io_context),
+          socket_(nullptr),
           is_connected_(false),
-          m_reconnect_timer_(*io_context, boost::posix_time::seconds(3)) {
-    mSocket = new tcp::socket(*io_context);
+          reconnect_timer_(*io_context, boost::posix_time::seconds(3)) {
+    socket_ = new tcp::socket(*io_context);
 
-    m_reconnect_timer_.async_wait(boost::bind(&NetClient::restart, this));
+    reconnect_timer_.async_wait(boost::bind(&NetClient::restart, this));
 
-    mMessageSubject = std::make_shared<MessageSubject>();
+    message_subject_ = std::make_shared<MessageSubject>();
 
-    tcp::resolver resolver(*mIoContext);
+    tcp::resolver resolver(*io_context_);
     endpoints_ = resolver.resolve(ip, port);
     start();
 }
 
 NetClient::NetClient(boost::asio::io_service* io_context,
                      const boost::asio::ip::tcp::resolver::results_type& endpoints)
-        : mIoContext(io_context),
-          mSocket(nullptr),
+        : io_context_(io_context),
+          socket_(nullptr),
           is_connected_(false),
-          m_reconnect_timer_(*io_context, boost::posix_time::seconds(3)) {
-    mSocket = new tcp::socket(*io_context);
+          reconnect_timer_(*io_context, boost::posix_time::seconds(3)) {
+    socket_ = new tcp::socket(*io_context);
 
-    m_reconnect_timer_.async_wait(boost::bind(&NetClient::restart, this));
+    reconnect_timer_.async_wait(boost::bind(&NetClient::restart, this));
 
-    mMessageSubject = std::make_shared<MessageSubject>();
+    message_subject_ = std::make_shared<MessageSubject>();
 
     endpoints_ = endpoints;
 
@@ -57,10 +57,10 @@ NetClient::NetClient(boost::asio::io_service* io_context,
 }
 
 void NetClient::write(const std::string& msg) {
-    boost::asio::post(*mIoContext,
+    boost::asio::post(*io_context_,
                       [this, msg]() {
-                          bool write_in_progress = !mWriteMessages.empty();
-                          mWriteMessages.push_back(msg);
+                          bool write_in_progress = !write_message_.empty();
+                          write_message_.push_back(msg);
                           if (!write_in_progress) {
                               doWrite();
                           }
@@ -72,9 +72,9 @@ void NetClient::read() {
 }
 
 void NetClient::close() {
-    boost::asio::post(*mIoContext,
+    boost::asio::post(*io_context_,
                       [this]() {
-                          mSocket->close();
+                          socket_->close();
                       });
 }
 
@@ -89,26 +89,26 @@ void NetClient::stop() {
 
 void NetClient::restart() {
     if (!isConnected()) {
-        mSocket->close();
-        if (mSocket != nullptr) {
-            delete mSocket;
-            mSocket = nullptr;
+        socket_->close();
+        if (socket_ != nullptr) {
+            delete socket_;
+            socket_ = nullptr;
         }
-        mSocket = new tcp::socket(*mIoContext);
+        socket_ = new tcp::socket(*io_context_);
         start();
     }
 
     // 每 3 秒检查一次连接状态
-    m_reconnect_timer_.expires_at(m_reconnect_timer_.expires_at() + boost::posix_time::seconds(3));
-    m_reconnect_timer_.async_wait(boost::bind(&NetClient::restart, this));
+    reconnect_timer_.expires_at(reconnect_timer_.expires_at() + boost::posix_time::seconds(3));
+    reconnect_timer_.async_wait(boost::bind(&NetClient::restart, this));
 }
 
 void NetClient::registMessage(const std::string& message_name, IObserver* observer) {
-    mMessageSubject->registObserver(message_name, observer);
+    message_subject_->registObserver(message_name, observer);
 }
 
 std::shared_ptr<MessageSubject> NetClient::getMessageSubject() {
-    return mMessageSubject;
+    return message_subject_;
 }
 
 bool NetClient::isConnected() const {
@@ -116,12 +116,12 @@ bool NetClient::isConnected() const {
 }
 
 void NetClient::doConnect(const std::string& ip, const std::string& port) {
-    tcp::resolver resolver(*mIoContext);
+    tcp::resolver resolver(*io_context_);
     doConnect(resolver.resolve(ip, port));
 }
 
 void NetClient::doConnect(const boost::asio::ip::tcp::resolver::results_type& endpoints) {
-    if (mSocket == nullptr) {
+    if (socket_ == nullptr) {
         LOG_ERROR("socket is null");
         return;
     }
@@ -133,14 +133,14 @@ void NetClient::doConnect(const boost::asio::ip::tcp::resolver::results_type& en
     }
 
     // 开始异步连接
-    boost::asio::async_connect(*mSocket,
+    boost::asio::async_connect(*socket_,
                                endpoints,
                                [this](boost::system::error_code ec,
                                       const boost::asio::ip::tcp::endpoint&) {
                                    if (stopped_) {
                                        LOG_ERROR("this socket is stopped, {}", ec.message());
                                        return;
-                                   } else if (!mSocket->is_open()) {
+                                   } else if (!socket_->is_open()) {
                                        LOG_ERROR("{}", ec.message());
                                        return;
                                    } else if (ec) {
@@ -171,7 +171,7 @@ void NetClient::doConnect() {
 }
 
 void NetClient::doRead() {
-    mSocket->async_read_some(boost::asio::buffer(mReadMessage, 1024),
+    socket_->async_read_some(boost::asio::buffer(read_message_, 1024),
                              [this](boost::system::error_code ec, std::size_t bytes_transferred) {
                                  if (stopped_) {
                                      LOG_ERROR("the net client is stopped");
@@ -179,23 +179,23 @@ void NetClient::doRead() {
                                  }
 
                                  if (!ec) {
-                                     const std::string read_data(mReadMessage, bytes_transferred);
+                                     const std::string read_data(read_message_, bytes_transferred);
 
-                                     mReadMessageBuffer += read_data;
+                                     read_message_buffer_ += read_data;
                                      while (true) {
                                          // 粘包处理
-                                         if (mReadMessageBuffer.length() >= 4) {
-                                             std::string len_str = mReadMessageBuffer.substr(0, 4);
+                                         if (read_message_buffer_.length() >= 4) {
+                                             std::string len_str = read_message_buffer_.substr(0, 4);
                                              try {
                                                  uint32_t len = byte4ToUint32(len_str);
 
-                                                 if (mReadMessageBuffer.length() >= len + 4) {
-                                                     std::string read_msg = mReadMessageBuffer.substr(0, len + 4);
-                                                     mReadMessageBuffer = mReadMessageBuffer.substr(len + 4);
+                                                 if (read_message_buffer_.length() >= len + 4) {
+                                                     std::string read_msg = read_message_buffer_.substr(0, len + 4);
+                                                     read_message_buffer_ = read_message_buffer_.substr(len + 4);
 
                                                      NetMsg net_msg;
-                                                     net_msg.bind(&read_msg, mSocket);
-                                                     mMessageSubject->resolveMessage(&net_msg);
+                                                     net_msg.bind(&read_msg, socket_);
+                                                     message_subject_->resolveMessage(&net_msg);
                                                  } else {
                                                      // 收到的数据长度不足，等待下一个包
                                                      break;
@@ -218,9 +218,9 @@ void NetClient::doRead() {
 }
 
 void NetClient::doWrite() {
-    boost::asio::async_write(*mSocket,
-                             boost::asio::buffer(mWriteMessages.front(),
-                                                 mWriteMessages.front().length()),
+    boost::asio::async_write(*socket_,
+                             boost::asio::buffer(write_message_.front(),
+                                                 write_message_.front().length()),
                              [this](boost::system::error_code ec, std::size_t /*length*/) {
                                  if (stopped_) {
                                      LOG_ERROR("the net client is stopped");
@@ -228,8 +228,8 @@ void NetClient::doWrite() {
                                  }
 
                                  if (!ec) {
-                                     mWriteMessages.pop_front();
-                                     if (!mWriteMessages.empty()) {
+                                     write_message_.pop_front();
+                                     if (!write_message_.empty()) {
                                          doRead();
                                      }
                                  } else {

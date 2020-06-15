@@ -1,8 +1,4 @@
-﻿/*
- * 封装 boost::asio::ip::tcp::socket_
- */
-
-#pragma once
+﻿#pragma once
 
 #include <memory>
 #include <functional>
@@ -14,9 +10,14 @@ using boost::asio::ip::tcp;
 
 namespace rdm {
 
+/*
+ * 封装 boost::asio::ip::tcp::socket_
+ */
 class NetConnection
         : public std::enable_shared_from_this<NetConnection> {
 public:
+    using sptr = std::shared_ptr<NetConnection>;
+
     // 工作模式
     enum {
         kDebug = 1 << 1u,         // 打印收发数据
@@ -26,18 +27,16 @@ public:
 
     ~NetConnection();
 
-    using sptr = std::shared_ptr<NetConnection>;
-
     static sptr create(boost::asio::io_context& io_service);
 
     tcp::socket& getSocket();
 
     void start();
 
-    void setPlayerID(uint64_t id);
-    uint64_t getPlayerID();
-
     void doWrite(const std::string& str);
+
+    uint32_t getConnId() const;
+    void setConnId(uint32_t connId);
 
 private:
     explicit NetConnection(boost::asio::io_service& io_service);
@@ -48,9 +47,6 @@ private:
     void handleWrite(const boost::system::error_code& ec, size_t bytes_transferred);
     void handleRead(const boost::system::error_code& ec, size_t bytes_transferred);
 
-    uint32_t conn_id_{0};
-    tcp::socket socket_;
-
     // boost::asio::streambuf message_;
     // std::string message_;
 
@@ -58,9 +54,8 @@ private:
         max_length = 1024
     };
     char data_[max_length]{0};
-
-    uint64_t mPlayerID;
-
+    uint32_t conn_id_{0};
+    tcp::socket socket_;
     std::string mReadMessageBuffer; // 消息缓冲区，如果接受到的消息不完整，先存起来等下个 TCP 包
 
     std::string remote_addr;

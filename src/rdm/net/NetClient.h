@@ -99,18 +99,17 @@ private:
     };
 
     bool stopped_ = false;
-    boost::asio::io_service* mIoContext;
-    boost::asio::ip::tcp::socket* mSocket;
-    char mReadMessage[1024];
-    std::deque<std::string> mWriteMessages;
+    boost::asio::io_service* io_context_;
+    boost::asio::ip::tcp::socket* socket_;
+    char read_message_[MESSAGE_LENGTH_MAX];
+    std::deque<std::string> write_message_;
+    std::string read_message_buffer_; // 消息缓冲区，如果接受到的消息不完整，先存起来等下个 TCP 包
 
-    std::string mReadMessageBuffer; // 消息缓冲区，如果接受到的消息不完整，先存起来等下个 TCP 包
-
-    std::shared_ptr<MessageSubject> mMessageSubject;
+    std::shared_ptr<MessageSubject> message_subject_;
     bool is_connected_;
     boost::asio::ip::tcp::resolver::results_type endpoints_;
 
-    boost::asio::deadline_timer m_reconnect_timer_;
+    boost::asio::deadline_timer reconnect_timer_;
 };
 
 }
