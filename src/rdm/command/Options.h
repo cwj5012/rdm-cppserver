@@ -39,7 +39,7 @@ public:
     ~Options();
 
     bool init();
-    void parse(const std::string& cmd);
+    [[nodiscard]] bool parse(const std::string& cmd);
     void reset();
     void release();
     void showUsage();

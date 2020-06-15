@@ -33,7 +33,7 @@ bool Options::init() {
     return true;
 }
 
-void Options::parse(const std::string& cmd) {
+bool Options::parse(const std::string& cmd) {
     try {
         std::vector<std::string> parsedInput;
         boost::split(parsedInput, cmd, boost::is_any_of(" "), boost::token_compress_on);
@@ -46,7 +46,7 @@ void Options::parse(const std::string& cmd) {
         po::notify(vm_);
     } catch (std::exception& ex) {
         LOG_ERROR("{}", ex.what());
-        return;
+        return false;
     }
 
     // for (const auto& it : vm_) {
@@ -69,6 +69,8 @@ void Options::parse(const std::string& cmd) {
     if (vm_.count("help")) {
         showUsage();
     }
+
+    return true;
 }
 
 void Options::reset() {

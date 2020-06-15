@@ -12,7 +12,7 @@ NetConnectionManager::~NetConnectionManager() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 }
 
-NetConnection::ptrConnection NetConnectionManager::getServerConnection(uint32_t type, uint32_t id) const {
+NetConnection::sptr NetConnectionManager::getServerConnection(uint32_t type, uint32_t id) const {
     auto it = server_connections_.find(type);
     if (it != server_connections_.end()) {
         auto itRes = it->second.find(id);
@@ -23,7 +23,7 @@ NetConnection::ptrConnection NetConnectionManager::getServerConnection(uint32_t 
     return nullptr;
 }
 
-NetConnection::ptrConnection NetConnectionManager::getClientConnection(uint32_t id) const {
+NetConnection::sptr NetConnectionManager::getClientConnection(uint32_t id) const {
     auto it = client_connections_.find(id);
     if (it != client_connections_.end()) {
         return it->second;
@@ -43,14 +43,14 @@ int32_t NetConnectionManager::getClientConnectionCount() const {
     return static_cast<int32_t>(client_connections_.size());
 }
 
-bool NetConnectionManager::pushServerConnection(NetConnection::ptrConnection conn, uint32_t type, uint32_t id) {
+bool NetConnectionManager::pushServerConnection(NetConnection::sptr conn, uint32_t type, uint32_t id) {
     if (getServerConnection(type, id)) {
         return false;
     }
 
     auto it = server_connections_.find(type);
     if (it == server_connections_.end()) {
-        std::map<uint32_t, NetConnection::ptrConnection> temp;
+        std::map<uint32_t, NetConnection::sptr> temp;
         server_connections_[type] = temp;
     }
 
@@ -59,7 +59,7 @@ bool NetConnectionManager::pushServerConnection(NetConnection::ptrConnection con
     return true;
 }
 
-bool NetConnectionManager::pushClientConnection(NetConnection::ptrConnection conn, uint32_t id) {
+bool NetConnectionManager::pushClientConnection(NetConnection::sptr conn, uint32_t id) {
     if (getClientConnection(id)) {
         return false;
     }

@@ -27,7 +27,7 @@ public:
 
     void bind(const std::string* str, tcp::socket* socket, MessageResolveType type);
 
-    const std::string* getBuf();
+    const std::string* getBuf() const;
 
     google::protobuf::Message* getProtoMsg() const;
 

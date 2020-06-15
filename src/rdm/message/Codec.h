@@ -54,6 +54,45 @@ const int kMaxMessageNum = 10;              // 一条消息中包含的子消息
 namespace rdm {
 
 /**
+ * 大端字节序（Big endian）：高位字节在前，低位字节在后
+ * @param buf
+ * @return
+ */
+inline static uint32_t byte4ToUint32(const char* buf) {
+    return uint32_t((uint8_t) (buf[0]) << 24u |
+                    (uint8_t) (buf[1]) << 16u |
+                    (uint8_t) (buf[2]) << 8u |
+                    (uint8_t) (buf[3]));
+}
+
+inline static uint32_t byte4ToUint32(const std::string& buf) {
+    if (buf.size() < 4) return 0;
+    return uint32_t((uint8_t) (buf[0]) << 24u |
+                    (uint8_t) (buf[1]) << 16u |
+                    (uint8_t) (buf[2]) << 8u |
+                    (uint8_t) (buf[3]));
+}
+
+/**
+ * 小端字节序（Little endian）：低位字节在前，高位字节在后
+ * @param buf
+ * @return
+ */
+inline static uint32_t byte4ToInt32Little(const char* buf) {
+    return uint32_t((uint8_t) (buf[3]) << 24u |
+                    (uint8_t) (buf[2]) << 16u |
+                    (uint8_t) (buf[1]) << 8u |
+                    (uint8_t) (buf[0]));
+}
+
+inline static uint32_t byte4ToInt32Little(const std::string& buf) {
+    return uint32_t((uint8_t) (buf[3]) << 24u |
+                    (uint8_t) (buf[2]) << 16u |
+                    (uint8_t) (buf[1]) << 8u |
+                    (uint8_t) (buf[0]));
+}
+
+/**
  * protobuf::Message 对象编码为字符串（基于消息名称）
  * @param message
  * @return
@@ -72,7 +111,7 @@ inline google::protobuf::Message* decode(const std::string& buf);
  * @param message
  * @return
  */
-inline static std::string encodeE(const google::protobuf::Message& message, int32_t opcode);
+inline static std::string encodeE(const google::protobuf::Message& message, uint32_t opcode);
 
 /**
  * 字符串解析为 protobuf::Message 对象（基于消息枚举）
@@ -80,6 +119,7 @@ inline static std::string encodeE(const google::protobuf::Message& message, int3
  * @return
  */
 inline static google::protobuf::Message* decodeE(const std::string& buf);
+inline static bool decodeE(const std::string& buf, google::protobuf::Message* out);
 
 /**
  * 编码单条消息，不包含消息头
@@ -181,28 +221,6 @@ inline static std::string packHeader(const std::string& buf);
  * @return
  */
 inline static std::string unpackHeader(const std::string& buf);
-
-inline uint32_t byte4ToInt32(char* buf) {
-    return uint32_t((uint8_t) (buf[0]) << 24u |
-                    (uint8_t) (buf[1]) << 16u |
-                    (uint8_t) (buf[2]) << 8u |
-                    (uint8_t) (buf[3]));
-}
-
-inline uint32_t byte4ToInt32(const std::string& buf) {
-    if (buf.size() < 4) return 0;
-    return uint32_t((uint8_t) (buf[0]) << 24u |
-                    (uint8_t) (buf[1]) << 16u |
-                    (uint8_t) (buf[2]) << 8u |
-                    (uint8_t) (buf[3]));
-}
-
-inline uint32_t byte4ToInt32Big(char* buf) {
-    return uint32_t((uint8_t) (buf[3]) << 24u |
-                    (uint8_t) (buf[2]) << 16u |
-                    (uint8_t) (buf[1]) << 8u |
-                    (uint8_t) (buf[0]));
-}
 
 /*********************************
  *
@@ -306,16 +324,16 @@ google::protobuf::Message* decode(const std::string& buf) {
     return result;
 }
 
-std::string encodeE(const google::protobuf::Message& message, int32_t opcode) {
+std::string encodeE(const google::protobuf::Message& message, uint32_t opcode) {
     std::string result;
 
     result.resize(kHeaderLen);
 
     char buf[4];
-    buf[0] = static_cast<uint8_t>((opcode >> 24) & 0xFF);
-    buf[1] = static_cast<uint8_t>((opcode >> 16) & 0xFF);
-    buf[2] = static_cast<uint8_t>((opcode >> 8) & 0xFF);
-    buf[3] = static_cast<uint8_t>(opcode & 0xFF);
+    buf[0] = static_cast<uint8_t>((opcode >> 24u) & 0xFFu);
+    buf[1] = static_cast<uint8_t>((opcode >> 16u) & 0xFFu);
+    buf[2] = static_cast<uint8_t>((opcode >> 8u) & 0xFFu);
+    buf[3] = static_cast<uint8_t>(opcode & 0xFFu);
     result.append(buf, kHeaderLen);
 
     // 消息内容
@@ -323,13 +341,13 @@ std::string encodeE(const google::protobuf::Message& message, int32_t opcode) {
 
     if (succeed) {
         // 消息长度
-        int32_t len = static_cast<int32_t>(result.size()) - kHeaderLen;
+        uint32_t len = static_cast<uint32_t>(result.size()) - kHeaderLen;
 
         char buf_len[4];
-        buf_len[0] = static_cast<uint8_t>((len >> 24) & 0xFF);
-        buf_len[1] = static_cast<uint8_t>((len >> 16) & 0xFF);
-        buf_len[2] = static_cast<uint8_t>((len >> 8) & 0xFF);
-        buf_len[3] = static_cast<uint8_t>(len & 0xFF);
+        buf_len[0] = static_cast<uint8_t>((len >> 24u) & 0xFFu);
+        buf_len[1] = static_cast<uint8_t>((len >> 16u) & 0xFFu);
+        buf_len[2] = static_cast<uint8_t>((len >> 8u) & 0xFFu);
+        buf_len[3] = static_cast<uint8_t>(len & 0xFFu);
 
         std::copy(buf_len,
                   buf_len + sizeof(buf_len),
@@ -390,6 +408,31 @@ google::protobuf::Message* decodeE(const std::string& buf) {
 
     return result;
 }
+
+bool decodeE(const std::string& buf, google::protobuf::Message* out) {
+    int32_t len = static_cast<int32_t>(buf.length());
+    if (len >= kHeaderLen) {
+        uint32_t opcode = byte4ToUint32(buf.c_str());
+        if (opcode >= 0) {
+            if (out) {
+                const char* data = buf.c_str() + kHeaderLen;
+                int32_t dataLen = len - kHeaderLen;
+                if (out->ParseFromArray(data, dataLen)) {
+                    return true;
+                } else {
+                    // 解析错误
+                    delete out;
+                }
+            } else {
+                // 消息创建失败，为空指针
+            }
+        } else {
+            // 消息枚举小于零
+        }
+    }
+    return false;
+}
+
 
 std::string encodeS(const google::protobuf::Message& message) {
     std::string result;

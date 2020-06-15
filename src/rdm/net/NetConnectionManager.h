@@ -23,14 +23,14 @@ public:
      * @param id 服务器 ID
      * @return
      */
-    NetConnection::ptrConnection getServerConnection(uint32_t type, uint32_t id) const;
+    NetConnection::sptr getServerConnection(uint32_t type, uint32_t id) const;
 
     /**
      * 获取客户端连接
      * @param id 玩家 ID
      * @return
      */
-    NetConnection::ptrConnection getClientConnection(uint32_t id) const;
+    NetConnection::sptr getClientConnection(uint32_t id) const;
 
     /**
      * 获取服务端连接数量
@@ -54,7 +54,7 @@ public:
      *  true 添加成功
      *  false 如果已经存在相同类型和 ID 的记录，则失败
      */
-    bool pushServerConnection(NetConnection::ptrConnection conn, uint32_t type, uint32_t id);
+    bool pushServerConnection(NetConnection::sptr conn, uint32_t type, uint32_t id);
 
     /**
      * 添加服客户端连接
@@ -64,15 +64,15 @@ public:
      *  true 添加成功
      *  false 如果已经存在相同 ID 的记录，则失败
      */
-    bool pushClientConnection(NetConnection::ptrConnection conn, uint32_t id);
+    bool pushClientConnection(NetConnection::sptr conn, uint32_t id);
 
     bool release();
 
 private:
     uint32_t server_uid_{0};
     uint32_t client_uid_{0};
-    std::map<uint32_t, std::map<uint32_t, NetConnection::ptrConnection>> server_connections_;
-    std::map<uint32_t, NetConnection::ptrConnection> client_connections_;
+    std::map<uint32_t, std::map<uint32_t, NetConnection::sptr>> server_connections_;
+    std::map<uint32_t, NetConnection::sptr> client_connections_;
 };
 
 }

@@ -18,8 +18,8 @@ NetConnection::~NetConnection() {
     socket_.close();
 }
 
-NetConnection::ptrConnection NetConnection::create(boost::asio::io_context& io_service) {
-    return static_cast<ptrConnection>(new NetConnection(io_service));
+NetConnection::sptr NetConnection::create(boost::asio::io_context& io_service) {
+    return static_cast<sptr>(new NetConnection(io_service));
 }
 
 void NetConnection::doRead() {
@@ -112,7 +112,7 @@ void NetConnection::handleRead(const boost::system::error_code& ec,
         // 粘包处理
         if (mReadMessageBuffer.length() >= 4) {
             try {
-                auto len = byte4ToInt32(mReadMessageBuffer);
+                auto len = byte4ToUint32(mReadMessageBuffer);
 
                 if (mode_ & kDebug) {
                     LOG_DEBUG("recv body size: {}", len);

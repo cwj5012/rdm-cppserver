@@ -26,7 +26,7 @@ void NetAcceptor::bind(boost::asio::io_service& io_service, const std::string& a
     mAcceptor = std::make_shared<tcp::acceptor>(io_service, *mEndpoint);
 }
 
-NetConnection::ptrConnection NetAcceptor::getConnection(tcp::socket* s) {
+NetConnection::sptr NetAcceptor::getConnection(tcp::socket* s) {
     auto it = mSocketConnection.find(s);
     if (it != mSocketConnection.end()) {
         return it->second;
@@ -34,7 +34,7 @@ NetConnection::ptrConnection NetAcceptor::getConnection(tcp::socket* s) {
     return nullptr;
 }
 
-NetConnection::ptrConnection NetAcceptor::getConnection() {
+NetConnection::sptr NetAcceptor::getConnection() {
     auto it = mSocketConnection.begin();
     if (it != mSocketConnection.end()) {
         return it->second;
@@ -42,8 +42,8 @@ NetConnection::ptrConnection NetAcceptor::getConnection() {
     return nullptr;
 }
 
-std::vector<NetConnection::ptrConnection> NetAcceptor::getConnections() {
-    std::vector<NetConnection::ptrConnection> cons;
+std::vector<NetConnection::sptr> NetAcceptor::getConnections() {
+    std::vector<NetConnection::sptr> cons;
     for (auto it : mSocketConnection) {
         cons.push_back(it.second);
     }
@@ -51,8 +51,7 @@ std::vector<NetConnection::ptrConnection> NetAcceptor::getConnections() {
 }
 
 void NetAcceptor::startAccept() {
-    NetConnection::ptrConnection new_connection = NetConnection::create(mIoContext);
-
+    NetConnection::sptr new_connection = NetConnection::create(mIoContext);
     mAcceptor->async_accept(new_connection->getSocket(),
                             boost::bind(&NetAcceptor::handleAccept,
                                         this,
@@ -60,7 +59,7 @@ void NetAcceptor::startAccept() {
                                         boost::asio::placeholders::error));
 }
 
-void NetAcceptor::handleAccept(NetConnection::ptrConnection new_connection,
+void NetAcceptor::handleAccept(NetConnection::sptr new_connection,
                                const boost::system::error_code& ec) {
     if (!ec) {
         LOG_INFO("a client connected, {}:{}.",

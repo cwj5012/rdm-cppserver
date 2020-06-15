@@ -187,7 +187,7 @@ void NetClient::doRead() {
                                          if (mReadMessageBuffer.length() >= 4) {
                                              std::string len_str = mReadMessageBuffer.substr(0, 4);
                                              try {
-                                                 uint32_t len = byte4ToInt32(len_str);
+                                                 uint32_t len = byte4ToUint32(len_str);
 
                                                  if (mReadMessageBuffer.length() >= len + 4) {
                                                      std::string read_msg = mReadMessageBuffer.substr(0, len + 4);

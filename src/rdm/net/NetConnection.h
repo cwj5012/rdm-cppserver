@@ -26,9 +26,9 @@ public:
 
     ~NetConnection();
 
-    typedef std::shared_ptr<NetConnection> ptrConnection;
+    using sptr = std::shared_ptr<NetConnection>;
 
-    static ptrConnection create(boost::asio::io_context& io_service);
+    static sptr create(boost::asio::io_context& io_service);
 
     tcp::socket& getSocket();
 

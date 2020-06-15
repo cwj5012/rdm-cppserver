@@ -25,7 +25,7 @@ void NetMsg::bind(const std::string* str, tcp::socket* socket, MessageResolveTyp
     mResolveType = type;
 }
 
-const std::string* NetMsg::getBuf() {
+const std::string* NetMsg::getBuf() const {
     return mBuf;
 }
 

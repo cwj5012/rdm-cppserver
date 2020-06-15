@@ -36,10 +36,10 @@ api_service:
     - id: 1
       ip: 127.0.0.1
       port: 6051
-  connect:
-    - id: 1
-      ip: 127.0.0.1
-      port: 6091
+#  connect:
+#    - id: 1
+#      ip: 127.0.0.1
+#      port: 6091
 
 master_server:
   id: 1

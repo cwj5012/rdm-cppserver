@@ -80,7 +80,7 @@ void MessageSubject::onChange(NetMsg* net_msg) {
             // // 释放对象
             // delete pb_msg;
 
-            auto opcode = byte4ToInt32(*net_msg->getBuf());
+            auto opcode = byte4ToUint32(*net_msg->getBuf());
             auto it = mMessageObserverMapByType.find(opcode);
             if (it != mMessageObserverMapByType.end()) {
                 mMessageObserverMapByType[opcode]->doOnMessage(net_msg);

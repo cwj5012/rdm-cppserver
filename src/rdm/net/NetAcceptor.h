@@ -12,6 +12,7 @@ namespace rdm {
 
 class NetAcceptor : public std::enable_shared_from_this<NetAcceptor> {
 public:
+    using sptr = std::shared_ptr<NetAcceptor>;
 
     /**
      * 初始化 Acceptor
@@ -39,24 +40,24 @@ public:
      */
     void bind(boost::asio::io_service& io_service, const std::string& addr, uint16_t port);
 
-    NetConnection::ptrConnection getConnection(tcp::socket* s);
+    NetConnection::sptr getConnection(tcp::socket* s);
 
     /**
      * 获取一条连接，无条件限制
      * @return
      */
-    NetConnection::ptrConnection getConnection();
+    NetConnection::sptr getConnection();
 
     /**
      * 获取所有连接
      * @return
      */
-    std::vector<NetConnection::ptrConnection> getConnections();
+    std::vector<NetConnection::sptr> getConnections();
 
 private:
     void startAccept();
 
-    void handleAccept(NetConnection::ptrConnection new_connection,
+    void handleAccept(NetConnection::sptr new_connection,
                       const boost::system::error_code& ec);
 
     std::shared_ptr<tcp::acceptor> mAcceptor;
@@ -64,7 +65,7 @@ private:
     std::shared_ptr<address> mAddress;
 
     boost::asio::io_context& mIoContext;
-    std::map<tcp::socket*, NetConnection::ptrConnection> mSocketConnection;
+    std::map<tcp::socket*, NetConnection::sptr> mSocketConnection;
 
 };
 
