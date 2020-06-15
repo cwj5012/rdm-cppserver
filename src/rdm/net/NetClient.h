@@ -46,16 +46,10 @@ public:
 
     void write(const std::string& msg);
 
-    void read();
-
     void close();
-
     void start();
-
     void stop();
-
     void restart();
-
     void reset();
 
     void registMessage(const std::string& message_name, IObserver* observer);
@@ -91,6 +85,7 @@ private:
                        tcp::resolver::iterator endpoint_iter);
 
     void doRead();
+    void handleRead(const boost::system::error_code& ec, std::size_t bytes_transferred);
 
     void doWrite();
 
