@@ -55,6 +55,7 @@ private:
     };
     char data_[max_length]{0};
     uint32_t conn_id_{0};
+    uint64_t session_id_{0};
     tcp::socket socket_;
     std::string read_message_buffer_; // 消息缓冲区，如果接受到的消息不完整，先存起来等下个 TCP 包
 

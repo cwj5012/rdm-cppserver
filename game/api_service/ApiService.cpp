@@ -40,14 +40,14 @@ bool ApiService::onInit() {
             });
     getCommand()->registCommand(exit); // std::unique_ptr<CommandFunc>& func
 
-    auto flag = std::make_unique<rdm::CommandFunc>([](const std::string& arg) {
-        rdm::Options op;
-        op.init();
-        op.parse(arg);
-        auto vm = op.getValues();
-
-        if (vm.count("command")) {
-            LOG_INFO("{}", vm["command"].as<std::string>());
+    rdm::Options op;
+    op.init();
+    auto flag = std::make_unique<rdm::CommandFunc>([&](const std::string& arg) {
+        if (op.parse(arg)) {
+            auto vm = op.getValues();
+            if (vm.count("command")) {
+                LOG_INFO("{}", vm["command"].as<std::string>());
+            }
         }
     });
     getCommand()->registCommand(flag);

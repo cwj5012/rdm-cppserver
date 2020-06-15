@@ -66,6 +66,7 @@ private:
 
     boost::asio::io_context& io_context_;
     std::map<uint32_t, NetConnection::sptr> conns_;
+    std::map<uint32_t, NetConnection::sptr> auth_conns_;
 };
 
 } // namespace rdm
