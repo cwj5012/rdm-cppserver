@@ -63,11 +63,12 @@ void NetAcceptor::startAccept() {
 void NetAcceptor::handleAccept(NetConnection::sptr new_connection,
                                const boost::system::error_code& ec) {
     if (!ec) {
-        LOG_INFO("a client connected, {}:{}.",
-                 new_connection->getSocket().remote_endpoint().address().to_string(),
-                 new_connection->getSocket().remote_endpoint().port());
         new_connection->setConnId(NetManager::inst().getConnUid());
         conns_[new_connection->getConnId()] = new_connection;
+        LOG_INFO("a client connected id: {}, {}:{}.",
+                 new_connection->getConnId(),
+                 new_connection->getSocket().remote_endpoint().address().to_string(),
+                 new_connection->getSocket().remote_endpoint().port());
         new_connection->start();
     } else {
         LOG_ERROR("{}", ec.message());

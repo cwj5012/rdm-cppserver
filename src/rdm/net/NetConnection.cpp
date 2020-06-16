@@ -64,7 +64,6 @@ void NetConnection::handleWrite(const boost::system::error_code& ec,
     } else {
         // LOG_DEBUG("send size: {}", bytes_transferred);
     }
-    // doRead();
 }
 
 void NetConnection::handleRead(const boost::system::error_code& ec,

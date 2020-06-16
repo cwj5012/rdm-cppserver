@@ -19,10 +19,10 @@ public:
     using sptr = std::shared_ptr<NetConnection>;
 
     // 工作模式
-    enum {
-        kDebug = 1 << 1u,         // 打印收发数据
-        kEchoMode = 1 << 2u,      // 收到消息，直接返回
-        kMessageMode = 1 << 3u,   // 消息分发
+    enum WorkMode : uint32_t {
+        kDebug = 1u << 1u,         // 打印收发数据
+        kEchoMode = 1u << 2u,      // 收到消息，直接返回
+        kMessageMode = 1u << 3u,   // 消息分发
     };
 
     ~NetConnection();
