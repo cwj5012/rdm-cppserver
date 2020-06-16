@@ -14,7 +14,7 @@ public:
     using uptr = std::unique_ptr<WebCommand>;
 
     explicit WebCommand(const std::shared_ptr<ApiService>& service);
-    virtual ~WebCommand();
+    ~WebCommand() override;
 
     void doOnMessage(const rdm::NetMsg* net_msg) override;
 

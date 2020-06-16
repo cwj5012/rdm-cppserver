@@ -50,11 +50,11 @@ void MessageSubject::onChange(NetMsg* net_msg) {
 
     auto resolve_type = net_msg->getResolveType();
     switch (resolve_type) {
-        case MessageResolveType::BY_PROTOBUF_NAME : {
+        case MessageResolveType::kByProtobufName : {
             auto* pb_msg = decodeE(*net_msg->getBuf());
             if (pb_msg == nullptr) {
                 LOG_ERROR("net msg decode is null, type: {}, size: {}",
-                          static_cast<int32_t>(MessageResolveType::BY_PROTOBUF_NAME),
+                          static_cast<int32_t>(MessageResolveType::kByProtobufName),
                           net_msg->getBuf()->size());
                 return;
             }
@@ -69,7 +69,7 @@ void MessageSubject::onChange(NetMsg* net_msg) {
             }
         }
             break;
-        case MessageResolveType::BY_PROTOBUF_TYPE : {
+        case MessageResolveType::kByProtobufEnum : {
             // auto* pb_msg = decodeE(*net_msg->getBuf());
             // if (pb_msg == nullptr) {
             //     LOG_ERROR("net msg decode is null, type: {}",

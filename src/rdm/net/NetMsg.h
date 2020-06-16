@@ -13,8 +13,8 @@ namespace rdm {
  * 消息解析类型
  */
 enum class MessageResolveType {
-    BY_PROTOBUF_NAME = 0,   // 根据 protobuf 消息名字
-    BY_PROTOBUF_TYPE = 1    // 根据 protobuf 附加的枚举
+    kByProtobufName = 0,   // 根据 protobuf 消息名字
+    kByProtobufEnum = 1    // 根据 protobuf 消息枚举
 };
 
 struct NetMsg {
@@ -36,9 +36,11 @@ public:
     MessageResolveType getResolveType() const;
 
 private:
-    const std::string* mBuf;
+    const std::string* buf_{nullptr};
+    uint32_t conn_{0};
+    uint64_t session_{0};
     tcp::socket* mSocket;
-    MessageResolveType mResolveType;
+    MessageResolveType resolver_type_{MessageResolveType::kByProtobufEnum};
 };
 
 }
