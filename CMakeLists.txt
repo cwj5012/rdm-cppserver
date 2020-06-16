@@ -6,8 +6,8 @@ project(${PROJECT_NAME})
 set(CMAKE_CXX_STANDARD 17)
 
 # 根据实际路径配置
-set(USER_LOCAL_PATH
-        d:/usr/local)
+set(USER_LOCAL_PATH c:/root/usr/local)
+set(USER_VCPKG_PATH c:/root/opt/vcpkg)
 
 if (NOT DEFINED CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
@@ -101,6 +101,7 @@ if (WIN32)
     find_package(spdlog CONFIG REQUIRED)
     find_package(mysqlcppconn REQUIRED)
     find_package(mongocxx REQUIRED)
+    find_package(cpp-redis REQUIRED)
 else ()
     find_package(benchmark 1.5.0 REQUIRED)
     find_package(Protobuf 3.6.1 REQUIRED)
@@ -137,7 +138,7 @@ include_directories(
         ${CMAKE_SOURCE_DIR}/third_party/yaml-cpp/include
         /usr/local/include/mongocxx/v_noabi
         /usr/local/include/bsoncxx/v_noabi
-        ${USER_LOCAL_PATH}/vcpkg/installed/x64-windows/include
+        ${USER_VCPKG_PATH}/installed/x64-windows/include
 )
 
 if (WIN32)
@@ -165,6 +166,7 @@ set(
         benchmark::benchmark benchmark::benchmark_main
         spdlog::spdlog spdlog::spdlog_header_only
         yaml-cpp
+        ${CPPREDIS_LIBRARY}
         ${INIH_LIBRARYS}
 )
 
