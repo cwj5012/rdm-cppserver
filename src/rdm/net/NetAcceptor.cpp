@@ -45,7 +45,7 @@ NetConnection::sptr NetAcceptor::getConnection() {
 
 std::vector<NetConnection::sptr> NetAcceptor::getConnections() {
     std::vector<NetConnection::sptr> cons;
-    for (auto it : conns_) {
+    for (const auto& it : conns_) {
         cons.push_back(it.second);
     }
     return cons;
