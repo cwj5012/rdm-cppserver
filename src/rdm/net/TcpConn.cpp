@@ -21,7 +21,7 @@ TcpConn::sptr TcpConn::create(boost::asio::io_context& io_service) {
     return static_cast<sptr>(new TcpConn(io_service));
 }
 
-void TcpConn::doRead() {
+void TcpConn::read() {
     socket_.async_read_some(
             boost::asio::buffer(data_, max_length),
             boost::bind(&TcpConn::handleRead,
@@ -30,16 +30,7 @@ void TcpConn::doRead() {
                         boost::asio::placeholders::bytes_transferred));
 }
 
-void TcpConn::doWrite(std::size_t bytes_transferred) {
-    std::string write_data(data_, bytes_transferred);
-    socket_.async_write_some(
-            boost::asio::buffer(data_, bytes_transferred),
-            boost::bind(&TcpConn::handleWrite, shared_from_this(),
-                        boost::asio::placeholders::error,
-                        boost::asio::placeholders::bytes_transferred));
-}
-
-void TcpConn::doWrite(const std::string& str) {
+void TcpConn::write(const std::string& str) {
     socket_.async_write_some(
             boost::asio::buffer(str.c_str(), str.length()),
             boost::bind(&TcpConn::handleWrite, shared_from_this(),
@@ -54,14 +45,14 @@ tcp::socket& TcpConn::getSocket() {
 void TcpConn::onConnect() {
     remote_addr = socket_.remote_endpoint().address().to_string();
     remote_port = socket_.remote_endpoint().port();
-    LOG_ERROR("{},{}",remote_addr,remote_port);
-    doRead();
+    LOG_ERROR("{},{}", remote_addr, remote_port);
+    read();
 }
 
 void TcpConn::handleWrite(const boost::system::error_code& ec,
                           std::size_t bytes_transferred) {
     if (ec) {
-        LOG_INFO("write error, {}", ec.message());
+        LOG_ERROR("write size {} error, {}", bytes_transferred, ec.message());
     } else {
         // LOG_DEBUG("send size: {}", bytes_transferred);
     }
@@ -86,14 +77,14 @@ void TcpConn::handleRead(const boost::system::error_code& ec,
     }
 
     if (mode_ & kEchoMode) {
-        doWrite(std::string(data_, bytes_transferred));
+        write(std::string(data_, bytes_transferred));
         if (mode_ & kDebug) {
             LOG_DEBUG("send data {}: {}, ",
                       bytes_transferred,
                       bytes_transferred < 20 ? DebugPrint::StringToDecSet(std::string(data_, bytes_transferred))
                                              : "data is long...");
         }
-        doRead();
+        read();
         return;
     }
 
@@ -134,7 +125,7 @@ void TcpConn::handleRead(const boost::system::error_code& ec,
         }
     }
 
-    doRead();
+    read();
 }
 
 void TcpConn::setConnId(uint32_t connId) {
@@ -143,6 +134,34 @@ void TcpConn::setConnId(uint32_t connId) {
 
 uint32_t TcpConn::getConnId() const {
     return conn_id_;
+}
+
+std::string TcpConn::localAddr() const {
+    return socket_.local_endpoint().address().to_string() + std::to_string(socket_.local_endpoint().port());
+}
+
+std::string TcpConn::remoteAddr() const {
+    return socket_.remote_endpoint().address().to_string() + std::to_string(socket_.remote_endpoint().port());
+}
+
+void TcpConn::close() {
+    socket_.close();
+}
+
+void TcpConn::closeRead() {
+    boost::system::error_code ec;
+    socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_receive, ec);
+    if (ec) {
+        LOG_ERROR("close read error, {}", ec.message());
+    }
+}
+
+void TcpConn::closeWrite() {
+    boost::system::error_code ec;
+    socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_send, ec);
+    if (ec) {
+        LOG_ERROR("close write error, {}", ec.message());
+    }
 }
 
 }

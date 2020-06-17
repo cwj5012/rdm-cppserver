@@ -33,16 +33,21 @@ public:
 
     void onConnect();
 
-    void doWrite(const std::string& str);
+    void write(const std::string& str);
 
     uint32_t getConnId() const;
     void setConnId(uint32_t connId);
 
+    std::string localAddr() const;
+    std::string remoteAddr() const;
+    void close();
+    void closeRead();
+    void closeWrite();
+
 private:
     explicit TcpConn(boost::asio::io_service& io_service);
 
-    void doRead();
-    void doWrite(std::size_t length);
+    void read();
 
     void handleWrite(const boost::system::error_code& ec, size_t bytes_transferred);
     void handleRead(const boost::system::error_code& ec, size_t bytes_transferred);
