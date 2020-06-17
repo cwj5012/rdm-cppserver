@@ -40,6 +40,7 @@ public:
 
     std::string localAddr() const;
     std::string remoteAddr() const;
+    int32_t fd();
     void close();
     void closeRead();
     void closeWrite();

@@ -54,13 +54,15 @@ public:
      */
     std::vector<TcpConn::sptr> getConnections();
 
-private:
-    void startAccept();
+    int32_t fd() const;
 
-    void handleAccept(TcpConn::sptr new_conn,
+private:
+    void accept();
+
+    void handleAccept(const TcpConn::sptr& new_conn,
                       const boost::system::error_code& ec);
 
-    std::unique_ptr<tcp::acceptor> accecptor_;
+    std::unique_ptr<tcp::acceptor> accecptor_; // 内部包含 1 个 socket
     std::unique_ptr<tcp::endpoint> endpoint_;
 
     boost::asio::io_context& io_context_;

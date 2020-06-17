@@ -12,7 +12,7 @@ TcpListener::TcpListener(boost::asio::io_service& io_service)
 TcpListener::TcpListener(boost::asio::io_service& io_service, const std::string& host, uint16_t port)
         : io_context_(io_service) {
     bind(io_service, host, port);
-    startAccept();
+    accept();
 }
 
 TcpListener::~TcpListener() {
@@ -49,7 +49,7 @@ std::vector<TcpConn::sptr> TcpListener::getConnections() {
     return cons;
 }
 
-void TcpListener::startAccept() {
+void TcpListener::accept() {
     TcpConn::sptr new_connection = TcpConn::create(io_context_);
     accecptor_->async_accept(new_connection->getSocket(),
                              boost::bind(&TcpListener::handleAccept,
@@ -58,7 +58,7 @@ void TcpListener::startAccept() {
                                         boost::asio::placeholders::error));
 }
 
-void TcpListener::handleAccept(TcpConn::sptr new_conn,
+void TcpListener::handleAccept(const TcpConn::sptr& new_conn,
                                const boost::system::error_code& ec) {
     if (!ec) {
         new_conn->setConnId(NetManager::inst().getConnUid());
@@ -73,7 +73,11 @@ void TcpListener::handleAccept(TcpConn::sptr new_conn,
         return;
     }
 
-    startAccept();
+    accept();
+}
+
+int32_t TcpListener::fd() const {
+    return accecptor_->native_handle();
 }
 
 } // namespace rdm

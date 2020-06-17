@@ -1,18 +1,18 @@
-﻿#include "NetConnectionManager.h"
+﻿#include "TcpConnContainer.h"
 
 #include "../log/Logger.h"
 
 namespace rdm {
 
-NetConnectionManager::NetConnectionManager() {
+TcpConnContainer::TcpConnContainer() {
 
 }
 
-NetConnectionManager::~NetConnectionManager() {
+TcpConnContainer::~TcpConnContainer() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 }
 
-TcpConn::sptr NetConnectionManager::getServerConnection(uint32_t type, uint32_t id) const {
+TcpConn::sptr TcpConnContainer::getServerConnection(uint32_t type, uint32_t id) const {
     auto it = server_connections_.find(type);
     if (it != server_connections_.end()) {
         auto itRes = it->second.find(id);
@@ -23,7 +23,7 @@ TcpConn::sptr NetConnectionManager::getServerConnection(uint32_t type, uint32_t 
     return nullptr;
 }
 
-TcpConn::sptr NetConnectionManager::getClientConnection(uint32_t id) const {
+TcpConn::sptr TcpConnContainer::getClientConnection(uint32_t id) const {
     auto it = client_connections_.find(id);
     if (it != client_connections_.end()) {
         return it->second;
@@ -31,7 +31,7 @@ TcpConn::sptr NetConnectionManager::getClientConnection(uint32_t id) const {
     return nullptr;
 }
 
-int32_t NetConnectionManager::getServerConnectionCount(uint32_t type) const {
+int32_t TcpConnContainer::getServerConnectionCount(uint32_t type) const {
     auto it = server_connections_.find(type);
     if (it != server_connections_.end()) {
         return static_cast<int32_t>(it->second.size());
@@ -39,11 +39,11 @@ int32_t NetConnectionManager::getServerConnectionCount(uint32_t type) const {
     return 0;
 }
 
-int32_t NetConnectionManager::getClientConnectionCount() const {
+int32_t TcpConnContainer::getClientConnectionCount() const {
     return static_cast<int32_t>(client_connections_.size());
 }
 
-bool NetConnectionManager::pushServerConnection(TcpConn::sptr conn, uint32_t type, uint32_t id) {
+bool TcpConnContainer::pushServerConnection(TcpConn::sptr conn, uint32_t type, uint32_t id) {
     if (getServerConnection(type, id)) {
         return false;
     }
@@ -59,7 +59,7 @@ bool NetConnectionManager::pushServerConnection(TcpConn::sptr conn, uint32_t typ
     return true;
 }
 
-bool NetConnectionManager::pushClientConnection(TcpConn::sptr conn, uint32_t id) {
+bool TcpConnContainer::pushClientConnection(TcpConn::sptr conn, uint32_t id) {
     if (getClientConnection(id)) {
         return false;
     }
@@ -68,7 +68,7 @@ bool NetConnectionManager::pushClientConnection(TcpConn::sptr conn, uint32_t id)
     return true;
 }
 
-bool NetConnectionManager::release() {
+bool TcpConnContainer::release() {
     server_connections_.clear();
     client_connections_.clear();
     return true;

@@ -164,4 +164,8 @@ void TcpConn::closeWrite() {
     }
 }
 
+int32_t TcpConn::fd() {
+    return socket_.native_handle();
+}
+
 }

@@ -12,10 +12,10 @@
 
 namespace rdm {
 
-class NetConnectionManager {
+class TcpConnContainer {
 public:
-    NetConnectionManager();
-    ~NetConnectionManager();
+    TcpConnContainer();
+    ~TcpConnContainer();
 
     /**
      * 获取服务器连接

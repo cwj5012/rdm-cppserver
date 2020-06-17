@@ -4,7 +4,7 @@
 
 #include "../database/mysql/DBServiceManager.h"
 #include "../net/NetServer.h"
-#include "../net/NetConnectionManager.h"
+#include "../net/TcpConnContainer.h"
 #include "../net/NetClientManager.h"
 #include "../net/NetManager.h"
 #include "../config/ServerNetConfig.h"
@@ -76,7 +76,7 @@ bool Service::init() {
         LOG_ERROR("client manager create error.");
     }
 
-    net_connection_manager_ = std::make_shared<NetConnectionManager>();
+    net_connection_manager_ = std::make_shared<TcpConnContainer>();
     if (!net_connection_manager_) {
         LOG_ERROR("net connection manager create error.");
     }
@@ -153,7 +153,7 @@ const std::shared_ptr<ThreadPool>& Service::getThreadPool() const {
     return thread_pool_;
 }
 
-const std::shared_ptr<NetConnectionManager>& Service::getConnectionManager() const {
+const std::shared_ptr<TcpConnContainer>& Service::getConnectionManager() const {
     return net_connection_manager_;
 }
 

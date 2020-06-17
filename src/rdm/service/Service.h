@@ -9,7 +9,7 @@ class NetServer;
 class Command;
 class DBServiceManager;
 class NetClientManager;
-class NetConnectionManager;
+class TcpConnContainer;
 class TimerManager;
 class ThreadPool;
 class ServerNetConfig;
@@ -36,7 +36,7 @@ public:
     [[nodiscard]] const std::shared_ptr<NetClientManager>& getClientManager() const;
     [[nodiscard]] const std::shared_ptr<TimerManager>& getTimerManager() const;
     [[nodiscard]] const std::shared_ptr<ThreadPool>& getThreadPool() const;
-    [[nodiscard]] const std::shared_ptr<NetConnectionManager>& getConnectionManager() const;
+    [[nodiscard]] const std::shared_ptr<TcpConnContainer>& getConnectionManager() const;
     [[nodiscard]] const std::shared_ptr<ServerNetConfig>& getServerNetConfig() const;
 
 private:
@@ -52,7 +52,7 @@ private:
     std::shared_ptr<NetClientManager> client_manager_;
     std::shared_ptr<TimerManager> timer_manager_;
     std::shared_ptr<ThreadPool> thread_pool_;
-    std::shared_ptr<NetConnectionManager> net_connection_manager_;
+    std::shared_ptr<TcpConnContainer> net_connection_manager_;
     std::shared_ptr<ServerNetConfig> server_net_config_;
 };
 
