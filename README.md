@@ -243,3 +243,4 @@ cmake --build . --target [target-name] --config Release
 - [ ] yaml-cpp 库用 apt install 或者 github 上面源代码安装，获取 yaml 文件的数据一直崩溃，先将源代码放到项目
         的 third_party 目录中，创建 cmake 文件编译，然后其他项目原来它，测试使用正常，之后再排查哪里出问题；
 - [ ] add direct connect support between all type servers, when machine performanc is low, the more service will consume more resource.
+- [ ] connection id 回收机制
