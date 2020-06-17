@@ -10,15 +10,15 @@ using boost::asio::ip::address;
 
 namespace rdm {
 
-class NetAcceptor : public std::enable_shared_from_this<NetAcceptor> {
+class TcpListener : public std::enable_shared_from_this<TcpListener> {
 public:
-    using sptr = std::shared_ptr<NetAcceptor>;
+    using sptr = std::shared_ptr<TcpListener>;
 
     /**
      * 初始化 Acceptor
      * @param io_service
      */
-    explicit NetAcceptor(boost::asio::io_service& io_service);
+    explicit TcpListener(boost::asio::io_service& io_service);
 
     /**
      * 初始化 Acceptor，并启动监听
@@ -26,11 +26,11 @@ public:
      * @param addr
      * @param port
      */
-    explicit NetAcceptor(boost::asio::io_service& io_service,
+    explicit TcpListener(boost::asio::io_service& io_service,
                          const std::string& addr,
                          uint16_t port);
 
-    ~NetAcceptor();
+    ~TcpListener();
 
     /**
      * 绑定 io_service，地址和端口
