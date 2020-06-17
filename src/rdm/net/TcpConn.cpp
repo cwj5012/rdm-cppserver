@@ -51,9 +51,10 @@ tcp::socket& TcpConn::getSocket() {
     return socket_;
 }
 
-void TcpConn::start() {
+void TcpConn::onConnect() {
     remote_addr = socket_.remote_endpoint().address().to_string();
     remote_port = socket_.remote_endpoint().port();
+    LOG_ERROR("{},{}",remote_addr,remote_port);
     doRead();
 }
 

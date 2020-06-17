@@ -31,7 +31,7 @@ public:
 
     tcp::socket& getSocket();
 
-    void start();
+    void onConnect();
 
     void doWrite(const std::string& str);
 
@@ -54,14 +54,19 @@ private:
         max_length = 1024
     };
     char data_[max_length]{0};
+    tcp::socket socket_;
+    bool is_connected_{false};
+
     uint32_t conn_id_{0};
     uint64_t session_id_{0};
-    tcp::socket socket_;
+
     std::string read_message_buffer_; // 消息缓冲区，如果接受到的消息不完整，先存起来等下个 TCP 包
 
+    uint8_t mode_{kDebug | kMessageMode};
+
+    // todo cwj 临时变量，考虑是否优化
     std::string remote_addr;
     uint16_t remote_port{0};
-    uint8_t mode_{kDebug | kMessageMode};
 };
 
 }

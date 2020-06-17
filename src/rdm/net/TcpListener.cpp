@@ -58,16 +58,16 @@ void TcpListener::startAccept() {
                                         boost::asio::placeholders::error));
 }
 
-void TcpListener::handleAccept(TcpConn::sptr new_connection,
+void TcpListener::handleAccept(TcpConn::sptr new_conn,
                                const boost::system::error_code& ec) {
     if (!ec) {
-        new_connection->setConnId(NetManager::inst().getConnUid());
-        conns_[new_connection->getConnId()] = new_connection;
+        new_conn->setConnId(NetManager::inst().getConnUid());
+        conns_[new_conn->getConnId()] = new_conn;
         LOG_INFO("a client connected id: {}, {}:{}.",
-                 new_connection->getConnId(),
-                 new_connection->getSocket().remote_endpoint().address().to_string(),
-                 new_connection->getSocket().remote_endpoint().port());
-        new_connection->start();
+                 new_conn->getConnId(),
+                 new_conn->getSocket().remote_endpoint().address().to_string(),
+                 new_conn->getSocket().remote_endpoint().port());
+        new_conn->onConnect();
     } else {
         LOG_ERROR("{}", ec.message());
         return;

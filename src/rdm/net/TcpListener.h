@@ -57,7 +57,7 @@ public:
 private:
     void startAccept();
 
-    void handleAccept(TcpConn::sptr new_connection,
+    void handleAccept(TcpConn::sptr new_conn,
                       const boost::system::error_code& ec);
 
     std::unique_ptr<tcp::acceptor> accecptor_;
