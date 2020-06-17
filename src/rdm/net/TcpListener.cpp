@@ -1,7 +1,7 @@
 ﻿#include "TcpListener.h"
 #include "../log/Logger.h"
 #include "NetManager.h"
-
+#include <boost/lexical_cast.hpp>
 namespace rdm {
 
 TcpListener::TcpListener(boost::asio::io_service& io_service)
@@ -9,9 +9,9 @@ TcpListener::TcpListener(boost::asio::io_service& io_service)
 
 }
 
-TcpListener::TcpListener(boost::asio::io_service& io_service, const std::string& addr, uint16_t port)
+TcpListener::TcpListener(boost::asio::io_service& io_service, const std::string& host, uint16_t port)
         : io_context_(io_service) {
-    bind(io_service, addr, port);
+    bind(io_service, host, port);
     startAccept();
 }
 
@@ -19,15 +19,13 @@ TcpListener::~TcpListener() {
 
 }
 
-void TcpListener::bind(boost::asio::io_service& io_service, const std::string& addr, uint16_t port) {
-    addr_ = std::make_shared<address>();
-    addr_->from_string(addr);
-
-    endpoint_ = std::make_shared<tcp::endpoint>(*addr_, port);
-    accecptor_ = std::make_shared<tcp::acceptor>(io_service, *endpoint_);
+void TcpListener::bind(boost::asio::io_service& io_service, const std::string& host, uint16_t port) {
+    address addr = address::from_string(host);
+    endpoint_ = std::make_unique<tcp::endpoint>(addr, port);
+    accecptor_ = std::make_unique<tcp::acceptor>(io_service, *endpoint_);
 }
 
-NetConnection::sptr TcpListener::getConnection(uint32_t conn_id) {
+TcpConn::sptr TcpListener::getConnection(uint32_t conn_id) {
     auto it = conns_.find(conn_id);
     if (it != conns_.end()) {
         return it->second;
@@ -35,7 +33,7 @@ NetConnection::sptr TcpListener::getConnection(uint32_t conn_id) {
     return nullptr;
 }
 
-NetConnection::sptr TcpListener::getConnection() {
+TcpConn::sptr TcpListener::getConnection() {
     auto it = conns_.begin();
     if (it != conns_.end()) {
         return it->second;
@@ -43,8 +41,8 @@ NetConnection::sptr TcpListener::getConnection() {
     return nullptr;
 }
 
-std::vector<NetConnection::sptr> TcpListener::getConnections() {
-    std::vector<NetConnection::sptr> cons;
+std::vector<TcpConn::sptr> TcpListener::getConnections() {
+    std::vector<TcpConn::sptr> cons;
     for (const auto& it : conns_) {
         cons.push_back(it.second);
     }
@@ -52,7 +50,7 @@ std::vector<NetConnection::sptr> TcpListener::getConnections() {
 }
 
 void TcpListener::startAccept() {
-    NetConnection::sptr new_connection = NetConnection::create(io_context_);
+    TcpConn::sptr new_connection = TcpConn::create(io_context_);
     accecptor_->async_accept(new_connection->getSocket(),
                              boost::bind(&TcpListener::handleAccept,
                                         this,
@@ -60,7 +58,7 @@ void TcpListener::startAccept() {
                                         boost::asio::placeholders::error));
 }
 
-void TcpListener::handleAccept(NetConnection::sptr new_connection,
+void TcpListener::handleAccept(TcpConn::sptr new_connection,
                                const boost::system::error_code& ec) {
     if (!ec) {
         new_connection->setConnId(NetManager::inst().getConnUid());

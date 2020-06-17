@@ -1,64 +1,64 @@
 ﻿#include <cstdlib>
 
 #include "NetManager.h"
-#include "NetConnection.h"
+#include "TcpConn.h"
 #include "../util/DebugPrint.h"
 #include "../message/Codec.h"
 #include "../log/Logger.h"
 
 namespace rdm {
 
-NetConnection::NetConnection(boost::asio::io_service& io_service)
+TcpConn::TcpConn(boost::asio::io_service& io_service)
         : socket_(io_service) {
 
 }
 
-NetConnection::~NetConnection() {
+TcpConn::~TcpConn() {
     socket_.close();
 }
 
-NetConnection::sptr NetConnection::create(boost::asio::io_context& io_service) {
-    return static_cast<sptr>(new NetConnection(io_service));
+TcpConn::sptr TcpConn::create(boost::asio::io_context& io_service) {
+    return static_cast<sptr>(new TcpConn(io_service));
 }
 
-void NetConnection::doRead() {
+void TcpConn::doRead() {
     socket_.async_read_some(
             boost::asio::buffer(data_, max_length),
-            boost::bind(&NetConnection::handleRead,
+            boost::bind(&TcpConn::handleRead,
                         shared_from_this(),
                         boost::asio::placeholders::error,
                         boost::asio::placeholders::bytes_transferred));
 }
 
-void NetConnection::doWrite(std::size_t bytes_transferred) {
+void TcpConn::doWrite(std::size_t bytes_transferred) {
     std::string write_data(data_, bytes_transferred);
     socket_.async_write_some(
             boost::asio::buffer(data_, bytes_transferred),
-            boost::bind(&NetConnection::handleWrite, shared_from_this(),
+            boost::bind(&TcpConn::handleWrite, shared_from_this(),
                         boost::asio::placeholders::error,
                         boost::asio::placeholders::bytes_transferred));
 }
 
-void NetConnection::doWrite(const std::string& str) {
+void TcpConn::doWrite(const std::string& str) {
     socket_.async_write_some(
             boost::asio::buffer(str.c_str(), str.length()),
-            boost::bind(&NetConnection::handleWrite, shared_from_this(),
+            boost::bind(&TcpConn::handleWrite, shared_from_this(),
                         boost::asio::placeholders::error,
                         boost::asio::placeholders::bytes_transferred));
 }
 
-tcp::socket& NetConnection::getSocket() {
+tcp::socket& TcpConn::getSocket() {
     return socket_;
 }
 
-void NetConnection::start() {
+void TcpConn::start() {
     remote_addr = socket_.remote_endpoint().address().to_string();
     remote_port = socket_.remote_endpoint().port();
     doRead();
 }
 
-void NetConnection::handleWrite(const boost::system::error_code& ec,
-                                std::size_t bytes_transferred) {
+void TcpConn::handleWrite(const boost::system::error_code& ec,
+                          std::size_t bytes_transferred) {
     if (ec) {
         LOG_INFO("write error, {}", ec.message());
     } else {
@@ -66,8 +66,8 @@ void NetConnection::handleWrite(const boost::system::error_code& ec,
     }
 }
 
-void NetConnection::handleRead(const boost::system::error_code& ec,
-                               std::size_t bytes_transferred) {
+void TcpConn::handleRead(const boost::system::error_code& ec,
+                         std::size_t bytes_transferred) {
     if (ec /* && ec != boost::asio::error::eof */) {
         LOG_INFO("client disconnectd, {}:{}, {}",
                  remote_addr,
@@ -136,11 +136,11 @@ void NetConnection::handleRead(const boost::system::error_code& ec,
     doRead();
 }
 
-void NetConnection::setConnId(uint32_t connId) {
+void TcpConn::setConnId(uint32_t connId) {
     conn_id_ = connId;
 }
 
-uint32_t NetConnection::getConnId() const {
+uint32_t TcpConn::getConnId() const {
     return conn_id_;
 }
 

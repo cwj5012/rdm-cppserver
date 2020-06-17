@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "NetManager.h"
-#include "NetConnection.h"
+#include "TcpConn.h"
 #include "TcpListener.h"
 #include "NetClient.h"
 

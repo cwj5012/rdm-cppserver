@@ -13,10 +13,10 @@ namespace rdm {
 /*
  * 封装 boost::asio::ip::tcp::socket_
  */
-class NetConnection
-        : public std::enable_shared_from_this<NetConnection> {
+class TcpConn
+        : public std::enable_shared_from_this<TcpConn> {
 public:
-    using sptr = std::shared_ptr<NetConnection>;
+    using sptr = std::shared_ptr<TcpConn>;
 
     // 工作模式
     enum WorkMode : uint32_t {
@@ -25,7 +25,7 @@ public:
         kMessageMode = 1u << 3u,   // 消息分发
     };
 
-    ~NetConnection();
+    ~TcpConn();
 
     static sptr create(boost::asio::io_context& io_service);
 
@@ -39,7 +39,7 @@ public:
     void setConnId(uint32_t connId);
 
 private:
-    explicit NetConnection(boost::asio::io_service& io_service);
+    explicit TcpConn(boost::asio::io_service& io_service);
 
     void doRead();
     void doWrite(std::size_t length);

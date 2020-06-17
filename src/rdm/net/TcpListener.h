@@ -3,7 +3,7 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 
-#include "NetConnection.h"
+#include "TcpConn.h"
 
 using boost::asio::ip::tcp;
 using boost::asio::ip::address;
@@ -15,13 +15,13 @@ public:
     using sptr = std::shared_ptr<TcpListener>;
 
     /**
-     * 初始化 Acceptor
+     * 初始化 TcpListener
      * @param io_service
      */
     explicit TcpListener(boost::asio::io_service& io_service);
 
     /**
-     * 初始化 Acceptor，并启动监听
+     * 初始化 TcpListener，并启动监听
      * @param io_service
      * @param addr
      * @param port
@@ -40,33 +40,32 @@ public:
      */
     void bind(boost::asio::io_service& io_service, const std::string& addr, uint16_t port);
 
-    NetConnection::sptr getConnection(uint32_t conn_id);
+    TcpConn::sptr getConnection(uint32_t conn_id);
 
     /**
      * 获取一条连接，无条件限制
      * @return
      */
-    NetConnection::sptr getConnection();
+    TcpConn::sptr getConnection();
 
     /**
      * 获取所有连接
      * @return
      */
-    std::vector<NetConnection::sptr> getConnections();
+    std::vector<TcpConn::sptr> getConnections();
 
 private:
     void startAccept();
 
-    void handleAccept(NetConnection::sptr new_connection,
+    void handleAccept(TcpConn::sptr new_connection,
                       const boost::system::error_code& ec);
 
-    std::shared_ptr<tcp::acceptor> accecptor_;
-    std::shared_ptr<tcp::endpoint> endpoint_;
-    std::shared_ptr<address> addr_;
+    std::unique_ptr<tcp::acceptor> accecptor_;
+    std::unique_ptr<tcp::endpoint> endpoint_;
 
     boost::asio::io_context& io_context_;
-    std::map<uint32_t, NetConnection::sptr> conns_;
-    std::map<uint32_t, NetConnection::sptr> auth_conns_;
+    std::map<uint32_t, TcpConn::sptr> conns_;
+    std::map<uint32_t, TcpConn::sptr> auth_conns_;
 };
 
 } // namespace rdm
