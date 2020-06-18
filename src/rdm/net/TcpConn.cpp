@@ -45,7 +45,6 @@ tcp::socket& TcpConn::getSocket() {
 void TcpConn::onConnect() {
     remote_addr = socket_.remote_endpoint().address().to_string();
     remote_port = socket_.remote_endpoint().port();
-    LOG_ERROR("{},{}", remote_addr, remote_port);
     read();
 }
 
@@ -136,13 +135,18 @@ uint32_t TcpConn::getConnId() const {
     return conn_id_;
 }
 
-std::string TcpConn::localAddr() const {
-    return socket_.local_endpoint().address().to_string() + std::to_string(socket_.local_endpoint().port());
+Addr TcpConn::localAddr() const {
+    Addr addr(socket_.local_endpoint().protocol().type(),
+              socket_.local_endpoint().address().to_string(),
+              socket_.local_endpoint().port());
+    return addr;
 }
 
-std::string TcpConn::remoteAddr() const {
-    return socket_.remote_endpoint().address().to_string() + std::to_string(socket_.remote_endpoint().port());
-}
+Addr TcpConn::remoteAddr() const {
+    Addr addr(socket_.remote_endpoint().protocol().type(),
+              socket_.remote_endpoint().address().to_string(),
+              socket_.remote_endpoint().port());
+    return addr;}
 
 void TcpConn::close() {
     socket_.close();

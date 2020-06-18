@@ -27,7 +27,7 @@ void NetServer::init() {
         auto ip = item.second.ip;
         auto port = item.second.port;
         try {
-            tcp_listeners_[id] = std::make_shared<TcpListener>(nm.getService(), ip, std::stoi(port));
+            tcp_listeners_[id] = std::make_shared<TCPListener>(nm.getService(), ip, std::stoi(port));
         } catch (std::exception& ex) {
             LOG_ERROR("{}：{}, {}", ip, port, ex.what());
             abort();
@@ -56,7 +56,7 @@ void NetServer::registMessage(const std::string& message_name, IObserver* observ
     NetManager::inst().registMessage(message_name, observer);
 }
 
-TcpListener::sptr NetServer::getNetAccept(uint32_t type) {
+TCPListener::sptr NetServer::getNetAccept(uint32_t type) {
     auto it = tcp_listeners_.find(type);
     if (it != tcp_listeners_.end()) {
         return tcp_listeners_[type];

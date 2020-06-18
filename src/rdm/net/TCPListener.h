@@ -4,21 +4,22 @@
 #include <boost/bind.hpp>
 
 #include "TcpConn.h"
+#include "Net.h"
 
 using boost::asio::ip::tcp;
 using boost::asio::ip::address;
 
 namespace rdm {
 
-class TcpListener : public std::enable_shared_from_this<TcpListener> {
+class TCPListener : public std::enable_shared_from_this<TCPListener> {
 public:
-    using sptr = std::shared_ptr<TcpListener>;
+    using sptr = std::shared_ptr<TCPListener>;
 
     /**
      * 初始化 TcpListener
      * @param io_service
      */
-    explicit TcpListener(boost::asio::io_service& io_service);
+    explicit TCPListener(boost::asio::io_service& io_service);
 
     /**
      * 初始化 TcpListener，并启动监听
@@ -26,11 +27,11 @@ public:
      * @param addr
      * @param port
      */
-    explicit TcpListener(boost::asio::io_service& io_service,
+    explicit TCPListener(boost::asio::io_service& io_service,
                          const std::string& addr,
                          uint16_t port);
 
-    ~TcpListener();
+    ~TCPListener();
 
     /**
      * 绑定 io_service，地址和端口
@@ -55,6 +56,7 @@ public:
     std::vector<TcpConn::sptr> getConnections();
 
     int32_t fd() const;
+    Addr addr() const;
 
 private:
     void accept();

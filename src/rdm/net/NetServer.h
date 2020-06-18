@@ -4,7 +4,7 @@
 
 #include "NetManager.h"
 #include "TcpConn.h"
-#include "TcpListener.h"
+#include "TCPListener.h"
 #include "NetClient.h"
 
 namespace rdm {
@@ -26,10 +26,10 @@ public:
     void registMessage(uint32_t opcode, IObserver* observer);
     void registMessage(const std::string& message_name, IObserver* observer);
 
-    TcpListener::sptr getNetAccept(uint32_t type);
+    TCPListener::sptr getNetAccept(uint32_t type);
 
 private:
-    std::map<uint32_t, TcpListener::sptr> tcp_listeners_;
+    std::map<uint32_t, TCPListener::sptr> tcp_listeners_;
 
     std::weak_ptr<Service> service_;
 };

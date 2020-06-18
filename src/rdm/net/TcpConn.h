@@ -6,6 +6,8 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 
+#include "Net.h"
+
 using boost::asio::ip::tcp;
 
 namespace rdm {
@@ -38,8 +40,8 @@ public:
     uint32_t getConnId() const;
     void setConnId(uint32_t connId);
 
-    std::string localAddr() const;
-    std::string remoteAddr() const;
+    Addr localAddr() const;
+    Addr remoteAddr() const;
     int32_t fd();
     void close();
     void closeRead();
