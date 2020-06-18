@@ -168,50 +168,10 @@ void NetClient::doConnect() {
 
 void NetClient::doRead() {
     socket_->async_read_some(boost::asio::buffer(read_message_, MESSAGE_LENGTH_MAX),
-                             [this](boost::system::error_code ec, std::size_t bytes_transferred) {
-                                 if (stopped_) {
-                                     LOG_ERROR("the net client is stopped");
-                                     return;
-                                 }
-
-                                 if (ec) {
-                                     LOG_ERROR("{}", ec.message());
-                                     is_connected_ = false;
-                                     socket_->close();
-                                     return;
-                                 }
-
-                                 const std::string read_data(read_message_, bytes_transferred);
-
-                                 read_message_buffer_ += read_data;
-                                 while (true) {
-                                     // 粘包处理
-                                     if (read_message_buffer_.length() >= 4) {
-                                         try {
-                                             uint32_t len = byte4ToUint32(read_message_buffer_);
-
-                                             if (read_message_buffer_.length() >= len + 4) {
-                                                 std::string read_msg = read_message_buffer_.substr(0, len + 4);
-                                                 read_message_buffer_ = read_message_buffer_.substr(len + 4);
-
-                                                 NetMsg net_msg;
-                                                 net_msg.bind(&read_msg, socket_);
-                                                 message_subject_->resolveMessage(&net_msg);
-                                             } else {
-                                                 // 收到的数据长度不足，等待下一个包
-                                                 break;
-                                             }
-                                         } catch (std::exception& e) {
-                                             LOG_ERROR("get message length failed, {}", e.what());
-                                             return;
-                                         }
-                                     } else {
-                                         break;
-                                     }
-                                 }
-
-                                 doRead();
-                             });
+                             boost::bind(&NetClient::handleRead,
+                                         this,
+                                         boost::placeholders::_1,
+                                         boost::placeholders::_2));
 }
 
 void NetClient::doWrite() {
@@ -235,4 +195,50 @@ void NetClient::doWrite() {
                                  }
                              });
 }
+
+void NetClient::handleRead(const boost::system::error_code& ec, std::size_t bytes_transferred) {
+    if (stopped_) {
+        LOG_ERROR("the net client is stopped");
+        return;
+    }
+
+    if (ec) {
+        LOG_ERROR("{}", ec.message());
+        is_connected_ = false;
+        socket_->close();
+        return;
+    }
+
+    const std::string read_data(read_message_, bytes_transferred);
+
+    read_message_buffer_ += read_data;
+    while (true) {
+        // 粘包处理
+        if (read_message_buffer_.length() >= 4) {
+            try {
+                uint32_t len = byte4ToUint32(read_message_buffer_);
+
+                if (read_message_buffer_.length() >= len + 4) {
+                    std::string read_msg = read_message_buffer_.substr(0, len + 4);
+                    read_message_buffer_ = read_message_buffer_.substr(len + 4);
+
+                    NetMsg net_msg;
+                    net_msg.bind(&read_msg, socket_);
+                    message_subject_->resolveMessage(&net_msg);
+                } else {
+                    // 收到的数据长度不足，等待下一个包
+                    break;
+                }
+            } catch (std::exception& e) {
+                LOG_ERROR("get message length failed, {}", e.what());
+                return;
+            }
+        } else {
+            break;
+        }
+    }
+
+    doRead();
+}
+
 }

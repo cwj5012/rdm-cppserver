@@ -50,10 +50,8 @@ public:
     void start();
     void stop();
     void restart();
-    void reset();
 
     void registMessage(const std::string& message_name, IObserver* observer);
-
     void registMessage(const MsgEnum& msg_enum, IObserver* observer);
 
     std::shared_ptr<MessageSubject> getMessageSubject();
