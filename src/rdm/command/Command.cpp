@@ -64,9 +64,12 @@ void Command::executeCommand(const std::string& str) {
     if (!cmd.empty()) {
         auto it = command_func_.find(cmd);
         if (it != command_func_.end()) {
+            // 找到对应的命令
             command_func_[cmd]->func(str);
         } else {
-            LOG_ERROR("command not found: {}", cmd);
+            // 没找到命令，当做 opt command 解析
+            command_func_["/"]->func(str);
+            // LOG_ERROR("command not found: {}", cmd);
         }
     }
 }
