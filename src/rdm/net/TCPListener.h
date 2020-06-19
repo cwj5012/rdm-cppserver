@@ -64,8 +64,8 @@ private:
     void handleAccept(const TcpConn::sptr& new_conn,
                       const boost::system::error_code& ec);
 
-    std::unique_ptr<tcp::acceptor> accecptor_; // 内部包含 1 个 socket
-    std::unique_ptr<tcp::endpoint> endpoint_;
+    std::unique_ptr<tcp::acceptor> accecptor_;  // 内部包含 1 个 socket
+    std::unique_ptr<tcp::endpoint> endpoint_;   // local host:port
 
     boost::asio::io_context& io_context_;
     std::map<uint32_t, TcpConn::sptr> conns_;
