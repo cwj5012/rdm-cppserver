@@ -39,7 +39,7 @@ private:
     const std::string* buf_{nullptr};
     uint32_t conn_{0};
     uint64_t session_{0};
-    tcp::socket* mSocket;
+    tcp::socket* socket_;
     MessageResolveType resolver_type_{MessageResolveType::kByProtobufEnum};
 };
 

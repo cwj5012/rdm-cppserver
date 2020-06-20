@@ -5,7 +5,7 @@ namespace rdm {
 
 NetMsg::NetMsg() :
         buf_(nullptr),
-        mSocket(nullptr),
+        socket_(nullptr),
         resolver_type_(MessageResolveType::kByProtobufEnum) {
 
 }
@@ -16,12 +16,12 @@ NetMsg::~NetMsg() {
 
 void NetMsg::bind(const std::string* str, tcp::socket* socket) {
     buf_ = str;
-    mSocket = socket;
+    socket_ = socket;
 }
 
 void NetMsg::bind(const std::string* str, tcp::socket* socket, MessageResolveType type) {
     buf_ = str;
-    mSocket = socket;
+    socket_ = socket;
     resolver_type_ = type;
 }
 
@@ -34,7 +34,7 @@ google::protobuf::Message* NetMsg::getProtoMsg() const {
 }
 
 tcp::socket* NetMsg::getSocket() const {
-    return mSocket;
+    return socket_;
 }
 
 MessageResolveType NetMsg::getResolveType() const {

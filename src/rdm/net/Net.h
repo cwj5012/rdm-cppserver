@@ -7,8 +7,8 @@ namespace rdm {
 class Addr {
 public:
     Addr(int socketType, const std::string& host, uint16_t port);
-    std::string network() const;
-    std::string str() const;
+    [[nodiscard]] std::string network() const;
+    [[nodiscard]] std::string str() const;
 
 private:
     std::string network_;
