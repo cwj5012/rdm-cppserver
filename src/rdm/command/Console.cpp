@@ -10,7 +10,7 @@ Console::Console() {
 Console::~Console() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
 
-    mThread.join();
+    thread_.join();
 }
 
 bool Console::init(Command* cmd) {
@@ -19,8 +19,8 @@ bool Console::init(Command* cmd) {
         return false;
     }
 
-    mCommand = cmd;
-    mThread = std::thread(&Console::getInput, this);
+    command_ = cmd;
+    thread_ = std::thread(&Console::getInput, this);
 
     return true;
 }
@@ -33,7 +33,7 @@ void Console::getInput() {
         if (mExit) {
             break;
         } else {
-            mCommand->executeCommand(str);
+            command_->executeCommand(str);
         }
     }
 }

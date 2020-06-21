@@ -37,10 +37,10 @@ protected:
 
 private:
     bool mExit{false};              // 禁止命令行输入
-    Command* mCommand;
-    std::string mInputStr;          // 输入字符串
-    std::thread mThread;            // 命令行线程
-    std::vector<int> mCommandList;  // 命令列表
+    Command* command_;
+    std::string input_str_;          // 输入字符串
+    std::thread thread_;            // 命令行线程
+    std::vector<int> commands_;  // 命令列表
     std::mutex mtx_;
 };
 
