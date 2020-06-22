@@ -36,7 +36,7 @@ protected:
     ~Console();
 
 private:
-    bool mExit{false};              // 禁止命令行输入
+    bool exit_{false};              // 禁止命令行输入
     Command* command_;
     std::string input_str_;          // 输入字符串
     std::thread thread_;            // 命令行线程

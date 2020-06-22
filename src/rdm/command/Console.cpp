@@ -30,7 +30,7 @@ void Console::getInput() {
         std::string str;
         std::getline(std::cin, str);
 
-        if (mExit) {
+        if (exit_) {
             break;
         } else {
             command_->executeCommand(str);
@@ -40,11 +40,11 @@ void Console::getInput() {
 
 void Console::setExit(bool value) {
     std::lock_guard<std::mutex> lck(mtx_);
-    mExit = value;
+    exit_ = value;
 }
 
 bool Console::getExit() {
-    return mExit;
+    return exit_;
 }
 
 }
