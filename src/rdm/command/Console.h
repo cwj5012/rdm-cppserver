@@ -18,7 +18,7 @@ public:
     Console& operator=(Console&&) = delete;        // Move assign
 
     static Console* inst() {
-        static Console* obj = new Console();
+        static auto* obj = new Console();
         return obj;
     }
 
