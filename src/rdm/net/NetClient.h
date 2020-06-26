@@ -91,7 +91,7 @@ private:
         MESSAGE_LENGTH_MAX = 1024
     };
 
-    bool stopped_ = false;
+    bool stopped_{false};
     boost::asio::io_service* io_context_;
     boost::asio::ip::tcp::socket* socket_;
     char read_message_[MESSAGE_LENGTH_MAX];
