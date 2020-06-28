@@ -88,13 +88,13 @@ private:
     void doWrite();
 
     enum {
-        MESSAGE_LENGTH_MAX = 1024
+        kMessageLengthMax = 1024
     };
 
     bool stopped_{false};
     boost::asio::io_service* io_context_;
     boost::asio::ip::tcp::socket* socket_;
-    char read_message_[MESSAGE_LENGTH_MAX];
+    char read_message_[kMessageLengthMax];
     std::deque<std::string> write_message_;
     std::string read_message_buffer_; // 消息缓冲区，如果接受到的消息不完整，先存起来等下个 TCP 包
 

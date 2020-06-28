@@ -167,7 +167,7 @@ void NetClient::doConnect() {
 }
 
 void NetClient::doRead() {
-    socket_->async_read_some(boost::asio::buffer(read_message_, MESSAGE_LENGTH_MAX),
+    socket_->async_read_some(boost::asio::buffer(read_message_, kMessageLengthMax),
                              boost::bind(&NetClient::handleRead,
                                          this,
                                          boost::placeholders::_1,
