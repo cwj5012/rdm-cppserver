@@ -1,8 +1,4 @@
-﻿/*
- * 管理 boost::asio::io_service 对象
- */
-
-#pragma once
+﻿#pragma once
 
 #include <boost/asio.hpp>
 
@@ -11,6 +7,9 @@
 
 namespace rdm {
 
+/*
+ * 管理 boost::asio::io_service 对象
+ */
 class NetManager {
 public:
     NetManager();
