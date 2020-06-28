@@ -36,7 +36,7 @@ public:
     void write(const std::string& str);
 
     uint32_t getConnId() const;
-    void setConnId(uint32_t connId);
+    void setConnId(uint32_t conn_id);
 
     Addr localAddr() const;
     Addr remoteAddr() const;
@@ -71,8 +71,8 @@ private:
     uint8_t mode_{kDebug | kMessageMode};
 
     // todo cwj 临时变量，考虑是否优化
-    std::string remote_addr;
-    uint16_t remote_port{0};
+    std::string remote_addr_;
+    uint16_t remote_port_{0};
 };
 
 }

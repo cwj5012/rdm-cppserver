@@ -1,4 +1,4 @@
-﻿#include <cstdlib>
+﻿#include <boost/bind.hpp>
 
 #include "NetManager.h"
 #include "TcpConn.h"
@@ -43,8 +43,8 @@ tcp::socket& TcpConn::getSocket() {
 }
 
 void TcpConn::onConnect() {
-    remote_addr = socket_.remote_endpoint().address().to_string();
-    remote_port = socket_.remote_endpoint().port();
+    remote_addr_ = socket_.remote_endpoint().address().to_string();
+    remote_port_ = socket_.remote_endpoint().port();
     read();
 }
 
@@ -61,8 +61,8 @@ void TcpConn::handleRead(const boost::system::error_code& ec,
                          std::size_t bytes_transferred) {
     if (ec /* && ec != boost::asio::error::eof */) {
         LOG_INFO("client disconnectd, {}:{}, {}",
-                 remote_addr,
-                 remote_port,
+                 remote_addr_,
+                 remote_port_,
                  ec.message());
         socket_.close();
         return;
@@ -97,12 +97,12 @@ void TcpConn::handleRead(const boost::system::error_code& ec,
                 if (mode_ & kDebug) {
                     LOG_DEBUG("recv body size: {}", len);
                 }
-                if (read_message_buffer_.length() >= len + 4) {
+                if (read_message_buffer_.length() >= len + 4u) {
                     // 提取消息
                     std::string read_msg = read_message_buffer_.substr(4, len);
 
                     // 截断消息
-                    read_message_buffer_ = read_message_buffer_.substr(len + 4);
+                    read_message_buffer_ = read_message_buffer_.substr(len + 4u);
 
                     if (mode_ & kDebug) {
                         LOG_DEBUG("recv body: {}", DebugPrint::StringToDecSet(read_msg));
@@ -127,8 +127,8 @@ void TcpConn::handleRead(const boost::system::error_code& ec,
     read();
 }
 
-void TcpConn::setConnId(uint32_t connId) {
-    conn_id_ = connId;
+void TcpConn::setConnId(uint32_t conn_id) {
+    conn_id_ = conn_id;
 }
 
 uint32_t TcpConn::getConnId() const {
