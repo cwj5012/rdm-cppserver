@@ -23,7 +23,7 @@ void NetManager::registMessage(const std::string& message_name, IObserver* obser
     message_subject_->registObserver(message_name, observer);
 }
 
-void NetManager::registMessage(const uint32_t message_type, IObserver* observer) {
+void NetManager::registMessage(uint32_t message_type, IObserver* observer) {
     message_subject_->registObserver(message_type, observer);
 }
 

@@ -25,7 +25,7 @@ public:
 
     void run();
 
-    void registMessage(const uint32_t message_type, IObserver* observer);
+    void registMessage(uint32_t message_type, IObserver* observer);
     void registMessage(const std::string& message_name, IObserver* observer);
 
     std::shared_ptr<MessageSubject> getMessageSubject();
@@ -35,7 +35,7 @@ public:
 private:
     uint32_t conn_uid_{0};
     boost::asio::io_service io_service_;
-    MessageSubject::sptr message_subject_;
+    MessageSubject::sptr message_subject_{nullptr};
 };
 
 }
