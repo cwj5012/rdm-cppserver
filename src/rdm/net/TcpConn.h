@@ -53,6 +53,8 @@ private:
     void handleWrite(const boost::system::error_code& ec, size_t bytes_transferred);
     void handleRead(const boost::system::error_code& ec, size_t bytes_transferred);
 
+    void handleError();
+
     // boost::asio::streambuf message_;
     // std::string message_;
 
@@ -69,6 +71,8 @@ private:
     std::string read_message_buffer_; // 消息缓冲区，如果接受到的消息不完整，先存起来等下个 TCP 包
 
     uint8_t mode_{kDebug | kMessageMode};
+
+    int32_t err_count_{0};
 
     // todo cwj 临时变量，考虑是否优化
     std::string remote_addr_;

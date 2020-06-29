@@ -52,6 +52,7 @@ void TcpConn::handleWrite(const boost::system::error_code& ec,
                           std::size_t bytes_transferred) {
     if (ec) {
         LOG_ERROR("write size {} error, {}", bytes_transferred, ec.message());
+        handleError();
     } else {
         // LOG_DEBUG("send size: {}", bytes_transferred);
     }
@@ -59,7 +60,7 @@ void TcpConn::handleWrite(const boost::system::error_code& ec,
 
 void TcpConn::handleRead(const boost::system::error_code& ec,
                          std::size_t bytes_transferred) {
-    if (ec /* && ec != boost::asio::error::eof */) {
+    if (ec  && ec != boost::asio::error::eof ) {
         LOG_INFO("client disconnectd, {}:{}, {}",
                  remote_addr_,
                  remote_port_,
@@ -170,6 +171,10 @@ void TcpConn::closeWrite() {
 
 int32_t TcpConn::fd() {
     return socket_.native_handle();
+}
+
+void TcpConn::handleError() {
+    ++err_count_;
 }
 
 }
