@@ -44,6 +44,8 @@ public:
     explicit NetClient(boost::asio::io_service* io_context,
                        const tcp::resolver::results_type& endpoints);
 
+    ~NetClient();
+
     void write(const std::string& msg);
 
     void close();
@@ -94,7 +96,7 @@ private:
     bool stopped_{false};
     boost::asio::io_service* io_context_;
     boost::asio::ip::tcp::socket* socket_;
-    char read_message_[kMessageLengthMax];
+    char read_message_[kMessageLengthMax]{};
     std::deque<std::string> write_message_;
     std::string read_message_buffer_; // 消息缓冲区，如果接受到的消息不完整，先存起来等下个 TCP 包
 

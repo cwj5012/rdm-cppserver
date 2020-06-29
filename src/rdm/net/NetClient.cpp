@@ -56,6 +56,11 @@ NetClient::NetClient(boost::asio::io_service* io_context,
     start();
 }
 
+NetClient::~NetClient() {
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
+    socket_->close();
+}
+
 void NetClient::write(const std::string& msg) {
     boost::asio::post(*io_context_,
                       [this, msg]() {

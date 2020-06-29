@@ -13,7 +13,7 @@ class Service;
 class NetClientManager {
 public:
     NetClientManager();
-    NetClientManager(const std::shared_ptr<Service>& service);
+    explicit NetClientManager(const std::shared_ptr<Service>& service);
     ~NetClientManager();
 
     bool init();

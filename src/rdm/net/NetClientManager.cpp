@@ -20,6 +20,10 @@ NetClientManager::NetClientManager(const std::shared_ptr<Service>& service)
 
 NetClientManager::~NetClientManager() {
     LOG_DEBUG("{}", __PRETTY_FUNCTION__);
+    for (auto& c:net_clients_) {
+       delete c.second;
+       c.second = nullptr;
+    }
 }
 
 bool NetClientManager::init() {
