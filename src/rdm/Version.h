@@ -4,6 +4,6 @@
 
 namespace rdm {
 
-static const std::string kRdmVersion = "0.0.1";
+static const std::string kRdmVersion = "0.1.0";
 
 }
