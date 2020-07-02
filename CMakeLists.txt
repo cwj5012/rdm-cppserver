@@ -79,18 +79,6 @@ set(CMAKE_LIBRARY_PATH
 
 # set(Boost_USE_STATIC_LIBS ON)
 if (WIN32)
-    # vcpkg install benchmark:x64-windows
-    # vcpkg install protobuf:x64-windows
-    # vcpkg install boost-system:x64-windows
-    # vcpkg install boost-filesystem:x64-windows
-    # vcpkg install boost-asio:x64-windows
-    # vcpkg install boost-dll:x64-windows
-    # vcpkg install jsoncpp:x64-windows
-    # vcpkg install tinyxml2:x64-windows
-    # vcpkg install yaml-cpp:x64-windows
-    # vcpkg install inih:x64-windows
-    # vcpkg install mongo-cxx-driver:x64-windows
-    # vcpkg install spdlog:x64-windows
     find_package(benchmark REQUIRED)
     find_package(Protobuf REQUIRED)
     find_package(Boost 1.73.0 REQUIRED COMPONENTS system filesystem program_options)
