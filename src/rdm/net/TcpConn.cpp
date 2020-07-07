@@ -14,6 +14,7 @@ TcpConn::TcpConn(boost::asio::io_service& io_service)
 }
 
 TcpConn::~TcpConn() {
+    LOG_DEBUG("{}", __PRETTY_FUNCTION__);
     socket_.close();
 }
 
