@@ -17,6 +17,7 @@ Addr::Addr(int socketType, const std::string& host, uint16_t port) {
             network_ = "udp";
             break;
         default:
+            network_ = "unknow";
             break;
     }
     str_ = host + ":" + std::to_string(port);
