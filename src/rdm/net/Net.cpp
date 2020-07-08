@@ -11,10 +11,10 @@ namespace rdm {
 Addr::Addr(int socketType, const std::string& host, uint16_t port) {
     switch (socketType) {
         case SOCK_STREAM:
-            str_ = "tcp";
+            network_ = "tcp";
             break;
         case SOCK_DGRAM:
-            str_ = "udp";
+            network_ = "udp";
             break;
         default:
             break;
@@ -23,11 +23,11 @@ Addr::Addr(int socketType, const std::string& host, uint16_t port) {
 }
 
 std::string Addr::network() const {
-    return std::string();
+    return network_;
 }
 
 std::string Addr::str() const {
-    return std::string();
+    return str_;
 }
 
 }
